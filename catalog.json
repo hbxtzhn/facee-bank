@@ -4,8 +4,8 @@
     "id": "facee-bank",
     "name": "FaceE 面试题库",
     "version": "1.2.0",
-    "updatedAt": "2026-10-10T00:00:00Z",
-    "description": "Java & Python 后端面试题库：485 题，覆盖 Java/Python/FastAPI/并发/JVM/Spring/MySQL/Redis/AI 应用/网络/操作系统/分布式。",
+    "updatedAt": "2026-10-18T00:00:00Z",
+    "description": "Java & Python 后端面试题库：505 题，覆盖 Java/Python/FastAPI/并发/JVM/Spring/MySQL/Redis/AI 应用/网络/操作系统/分布式。",
     "homepage": "https://github.com/HBxtzhn/facee-bank"
   },
   "categories": [
@@ -6151,6 +6151,267 @@
       "order": 50,
       "hasAnswer": true,
       "followupCount": 1
+    },
+    {
+      "id": "python-006",
+      "title": "Python 多继承的 MRO 与 C3 线性化算法原理是什么？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 60,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-007",
+      "title": "Python 字典（dict）的底层数据结构与扩容缩容机制是怎样的？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 70,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-008",
+      "title": "Python 赋值、浅拷贝与深拷贝的区别？深拷贝如何解决自引用死循环？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 80,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-009",
+      "title": "Python 闭包的底层原理是什么？经典的“延迟绑定”踩坑如何解决？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 90,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-010",
+      "title": "Python 元类（Metaclass）是什么？__new__ 与 __init__ 有何本质区别？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 100,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-011",
+      "title": "Python 上下文管理器与 with 语句的底层协议？如何用 contextlib 快速实现？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 110,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-012",
+      "title": "Python 魔术方法 __getattr__ 与 __getattribute__ 有何区别？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 120,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-007b",
+      "title": "Python 多进程间通信（IPC）机制有哪些？大对象传输时有什么性能瓶颈？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 130,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-014",
+      "title": "Python 中 is 与 == 的区别？小整数池与字符串驻留（Interning）机制？",
+      "difficulty": "easy",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 140,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-015",
+      "title": "Python 生产环境下常见的内存泄漏场景有哪些？如何使用 tracemalloc 定位排查？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 150,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-006",
+      "title": "从 WSGI 到 ASGI：FastAPI 为何基于 ASGI？两者规范有何本质差异？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python",
+        "async-io"
+      ],
+      "order": 60,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-007",
+      "title": "FastAPI 生命周期：为什么弃用 @app.on_event，推荐现代的 lifespan？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 70,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-008",
+      "title": "FastAPI 中间件的执行顺序是怎样的？为什么大文件上传时不建议用 BaseHTTPMiddleware？",
+      "difficulty": "hard",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 80,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-009",
+      "title": "FastAPI 中的 BackgroundTasks 原理与局限？何时必须选用 Celery？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 90,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-010",
+      "title": "FastAPI 如何优雅实现 WebSocket 双向长连接与连接池管理？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 100,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-011",
+      "title": "FastAPI 集成 SQLAlchemy 2.0 异步 ORM 时，MissingGreenlet 异常是怎样产生的？如何解决？",
+      "difficulty": "hard",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 110,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-012",
+      "title": "FastAPI 安全体系：OAuth2 密码模式与 JWT 鉴权全流程是如何设计的？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 120,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-013",
+      "title": "FastAPI 如何处理大文件上传与 AI 流式打字机响应（SSE）？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 130,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-014",
+      "title": "FastAPI 跨域（CORS）配置细节与 OPTIONS 预检请求踩坑排查？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 140,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "fastapi-015",
+      "title": "FastAPI 大型企业级项目的工程结构与 APIRouter 依赖继承体系？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 150,
+      "hasAnswer": true,
+      "followupCount": 2
     }
   ]
 }
