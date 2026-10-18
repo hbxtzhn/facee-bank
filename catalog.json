@@ -4,8 +4,8 @@
     "id": "facee-bank",
     "name": "FaceE 面试题库",
     "version": "1.2.0",
-    "updatedAt": "2026-09-19T07:02:46Z",
-    "description": "Java 后端面试题库：475 题，覆盖 Java/并发/集合/JVM/Spring/Spring Cloud/MySQL/Redis/AI 应用/网络/操作系统/分布式/系统设计。含 JavaGuide（Apache-2.0）改编题与自整理题。",
+    "updatedAt": "2026-10-10T00:00:00Z",
+    "description": "Java & Python 后端面试题库：485 题，覆盖 Java/Python/FastAPI/并发/JVM/Spring/MySQL/Redis/AI 应用/网络/操作系统/分布式。",
     "homepage": "https://github.com/HBxtzhn/facee-bank"
   },
   "categories": [
@@ -86,6 +86,18 @@
       "name": "AI 应用与 RAG",
       "order": 120,
       "description": "RAG、Agent 与 Java AI 生态"
+    },
+    {
+      "id": "python-basic",
+      "name": "Python 核心",
+      "order": 130,
+      "description": "GIL、内存管理、装饰器、生成器与异步协程"
+    },
+    {
+      "id": "fastapi",
+      "name": "FastAPI 与异步 Web",
+      "order": 140,
+      "description": "Starlette、Pydantic、依赖注入、异步事件循环与高性能 API 架构"
     }
   ],
   "tags": [
@@ -184,6 +196,30 @@
       "name": "RAG",
       "parentId": "ai",
       "order": 41
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "parentId": null,
+      "order": 70
+    },
+    {
+      "id": "python-core",
+      "name": "Python 核心",
+      "parentId": "python",
+      "order": 71
+    },
+    {
+      "id": "fastapi-tag",
+      "name": "FastAPI",
+      "parentId": "python",
+      "order": 72
+    },
+    {
+      "id": "async-io",
+      "name": "异步编程",
+      "parentId": "python",
+      "order": 73
     }
   ],
   "questions": [
@@ -5985,6 +6021,136 @@
       "order": 260,
       "hasAnswer": true,
       "followupCount": 2
+    },
+    {
+      "id": "python-001",
+      "title": "Python 的 GIL 是什么？对多线程并发有什么影响？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 10,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-002",
+      "title": "Python 内存管理与垃圾回收（GC）机制是怎样工作的？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 20,
+      "hasAnswer": true,
+      "followupCount": 2
+    },
+    {
+      "id": "python-003",
+      "title": "Python 迭代器（Iterator）与生成器（Generator）有什么本质区别？",
+      "difficulty": "easy",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 30,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "python-004",
+      "title": "Python 装饰器的原理是什么？如何编写带参数的装饰器？",
+      "difficulty": "medium",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "python-core"
+      ],
+      "order": 40,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "python-005",
+      "title": "Python 中 async / await 和 asyncio 的底层运作机制是什么？",
+      "difficulty": "hard",
+      "categoryId": "python-basic",
+      "tags": [
+        "python",
+        "async-io"
+      ],
+      "order": 50,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "fastapi-001",
+      "title": "FastAPI 的核心优势是什么？与 Flask、Django 相比有何区别？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 10,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "fastapi-002",
+      "title": "FastAPI 中的依赖注入（Dependency Injection）原理与常见场景？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 20,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "fastapi-003",
+      "title": "Pydantic 在 FastAPI 中扮演什么角色？v1 与 v2 有何关键升级？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 30,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "fastapi-004",
+      "title": "FastAPI 中的中间件（Middleware）与异常处理器（Exception Handler）怎么设计？",
+      "difficulty": "medium",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 40,
+      "hasAnswer": true,
+      "followupCount": 1
+    },
+    {
+      "id": "fastapi-005",
+      "title": "FastAPI 生产部署方案：Uvicorn、Gunicorn 与多进程 Worker 架构？",
+      "difficulty": "hard",
+      "categoryId": "fastapi",
+      "tags": [
+        "fastapi-tag",
+        "python"
+      ],
+      "order": 50,
+      "hasAnswer": true,
+      "followupCount": 1
     }
   ]
 }
