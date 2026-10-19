@@ -1,50 +1,48 @@
-## 1. 致命报错根因剖析：`MissingGreenlet`
+## 1. 隐式 I/O 与 MissingGreenlet
 
-在使用异步 ORM（如 `asyncpg` + `AsyncSession`）时，最常遇到的经典崩溃：
+AsyncSession 下访问尚未加载的关系属性或已过期字段，可能试图在普通属性访问中执行异步 I/O。若没有 SQLAlchemy 所需的异步桥接上下文，就可能出现：
+
 ```text
-sqlalchemy.exc.MissingGreenlet: greenlet_spawn has not been called; 
-can't call __init__() in this worker (attribute 'items' is not loaded)
+greenlet_spawn has not been called; can't call await_only() here.
 ```
 
-### 为什么会发生？
-- **传统同步 ORM 的惰性加载（Lazy Loading）机制**：查询 `user = session.get(User, 1)` 时只查用户表；当后续你在代码里访问 `user.orders` 时，SQLAlchemy 内部会**隐式、默默地再发一次同步 SQL 查询**把订单查出来。
-- **异步世界的冲突**：在异步世界中，**所有的 I/O 操作都必须显式声明 `await`**。当你在 Pydantic 序列化或模板中访问 `user.orders` 属性时，访问普通属性是不带 `await` 的！SQLAlchemy 无法在一个纯同步的属性访问器中发起异步 I/O 查询，Greenlet 驱动无法挂起，因此直接抛出 `MissingGreenlet` 阻断。
+不要将同步示例 `session.get(...)` 直接照搬给 AsyncSession：异步方法需要 await；响应序列化期间也应避免再触发未声明的 I/O。
 
----
+## 2. 在明确的 await 边界预加载
 
-## 2. 标准解决方案：显式及早加载（Eager Loading）
-
-必须在最初发起查询时，告诉 SQLAlchemy 把关联对象一次性查出来，彻底禁用隐式惰性查询。
-
-### 方案 A：`selectinload`（推荐，处理 1 对多、多对多最佳）
-它会分两次查询：先查主表，然后用 `IN (...)` 子查询批量捞出所有关联项，没有大单表笛卡尔积膨胀风险：
+以下为可导入的 SQLAlchemy 2.x 查询模块；调用前需创建表和测试数据。
 
 ```python
-from sqlalchemy import select
-from sqlalchemy.orm import selectinload
+from sqlalchemy import ForeignKey, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, selectinload
 
-# ★ 关键：通过 options(selectinload(User.orders)) 预先装载
-stmt = select(User).where(User.id == user_id).options(selectinload(User.orders))
-result = await session.execute(stmt)
-user = result.scalar_one_or_none()
+class Base(DeclarativeBase):
+    pass
 
-# 此时 user.orders 已经就绪在内存中了，可以直接读取，绝不报错！
-print(len(user.orders))
-```
-
-### 方案 B：`joinedload`（处理 1 对 1、多对 1 最佳）
-利用 SQL 的 `LEFT OUTER JOIN` 将主表与关联表在一张大结果集内通过单条 SQL 一并拉取返回。
-
----
-
-## 3. 防御性配置最佳实践
-
-在定义模型关系属性时，推荐显式指定 `lazy="raise"` 或 `lazy="selectin"`：
-```python
 class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
-    
-    # 显式禁止隐式惰性加载，一旦漏写预加载，本地测试阶段立刻明确报错提醒
-    orders: Mapped[List["Order"]] = relationship(lazy="raise")
+    orders: Mapped[list["Order"]] = relationship(lazy="raise")
+
+class Order(Base):
+    __tablename__ = "orders"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+
+async def load_user(session: AsyncSession, user_id: int) -> User | None:
+    stmt = select(User).where(User.id == user_id).options(selectinload(User.orders))
+    result = await session.execute(stmt)
+    user = result.scalar_one_or_none()
+    if user is not None:
+        print(len(user.orders))  # 已加载，不在属性访问处追加查询
+    return user
 ```
+
+`selectinload` 通常先查主对象，再用 `IN (...)` 查询关联；大批量父对象可能分批查询，不是固定永远两条 SQL。`joinedload` 可用 JOIN 预加载，加载集合时通常还需 `result.unique()` 去重，避免结果行膨胀。
+
+## 3. 其他防护
+
+按需求使用 `expire_on_commit=False` 避免提交后立即过期；也可以用 AsyncAttrs 的 `awaitable_attrs` 或显式 `await session.refresh(...)`。一个 AsyncSession 不应被并发任务共用。事务可以由 `async with session.begin()` 管理，正常退出提交、异常回滚。
+
+参考：[SQLAlchemy 避免隐式 I/O](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html#preventing-implicit-io-when-using-asyncsession)。

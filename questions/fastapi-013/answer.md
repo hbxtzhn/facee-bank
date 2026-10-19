@@ -1,62 +1,74 @@
-## 1. 大文件分块安全上传：`UploadFile`
+## 1. UploadFile 不等于无限资源保护
 
-不要一次性 `await file.read()`，这会把几 GB 的文件瞬间塞满服务器内存。应当使用**流式切块（Chunked Streaming）**：
+UploadFile 使用可落盘的临时文件，避免把整个上传作为 bytes 参数常驻内存；但 multipart 解析可能已在路由执行前消耗带宽、内存或临时磁盘。生产必须在网关/服务器层限制请求体、超时和并发，应用层再按业务校验实际内容。
+
+下例按 1 MiB 分块，限制落盘为 20 MiB，使用服务端生成的文件名，绝不直接拼接客户端的 `file.filename`。写入通过 AnyIO 文件接口避免在事件循环里执行大块同步磁盘写。
 
 ```python
-from fastapi import FastAPI, UploadFile, File
-import shutil
+import tempfile
+import uuid
 from pathlib import Path
+import anyio
+from fastapi import FastAPI, File, HTTPException, UploadFile
 
 app = FastAPI()
+UPLOAD_ROOT = Path(tempfile.gettempdir()) / "facee-upload-example"
+UPLOAD_ROOT.mkdir(parents=True, exist_ok=True)
+MAX_BYTES = 20 * 1024 * 1024
 
 @app.post("/upload")
-async def upload_large_file(file: UploadFile = File(...)):
-    dest_path = Path("/tmp") / file.filename
-    # 分块读取，每块 1MB，内存始终只占用 1MB！
-    chunk_size = 1024 * 1024
-    with dest_path.open("wb") as buffer:
-        while chunk := await file.read(chunk_size):
-            buffer.write(chunk)
-            
-    await file.close()  # 必须释放临时文件句柄
-    return {"filename": file.filename, "size": dest_path.stat().st_size}
+async def upload(file: UploadFile = File(...)):
+    destination = UPLOAD_ROOT / f"{uuid.uuid4().hex}.bin"
+    size = 0
+    created = False
+    complete = False
+    try:
+        async with await anyio.open_file(destination, "xb") as output:
+            created = True
+            while chunk := await file.read(1024 * 1024):
+                size += len(chunk)
+                if size > MAX_BYTES:
+                    raise HTTPException(status_code=413, detail="文件超过 20 MiB")
+                await output.write(chunk)
+        complete = True
+        return {"upload_id": destination.name, "size": size}
+    finally:
+        # 取消或失败时也尝试关闭临时上传并删除本次未完成文件。
+        with anyio.CancelScope(shield=True):
+            try:
+                await file.close()
+            finally:
+                if created and not complete:
+                    await anyio.to_thread.run_sync(destination.unlink)
 ```
 
----
+成功文件由业务生命周期管理；示例不提供公开下载入口，也不把扩展名或 MIME 声明当成可信内容检测。运行示例需要 `python-multipart`。
 
-## 2. AI 大模型流式输出（SSE，Server-Sent Events）
-
-通过 `StreamingResponse` 包装异步生成器，将 LLM 产出的每个 Token 实时推送给客户端：
+## 2. SSE 输出与取消
 
 ```python
 import asyncio
+import json
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 
-# 模拟大模型异步流式吐字
 async def fake_llm_stream(prompt: str, request: Request):
-    full_reply = f"这是针对问题 [{prompt}] 的详细深度回答："
-    for char in full_reply:
-        # ★ 生产关键：检查前端用户是否已中途关掉了网页
+    for char in f"这是对问题 [{prompt}] 的演示回答":
         if await request.is_disconnected():
-            print("客户端已主动断开，终止后续模型生成！")
             break
-            
-        # 遵循标准 SSE 格式：data: <内容>\n\n
-        yield f"data: {char}\n\n"
-        await asyncio.sleep(0.05)  # 模拟打字间隔
+        # JSON 编码保证换行等字符不会破坏 SSE 的事件边界。
+        yield "data: " + json.dumps({"token": char}, ensure_ascii=False) + "\n\n"
+        await asyncio.sleep(0.05)
 
 @app.get("/chat/stream")
 async def chat_stream(prompt: str, request: Request):
-    return StreamingResponse(
-        fake_llm_stream(prompt, request),
-        media_type="text/event-stream",  # 标准流式媒体类型
-        headers={
-            "Cache-Control": "no-cache",
-            "Connection": "keep-alive",
-            "X-Accel-Buffering": "no",  # ★ 告诉 Nginx 禁用反向代理缓冲，立刻推给前端
-        }
-    )
+    return StreamingResponse(fake_llm_stream(prompt, request),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 ```
+
+两个代码块是独立示例应用，分别保存为文件使用。接入真实模型时，需要在生成器的 `try/finally` 中关闭上游流/客户端资源，并让取消继续传播；仅 `break` 本地循环不一定终止上游已经提交的生成或计费。还应配置心跳、超时、并发上限与代理缓冲，不能把响应头当成适配所有代理的保证。
+
+参考：[UploadFile](https://fastapi.tiangolo.com/tutorial/request-files/)、[StreamingResponse](https://www.starlette.dev/responses/#streamingresponse)。

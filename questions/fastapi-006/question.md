@@ -1,3 +1,3 @@
-# 从 WSGI 到 ASGI：FastAPI 为何基于 ASGI？两者规范有何本质差异？
+# WSGI 与 ASGI 的接口、流式响应和 WebSocket 支持有何区别？
 
-请深入对比 WSGI（Web Server Gateway Interface）与 ASGI（Asynchronous Server Gateway Interface）的设计规范、接口签名差异，并解释为什么 WebSocket 与长连接流式响应必须依赖 ASGI。
+请对比 WSGI 与 ASGI 的应用函数签名、事件模型及部署资源模型，说明为何标准 WSGI 不定义 WebSocket，以及为什么 SSE 可以通过 WSGI 或 ASGI 实现。

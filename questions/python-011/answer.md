@@ -18,6 +18,7 @@ class ManagedResource:
 
 ### 执行时序图：
 ```text
+with 块的 __enter__ 成功后：
 with Resource() as r:
    │
    ├──> 调用 Resource.__enter__() -> 得到 r
@@ -51,5 +52,5 @@ def timer(label: str):
 # 实战调用
 with timer("大数据集计算") as t:
     total = sum(i * i for i in range(1000000))
-# 控制台输出：[大数据集计算] 耗时: 0.0652s
+# 耗时由实际环境决定，不把示例时间当成性能保证。
 ```

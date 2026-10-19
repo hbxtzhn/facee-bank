@@ -1,51 +1,37 @@
-## 1. BackgroundTasks 的工作机制
+## 1. 响应发送后的同进程工作
 
-FastAPI 的 `BackgroundTasks`（源自 Starlette）是一种**轻量级、同进程内的后台任务机制**：
+`BackgroundTasks` 来自 Starlette，是附在响应上的任务列表。响应发送后按添加顺序执行；它不是持久化消息队列，也不是自动新建进程。
 
 ```python
 from fastapi import BackgroundTasks, FastAPI
+from pydantic import BaseModel, Field
 
 app = FastAPI()
 
-def send_welcome_email(email: str, username: str):
-    # 模拟耗时 2 秒的邮件发送
-    pass
+class Notification(BaseModel):
+    username: str = Field(min_length=1, max_length=50)
 
-@app.post("/register")
-async def register_user(user: UserSchema, bg_tasks: BackgroundTasks):
-    # 1. 注册业务逻辑已完成
-    save_to_db(user)
-    
-    # 2. 挂载后台任务：该任务不会阻塞响应
-    bg_tasks.add_task(send_welcome_email, user.email, user.username)
-    
-    # 3. 立即向客户端返回 200 OK 响应！
-    # ★ 响应完全发送给客户端之后，事件循环才开始就地执行 send_welcome_email
-    return {"status": "success", "message": "注册成功"}
+def record_notification(username: str):
+    # 教学占位：真实通知服务在这里调用；不宣称已写数据库或已发邮件。
+    print("已处理演示通知")
+
+@app.post("/notify", status_code=202)
+async def notify(body: Notification, tasks: BackgroundTasks):
+    tasks.add_task(record_notification, body.username)
+    return {"accepted": True}
 ```
 
----
+同步任务由 AnyIO 线程池调度，异步任务被 await；多个任务默认顺序执行，前一个抛异常会使后续任务不再执行。CPU 重任务仍可能影响当前 API 进程，异步函数内的阻塞代码仍会阻塞事件循环。
 
-## 2. 深度对比：BackgroundTasks vs Celery
+## 2. 与外部队列的选择
 
-| 对比维度 | FastAPI 原生 BackgroundTasks | Celery / RQ (分布式任务队列) |
+| 需求 | BackgroundTasks | Celery / RQ 等 |
 |---|---|---|
-| **执行载体** | **当前 API 进程内部**（占用当前服务的 CPU/内存/事件循环） | **完全独立的 Worker 进程/跨物理机集群** |
-| **持久化存储** | **无持久化（纯内存任务队列）** | 基于 RabbitMQ / Redis / SQS 等强持久化 Broker |
-| **容灾抗风险** | **极低**。若服务器重启、发版更新或 Worker 进程 OOM 崩溃，**内存中未执行的任务全部永久丢失** | **极高**。有消息确认（ACK）与心跳机制，Worker 挂了任务自动重新分配给其他人 |
-| **重试机制** | 无内置重试，抛错即结束 | 支持指数退避重试（Exponential Backoff）、死信队列（DLX） |
-| **资源隔离** | 无法隔离。重型计算会抢占 Web 服务的 CPU，拖垮 API 吞吐 | 完全物理隔离，即便任务把 Worker 算爆，前端 API 依旧秒开 |
-| **运维复杂度** | **零成本**（零额外外部组件依赖） | 较高（需维护 Redis/RabbitMQ、Celery Beat、Flower 监控面板等） |
+| 进程重启后恢复 | 不提供持久化 | 取决于 broker、持久化与确认配置 |
+| 重试、结果查询、调度 | 需自行实现 | 可配置对应能力 |
+| 资源隔离 | 与 API 同进程 | 可放到独立 worker，但资源仍需规划 |
+| 交付保证 | 进程退出可能丢失 | 需设计 ACK、重投和幂等，不能默认“恰好一次” |
 
----
+选型依据是可靠性、耗时、并发与隔离需求，没有通用的“3 秒/5 秒”分界。支付、关键通知等需要可靠交付时，还应考虑事务 outbox 与业务幂等。
 
-## 3. 生产选型黄金准则
-
-- **选择原生 `BackgroundTasks` 的场景**：
-  - 任务执行耗时极短（< 3 秒）；
-  - 丢失了对业务影响不大（如写入分析访问埋点、发送非关键验证日志）；
-  - 小型项目不希望引入繁重的 MQ 运维包袱。
-- **必须选用 `Celery` 的场景**：
-  - 耗时长于 5 秒以上的重任务（如音视频转码、大批量 PDF/Excel 报表生成、AI 模型离线微调/批量推理）；
-  - 核心关键业务不允许丢失（如第三方支付异步充值到账对账、短信通道重试）；
-  - 需要定时任务（Crontab/调度）以及任务结果状态持久化查询。
+参考：[Starlette background tasks](https://www.starlette.dev/background/)、[FastAPI background tasks](https://fastapi.tiangolo.com/tutorial/background-tasks/)。

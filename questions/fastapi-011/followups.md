@@ -1,7 +1,7 @@
-## 追问 1：SQLAlchemy 2.0 的 select() 语法与 1.x 的 Model.query 相比有何核心改进？
+## 追问 1：SQLAlchemy 2.x 查询接口如何演进？
 
-2.0 统一采用了 select(Model).where(...) 显式查询语法，彻底废弃了跟 ThreadLocal 绑定的 Model.query，语法与原生 SQL 更贴近，而且这一套语法在同步引擎与基于 asyncpg/aiosqlite 的异步引擎中完全统一，类型检查更加友好。
+推荐 `select(Model)` 配合 Session/AsyncSession 执行；旧 Query 属于 legacy API，并非所有 1.x 接口都已被删除。`Model.query` 常来自 Flask-SQLAlchemy 等集成层，不能当成 SQLAlchemy 所有 ORM 模型原生都有的属性。
 
-## 追问 2：异步 Session 的 commit 和 rollback 为什么要配合 async with session.begin()？
+## 追问 2：事务上下文解决什么问题？
 
-async with session.begin() 会自动管理事务生命周期，在块正常结束时自动调用 await session.commit()，若中途发生任何未捕获异常则自动触发 await session.rollback()，能够有效防止因为忘记 commit 导致数据丢失或由于忘记 rollback 导致脏连接放回连接池。
+`async with session.begin()` 在正常退出时提交、异常时回滚，集中管理事务边界；也可以显式 commit/rollback。关键是提交成功后才向客户端返回成功，不能仅在响应已发送后的依赖清理阶段提交关键写操作。

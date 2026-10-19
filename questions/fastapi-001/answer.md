@@ -1,22 +1,16 @@
-## 1. 核心架构对比
+## 1. 框架定位
 
-| 比较维度 | Django | Flask | FastAPI |
+| 维度 | Django | Flask | FastAPI |
 |---|---|---|---|
-| **定位风格** | “自带电池”大而全的全栈框架（ORM、Admin、模板、Auth 全包） | 极简微框架，仅提供路由与核心上下文，其余靠扩展插件 | 现代轻量高性能 API 框架，专注微服务与后端接口 |
-| **异步支持** | 历史同步为主，新版本部分兼容 ASGI 但生态包历史包袱重 | 传统 WSGI 同步为主（2.0 实验性支持 async） | **原生 ASGI（基于 Starlette）**，天生全异步高并发 |
-| **数据校验** | Django Forms / DRF Serializers（相对冗长繁琐） | 需手动校验或借助第三方（Marshmallow 等） | **深度整合 Pydantic**，基于 Python 原生类型注解自动校验 |
-| **接口文档** | 需安装 drf-yasg 等插件配置 | 需第三方插件（Flasgger 等） | **开箱即用 Swagger UI / ReDoc**，全自动交互式文档 |
-| **性能基准** | 偏中低 | 中等 | **接近 Node.js / Go 的高吞吐表现**（基于 Uvicorn） |
+| 主要定位 | 集成 ORM、管理后台、认证等能力的全栈框架 | 以路由等核心为基础，通过扩展组合应用 | 以类型注解、数据契约与 API 开发为中心 |
+| 异步 | 支持 ASGI、异步视图及部分异步 ORM；同步/异步边界仍需确认 | 基于 WSGI；支持 async 视图，但普通部署仍占用一个 worker 处理请求 | 基于 Starlette/ASGI；支持异步路由、WebSocket 与流式响应 |
+| 校验/文档 | 可配合 Forms、DRF 和 OpenAPI 工具 | 通常组合扩展或自行设计 | 集成 Pydantic 校验与 OpenAPI 文档 |
+| 选型依据 | 需要完整业务后台与成熟集成 | 希望精简核心、灵活组合 | API 契约明确且异步 I/O 需求较多 |
 
----
+## 2. FastAPI 的核心能力与边界
 
-## 2. FastAPI 的四大核心杀手锏
+类型注解和 `Depends` 支持请求解析、依赖复用、响应模型及文档生成。异步数据库驱动、HTTP 客户端可与事件循环协作；参数不合契约时默认返回 422。
 
-1. **类型提示即契约（Type Hints Driven）**：
-   写标准的 Python 类型标注，FastAPI 一步完成四件事：**入参解析**、**类型转换**、**校验报错（友好 JSON）**与**Swagger 文档生成**。
-2. **极其优雅的依赖注入系统（Depends）**：
-   层级分明、组件高度可复用，极易进行单元测试 Mock 与权限生命周期管理。
-3. **原生异步生态支持**：
-   与 SQLAlchemy 2.0 (asyncio)、Redis-py (asyncio)、httpx 等现代异步生态无缝打通。
-4. **开发者体验与报错友好**：
-   当入参不合法时，自动返回精准的 422 状态码和详细的字段级定位错误，无需手动写繁复的异常捕获。
+“用了 FastAPI 就一定比其他框架快”并不成立。数据库、阻塞调用、响应体大小和部署方式往往更重要；需要匹配任务模型，不能用固定框架性能排名代替选型。
+
+参考：[FastAPI async](https://fastapi.tiangolo.com/async/)、[Django async](https://docs.djangoproject.com/en/5.2/topics/async/)、[Flask async](https://flask.palletsprojects.com/en/stable/async-await/)。

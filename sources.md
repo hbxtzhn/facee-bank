@@ -4,8 +4,12 @@
 
 | 来源 | 许可证 | 用途 | 是否改动 |
 |---|---|---|---|
-| [Snailclimb/JavaGuide](https://github.com/Snailclimb/JavaGuide) | Apache-2.0 | questions/ 下题目与答案的改编基础 | 是（拆分/规范化/精简/去推广，详见 NOTICE） |
+| [Snailclimb/JavaGuide](https://github.com/Snailclimb/JavaGuide) | Apache-2.0 | 原有 Java 等题目与答案的改编基础；不包括 v1.3.0 新增 Python / FastAPI 内容 | 是（拆分/规范化/精简/去推广，详见 NOTICE） |
 | 自整理面试笔记（作者原创笔记） | 随本仓库 CC-BY-4.0 | v1.2.0 新增题目（JVM/Redis/Spring Cloud/AI 应用与 RAG 及部分基础、场景题）的内容基础 | 是（脱敏、去个性化、标题规范化，详见 NOTICE） |
+
+## v1.3.0 Python / FastAPI 内容
+
+`questions/python-*/`（15 题）与 `questions/fastapi-*/`（15 题）为本项目新增编写并审核的内容，随本仓库 CC-BY-4.0 提供。官方文档、PEP 与 RFC 用于核对事实、版本边界和 API；参考链接及逐题修正记录见 [审核记录](docs/python-fastapi-review-v1.3.0.md)。这些参考链接不表示将相应上游文档全文或软件源代码打包进题库，原有 JavaGuide 改编内容的 Apache-2.0 声明继续保留。
 
 ## 评估过但**未采用**的来源
 

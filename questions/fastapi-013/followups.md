@@ -1,7 +1,7 @@
-## 追问 1：bytes、UploadFile 与普通 Python open 文件对象在上传时有什么不同？
+## 追问 1：bytes 与 UploadFile 的差别？
 
-如果路由参数声明为 file: bytes，FastAPI 会一次性把整个文件读入内存，大文件瞬间会导致内存打满；而声明为 UploadFile 时，底层采用 SpooledTemporaryFile，内存只留一个小缓冲区，超出部分自动写入操作系统的临时磁盘文件，内存占用极小且安全。
+bytes 参数会把整个内容作为字节串交给路由；UploadFile 使用 SpooledTemporaryFile，超过内存阈值后落盘，异步文件操作通常经线程池完成。阈值不是总上传上限，也不保证总内存只有一个分块大小；解析缓存、临时文件、并发数及请求头均需限制。
 
-## 追问 2：在 SSE（Server-Sent Events）向前端流式传输时，前端断开连接（如用户在界面点击了停止生成），FastAPI 后端能感知到并停止调用下游的大模型 API 吗？
+## 追问 2：客户端断开如何停止模型调用？
 
-可以。在异步生成器内部通过循环轮询 request.is_disconnected() 方法判断。如果检测到前端客户端已断开，立即 break 跳出生成循环，从而中断后续对大模型 API 的流式拉取，避免无谓浪费 Token。
+请求断开可通过取消或 `request.is_disconnected()` 检测。生成器退出后要在 finally 中释放上游流资源，不吞掉取消；若下游推理服务提供显式取消接口，还应调用它。停止本地读流不保证已发出的远程计算马上停止或不再计费。

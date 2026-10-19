@@ -1,7 +1,9 @@
-## 追问 1：在 Linux 生产环境中，多进程的启动方式（fork vs spawn）如何选择？
+## 追问 1：fork、spawn 与 forkserver 如何选择？
 
-默认的 fork 速度快且写时复制（COW），但如果父进程已经创建了线程池、数据库连接池或 SSL 上下文，fork 出的子进程很容易死锁或共享句柄产生混乱。Python 3.8+ 强烈推荐在生产或多线程混合场景下使用 multiprocessing.set_start_method('spawn')，保证子进程环境完全干净。
+默认值取决于平台和版本：Windows 使用 spawn，macOS 从 3.8 起默认 spawn；Python 3.14 在支持 forkserver 的 POSIX 平台将默认方式改为 forkserver，fork 已不再是任何平台的默认方式。
 
-## 追问 2：multiprocessing.Queue 和 queue.Queue 有什么区别？
+fork 会继承父进程状态，多线程父进程中可能继承无法正常释放的锁或不安全连接。应使用 `multiprocessing.get_context()` 选定业务与库支持的上下文；采用 spawn/forkserver 时关注可 pickle 性、导入副作用以及 `if __name__ == "__main__"` 入口保护，不能用一条跨版本的“Linux 默认 fork”代替判断。
 
-queue.Queue 是线程安全的队列，仅在同一个进程内的多线程之间共享内存引用；而 multiprocessing.Queue 是跨进程的，底层基于 Pipe（管道）+ 操作系统锁 + 后台专门的 Feeder 线程 + pickle 序列化，开销显著大于线程队列。
+## 追问 2：与 queue.Queue 有何区别？
+
+queue.Queue 在线程间共享对象引用。multiprocessing.Queue 面向进程，通过 IPC 传递对象，通常包含 pickle 与 feeder 线程，不能把进程队列当成共享 Python 对象的引用容器。

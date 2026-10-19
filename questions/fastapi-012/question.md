@@ -1,3 +1,3 @@
-# FastAPI 安全体系：OAuth2 密码模式与 JWT 鉴权全流程是如何设计的？
+# FastAPI 如何设计登录、JWT 验证与受保护路由？OAuth2 密码模式有哪些边界？
 
-请详细画出 FastAPI + OAuth2PasswordRequestForm + JWT（JSON Web Token）从用户登录、签发 Token 到受保护路由依赖鉴权的完整闭环与实战代码。
+请说明用户密码哈希校验、有限期 JWT 签发、Bearer 提取、验签与业务授权的区别，给出可运行的教学实现，并对比新系统优先采用授权码 + PKCE/OIDC 的原因。

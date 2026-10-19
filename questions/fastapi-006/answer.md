@@ -1,38 +1,33 @@
-## 1. 协议设计哲学与接口签名对比
+## 1. 两种接口解决的问题不同
 
-| 规范 | 架构风格 | 核心接口函数签名 | 处理模型 | 协议支持 |
-|---|---|---|---|---|
-| **WSGI** (PEP 3333) | 同步阻塞 | `application(environ, start_response)` | 一问一答，单请求独占线程 | 仅支持标准 HTTP/1.1 请求/响应 |
-| **ASGI** (异步演进) | 异步事件驱动 | `async def application(scope, receive, send)` | 全双工异步非阻塞协程 | HTTP/1.1、HTTP/2、WebSocket、长连接 SSE |
+| 协议 | 应用接口 | 特点 |
+|---|---|---|
+| WSGI | `application(environ, start_response)` 返回字节块迭代器 | 同步请求/响应接口，通常由进程或线程执行 |
+| ASGI | `async application(scope, receive, send)` | 异步事件接口，规范包含 HTTP、WebSocket 与 lifespan |
 
----
+WSGI 可以通过迭代器流式输出 HTTP 内容，因此 **SSE 不要求必须使用 ASGI**；不过长时间等待通常占用同步 worker 的执行槽。WebSocket 不属于标准 WSGI 接口，框架或服务器的扩展支持不能等同于 WSGI 本身的保证。
 
-## 2. ASGI 的核心接口三剑客（scope, receive, send）
+ASGI 支持 HTTP/2 的协议表示，不代表每个 ASGI 服务器都实现 HTTP/2。例如部署时还要查看 Uvicorn 或其他服务器、反向代理的实际能力。
 
-ASGI 将所有的交互抽象为一个异步可调用对象（Callable）：
+## 2. 最小 ASGI 应用
 
 ```python
-async def simple_asgi_app(scope, receive, send):
-    if scope['type'] == 'http':
-        # 1. scope: 字典，包含本次连接的基础元信息（请求方法、路径、Headers、客户端 IP 等）
-        # 2. receive: 异步通道，用于非阻塞等待客户端发来的数据包（如 Body 字节流）
-        event = await receive()
-        
-        # 3. send: 异步通道，用于随时向客户端推送数据包（分块发送）
-        await send({
-            'type': 'http.response.start',
-            'status': 200,
-            'headers': [[b'content-type', b'text/plain']],
-        })
-        await send({
-            'type': 'http.response.body',
-            'body': b'Hello from Pure ASGI!',
-        })
+async def app(scope, receive, send):
+    # 示例只实现 HTTP；测试时服务器需禁用 lifespan 自动协商。
+    if scope["type"] != "http":
+        raise RuntimeError("This example supports HTTP only")
+    await send({
+        "type": "http.response.start",
+        "status": 200,
+        "headers": [(b"content-type", b"text/plain; charset=utf-8")],
+    })
+    await send({"type": "http.response.body", "body": b"Hello ASGI"})
 ```
 
----
+`scope` 保存连接/请求元信息，`receive` 提供入站事件，`send` 发出响应事件。读取请求体时需处理多个 `http.request` 事件及 `more_body`，不能假定一次 receive 就读取完整上传。
 
-## 3. 为什么 WebSocket 和大模型流式打字机必须依赖 ASGI？
+## 3. 为什么异步模型适合长连接？
 
-- **在 WSGI 模型下**：函数必须直接返回一个可迭代的 Response 对象，一次请求处理完毕后该线程的连接就结束了。WSGI 根本无法在不阻塞线程的前提下持续等待客户端随时可能发来的消息（如 WebSocket 上行消息）。
-- **在 ASGI 模型下**：`receive` 和 `send` 都是独立的异步等待通道。一个单线程的事件循环（Uvicorn）就能轻松挂起上万个空闲的 WebSocket 连接或 SSE 长连接，有数据时才被内核 `epoll` 唤醒派发事件，真正实现万级高并发。
+等待网络就绪时协程可让出事件循环，让同一线程服务其他连接。实际并发容量仍受文件描述符、内存、业务逻辑与代理配置限制，不能仅凭协议名承诺上万连接。
+
+参考：[ASGI HTTP/WebSocket 规范](https://asgi.readthedocs.io/en/latest/specs/www.html)、[WSGI PEP 3333](https://peps.python.org/pep-3333/)。

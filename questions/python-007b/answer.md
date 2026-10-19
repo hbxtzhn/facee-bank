@@ -1,49 +1,37 @@
-## 1. 常见进程间通信（IPC）机制对比
+## 1. 进程间通信的选择
 
-| IPC 方式 | 底层机制 | 特点与适用场景 |
+| 机制 | 适用方式 | 代价 |
 |---|---|---|
-| **`Queue`** | 管道（Pipe）+ 锁 + 缓冲线程 | 适合多生产者-多消费者模型，API 简单易用 |
-| **`Pipe`** | 操作系统全双工管道/套接字对 | 双向点对点通信，吞吐量和速度明显高于 Queue |
-| **`Value` / `Array`** | 共享内存段（底层 C 原生类型） | 速度快，无需序列化，但只支持数字、布尔等基础标量和固定长度数组 |
-| **`Manager`** | 独立的 Server 进程提供代理对象 | 支持跨进程操作字典、列表，但每次方法调用都要经过 IPC 代理，性能最慢 |
-| **`shared_memory`** (3.8+) | 操作系统原生共享内存（shm） | **零拷贝（Zero-Copy）**，海量数据（NumPy/图片/张量）最佳解决方案 |
+| Queue | 多生产者、多消费者传递对象 | 通常经 pickle、管道和后台 feeder 线程 |
+| Pipe | 点对点传递消息 | 双工管道/连接；性能依消息与同步方式而异 |
+| Value / Array | 共享固定类型标量或数组 | 共享内存，复合读写仍需同步 |
+| Manager | 通过服务进程代理字典、列表等对象 | 代理调用与序列化开销 |
+| shared_memory | 多进程共享连续字节区域 | 生命周期与同步需自行管理 |
 
----
+## 2. 大对象瓶颈与共享内存边界
 
-## 2. 传统 Queue 在传输海量数据时的致命瓶颈：pickle 序列化
+普通 Queue 传对象通常包含序列化、传输和反序列化，可能增加 CPU、内存峰值与复制开销；具体倍数不是固定值。共享内存允许多个进程映射同一数据区域，避免每次通过 Queue 复制整个数据；**初始化仍可能有一次复制，元数据仍需传递，写入仍需同步**。
 
-当通过 `queue.put(big_data)` 发送一个 1GB 的数据集或图像矩阵时，内部必须经历：
-1. **CPU 序列化**：发送方进程调用 `pickle.dumps()` 将对象在内存中完整打包为字节流（极其消耗 CPU 和耗费 1 倍额外内存）；
-2. **内核空间拷贝**：字节流通过 OS Pipe 写入操作系统内核缓冲区；
-3. **CPU 反序列化**：接收方进程从管道读出字节流并执行 `pickle.loads()` 重新构造一模一样的新对象。
-
-**结果**：多核带来的并行收益被庞大的 CPU 序列化与内存频繁拷贝彻底抵消，甚至引发 OOM。
-
----
-
-## 3. 破局之道：Python 3.8 原生共享内存（SharedMemory）
-
-通过共享内存，多个进程可以直接映射同一块物理内存地址空间，**实现零拷贝秒级共享**：
+下面是同一进程演示两次映射的小型可运行示例。实际跨进程时须传递名称和有效数据长度（数组还需 shape、dtype），管理者在全部使用者退出后 unlink。分配或附加映射的可见大小可能按系统内存页取整，不能把整个缓冲区的长度当成业务数据长度。
 
 ```python
 from multiprocessing import shared_memory
-import numpy as np
 
-# 进程 A：创建 1GB 的连续数组并放入共享内存
-a = np.ones((1000, 1000, 250), dtype=np.float32)  # ~1GB 数据
-shm = shared_memory.SharedMemory(create=True, size=a.nbytes)
-# 将 numpy 数组直接映射到这块共享内存
-b = np.ndarray(a.shape, dtype=a.dtype, buffer=shm.buf)
-b[:] = a[:]  # 填充数据
-print("共享内存块名称:", shm.name)
-
-# 进程 B（子进程）：无需序列化，直接通过名称秒级接入
-existing_shm = shared_memory.SharedMemory(name=shm.name)
-c = np.ndarray(a.shape, dtype=a.dtype, buffer=existing_shm.buf)
-print("直接读取共享数据:", c[0, 0, 0])  # 零拷贝读取，无延迟！
-
-# 用完后必须释放并清理
-existing_shm.close()
-shm.close()
-shm.unlink()
+payload = b"Face"
+length = len(payload)
+owner = shared_memory.SharedMemory(create=True, size=length)
+reader = None
+try:
+    owner.buf[:length] = payload
+    reader = shared_memory.SharedMemory(name=owner.name)
+    assert bytes(reader.buf[:length]) == payload
+finally:
+    if reader is not None:
+        reader.close()
+    owner.close()
+    owner.unlink()
 ```
+
+持有 memoryview 或 NumPy 视图时先释放视图再关闭映射。`close()` 关闭当前句柄，`unlink()` 负责删除共享内存对象；Windows 的回收规则与 POSIX 不同，不能让各消费者随意提前 unlink。
+
+参考：[multiprocessing](https://docs.python.org/3.14/library/multiprocessing.html)、[shared_memory](https://docs.python.org/3.14/library/multiprocessing.shared_memory.html)。

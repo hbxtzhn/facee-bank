@@ -1,3 +1,5 @@
-## 追问 1：为什么写装饰器一定要加上 @functools.wraps(func)？
+## 追问 1：functools.wraps 保留了什么？
 
-若不用 functools.wraps，原函数的元信息（如 __name__、__doc__、参数签名）会被替换为内层 wrapper 函数的信息，导致反射、调试栈信息丢失以及基于签名的工具（如 FastAPI 依赖注入、文档生成）失效。
+它复制 `__name__`、`__doc__`、注解等元数据，并设置 `__wrapped__`，使 `inspect.signature()` 等工具能沿包装链找到原函数签名。它不会把 wrapper 的实际调用参数或栈帧变成原函数；调用行为是否正确仍取决于包装代码，异步函数也需相应的异步包装器。
+
+参考：[functools.wraps](https://docs.python.org/3.14/library/functools.html#functools.wraps)。

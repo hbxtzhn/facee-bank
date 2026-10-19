@@ -4,4 +4,4 @@
 
 ## 追问 2：为什么企业级项目中要严格区分 models（ORM 实体）和 schemas（Pydantic 模型）？
 
-models 映射的是数据库物理表的存储结构；而 schemas 映射的是外部 API 的输入输出契约。两者解耦可以严格防止数据库敏感字段（如 password_hash、内部租户 ID）泄露到前端，也允许外部接口格式随业务灵活重构而无需频繁改动数据库底层表。
+models 映射存储结构，schemas 描述 API 输入输出契约。独立的响应 DTO 可避免把 password_hash 等内部字段直接序列化，但仍需正确配置 response_model、字段排除及对象级授权；仅仅建立两个目录不保证敏感字段不会泄露。解耦也便于 API 演进与数据库结构分别管理。

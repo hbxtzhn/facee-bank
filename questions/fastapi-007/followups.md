@@ -1,7 +1,7 @@
-## 追问 1：在 lifespan 中初始化的全局资源（如 Redis 连接池、AI 模型权重），如何在具体的路由函数中优雅访问？
+## 追问 1：路由如何使用 lifespan 资源？
 
-可以在 lifespan 中通过 yield 前后将资源存入 app.state（例如 app.state.redis = redis_pool）。在路由函数中，既可以通过 request.app.state.redis 直接读取，也可以编写一个 Depends(get_redis) 依赖项注入，方便单元测试覆盖。
+可在 `yield` 前存入 `app.state`，通过 `request.app.state` 获取，或在依赖函数中读取并注入，以便测试替换。资源通常是每个应用进程一份，不能将其当成多 worker 之间共享的内存对象。
 
-## 追问 2：如果在 lifespan 启动阶段（yield 之前）发生了网络异常（如连不上数据库），FastAPI 会怎么处理？
+## 追问 2：启动阶段失败怎么办？
 
-yield 之前发生异常，应用会立刻终止启动并退出进程，不会接受任何外部 HTTP 流量。这种“快速失败（Fail-Fast）”机制极其符合生产部署要求，能防止容器在依赖缺失的情况下对外提供假死服务。
+lifespan 在 yield 前抛异常时，正常支持 lifespan 的 ASGI 服务器会判定启动失败，不应将该进程标记为就绪。是否退出、重启及如何切流由服务器与进程/容器管理器决定。已获取的资源应由 try/finally 或 AsyncExitStack 清理，不能依赖未进入的 yield 后普通语句。

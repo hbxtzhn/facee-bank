@@ -10,7 +10,7 @@ WebSocket 建立在 ASGI 协议上，允许客户端与服务端建立**持久�
 
 ---
 
-## 2. 生产实战代码范式
+## 2. 单进程教学示例与生产边界
 
 ```python
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -29,8 +29,11 @@ class ConnectionManager:
         if websocket in self.active_connections:
             self.active_connections.remove(websocket)
 
+    async def send_personal_message(self, message: str, websocket: WebSocket):
+        await websocket.send_text(message)
+
     async def broadcast(self, message: str):
-        # 并发向所有在线客户端推送消息，并安全忽略已损坏的管道
+        # 教学版本逐个发送；慢客户端会拖慢后续连接。生产需有界队列、超时和背压。
         for connection in list(self.active_connections):
             try:
                 await connection.send_text(message)
@@ -51,7 +54,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             # 广播给所有人
             await manager.broadcast(f"[{client_id}]: {data}")
     except WebSocketDisconnect:
-        # 捕获客户端主动断开或掉线
+        pass
+    finally:
+        # 其他异常或取消也先移除本进程内的连接记录。
         manager.disconnect(websocket)
         await manager.broadcast(f"系统通知: 客户端 [{client_id}] 离开了聊天室")
 ```

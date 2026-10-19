@@ -1,12 +1,13 @@
 FaceE 题库（facee-bank）—— 许可速览
 =====================================
 
-本仓库包含两部分内容，**许可不同**，请分别遵守：
+本仓库包含多类内容，**许可不同**，请分别遵守：
 
 | 内容 | 许可 | 许可证文件 |
 |---|---|---|
 | 原创部分：目录结构、catalog.json 元数据（分类/标签/难度/排序）、文件组织方式 | CC-BY-4.0 | LICENSE |
-| questions/ 下的题目与答案（改编自 JavaGuide） | Apache-2.0（版权归 JavaGuide 作者） | LICENSE-Apache-2.0 |
+| questions/ 下改编自 JavaGuide 的题目与答案（不含下述新增原创内容） | Apache-2.0（版权归 JavaGuide 作者） | LICENSE-Apache-2.0 |
+| v1.2.0 自整理笔记及 v1.3.0 新增 Python / FastAPI 原创内容 | CC-BY-4.0 | LICENSE |
 
 使用前请阅读下方完整说明。许可全文：
 - CC-BY-4.0  https://creativecommons.org/licenses/by/4.0/legalcode
@@ -17,13 +18,14 @@ FaceE 题库（facee-bank）—— 许可速览
 FaceE 题库（facee-bank）
 =======================
 
-本仓库包含两部分内容，许可不同，请分别遵守：
+本仓库包含以下部分，许可不同，请分别遵守：
 
 1) 原创部分 —— 目录结构、catalog.json 的元数据（分类/标签/难度/排序）、
    题目文件的组织方式、生成与校验工具链：
    许可：CC-BY-4.0（见 LICENSE）
 
-2) 改编自 JavaGuide 的部分 —— questions/ 下的题目与答案正文：
+2) 改编自 JavaGuide 的部分 —— 原有题目与答案正文，不包括
+   v1.3.0 新增 Python / FastAPI 原创内容：
    来源：https://github.com/Snailclimb/JavaGuide
    版权：Copyright (c) Snailclimb（JavaGuide 项目）
    原许可：Apache License 2.0（见 LICENSE-Apache-2.0）
@@ -44,6 +46,13 @@ FaceE 题库（facee-bank）
      - 标题规范化：去除编号与口语化前缀，统一为完整问句
      - 「面试官追问」小节改写为独立的 followups.md 追问条目
      - 新增元数据：分类、标签、难度、排序
+
+4) v1.3.0 新增 Python / FastAPI 内容 —— questions/python-*/ 与
+   questions/fastapi-*/，各 15 题：
+   本项目新增原创编写与审核，随 CC-BY-4.0 提供；使用官方文档、PEP 和 RFC
+   核对事实与 API 边界，逐题修正及参考链接见
+   docs/python-fastapi-review-v1.3.0.md 与 sources.md。
+   上述新增内容不归入 JavaGuide 改编部分。
 
 若需使用本仓库内容，请同时遵守 CC-BY-4.0 与 Apache-2.0 的要求：
 保留署名、许可证文本，并说明修改。

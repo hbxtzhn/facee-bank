@@ -1,38 +1,15 @@
-## 1. 核心架构要素
+## 1. 事件循环、协程与 Task
 
-Python 的异步编程由标准库 `asyncio` 提供，属于**单线程协作式多任务并发**模型：
+调用 `async def` 函数得到协程对象，不代表已开始并发运行。通过 `await` 执行它，或通过 `asyncio.create_task()` 将它包装为 Task 交给事件循环调度。
 
-1. **事件循环（Event Loop）**：核心调度引擎。死循环轮询并调度注册到循环中的就绪回调与任务。
-2. **I/O 多路复用（Selectors）**：底层依赖 Linux `epoll`、macOS `kqueue` 或 Windows `IOCP`。当网络 Socket 阻塞时向内核注册文件描述符事件，非阻塞等待就绪通知。
-3. **协程对象（Coroutine）**：由 `async def` 定义的函数调用时返回。协程对象实现了 `__await__` 协议，可在遇到 I/O 时通过 `await` 主动让出 CPU 控制权。
-4. **任务（Task）**：通过 `asyncio.create_task()` 将协程包装为 Task，Task 会被自动注册进事件循环中并发调度执行。
+同一事件循环线程内，Task 协作式交替执行；遇到需要等待的异步操作时挂起，让其他就绪任务运行。**不是每个 await 都必然切换任务**：被等待对象若已完成，可以立即继续。
 
----
+网络事件常由 Unix 的 selector（如 epoll/kqueue）驱动；Windows 默认 ProactorEventLoop 使用 IOCP，不能把所有平台都称为同一种 selector 实现。
 
-## 2. 调度执行流程
+## 2. 与线程的边界
 
-```text
-[调用 async def] ──> 生成 Coroutine
-       │
-[asyncio.create_task] ──> 封装为 Task ──> 注册到 Event Loop 运行队列
-                                                │
-                                  ┌─────────────┴─────────────┐
-                                  ▼                           ▼
-                           当前 Task 执行             其他就绪 Task 轮流执行
-                                  │
-                             遇到 await I/O
-                                  │
-                           向 Selector 注册事件并让出 CPU
-                                  │
-                           底层 epoll 监听就绪
-                                  │
-                           唤醒并放入就绪队列重新执行
-```
+协程切换通常无需为每个任务切换操作系统线程，但仍有调度和对象管理成本，不能声称没有切换开销或固定是“纳秒级”。单循环也不等于没有竞态，例如读取余额后 `await`，恢复时其他任务可能已修改余额，需要 `asyncio.Lock` 保护业务不变量。
 
----
+`time.sleep()`、同步网络调用和长时间 CPU 计算会阻塞事件循环线程。阻塞 I/O 可以用异步接口或 `asyncio.to_thread()`；纯 Python CPU 计算在启用 GIL 时通常应考虑进程池。`time.sleep()` 的问题是挂起线程，**不是持续霸占 CPU 计算**。
 
-## 3. 面试高频对比：asyncio vs 多线程
-
-- **无上下文切换代价**：协程切换是用户态函数调度的开销（纳秒级），线程切换涉及内核上下文切换（微秒级）。
-- **无数据竞态（Race Condition）**：单线程运行，同一时刻只有一段代码在跑。只要两段逻辑之间没有 `await` 让出控制权，操作就是天然原子的，省去了大量互斥锁开销。
-- **缺点**：不能包含任何 CPU 密集阻塞或同步阻塞调用（如 `requests.get`、`time.sleep`），否则一卡卡全家。
+参考：[asyncio Task](https://docs.python.org/3.14/library/asyncio-task.html)、[事件循环](https://docs.python.org/3.14/library/asyncio-eventloop.html)。

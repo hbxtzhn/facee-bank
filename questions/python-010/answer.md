@@ -26,9 +26,9 @@
 
 | 维度 | `__new__` | `__init__` |
 |---|---|---|
-| **调用时机** | 最先调用，负责对象的创建 | 在 `__new__` 返回实例之后自动被调用 |
+| **调用时机** | 最先调用，负责对象的创建 | 仅在 `__new__` 返回该类或子类的实例时继续调用 |
 | **方法类型** | 静态方法（第一个参数为 `cls`） | 实例方法（第一个参数为 `self`） |
-| **返回值** | **必须显式返回创建好的实例** | 必须返回 `None`（不可有显式返回值） |
+| **返回值** | 通常返回新实例；若返回其他类型的对象，会跳过原类的 `__init__` | 必须返回 `None`，可显式 `return None`；返回其他值会触发 TypeError |
 | **主要用途** | 继承不可变类型（如重写 `int`, `tuple`）；编写单例模式；元类中构建新类 | 普通对象的成员变量赋值与初始化逻辑 |
 
 ---
@@ -47,7 +47,7 @@ class ModelMeta(type):
         # 扫描并收集所有定义的 Column 字段
         fields = {}
         for k, v in list(attrs.items()):
-            if isinstance(v, str):  # 模拟字段定义
+            if not k.startswith("_") and isinstance(v, str):  # 教学字段，排除 __module__ 等类元数据
                 fields[k] = v
         attrs["_fields"] = fields
         print(f"★ 成功注册 ORM 数据表 [{name}]，包含字段：{list(fields.keys())}")

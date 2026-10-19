@@ -1,48 +1,39 @@
-## 1. 什么是依赖注入？
+## 1. 声明依赖，由框架解析与复用
 
-依赖注入（DI）是指：**路由函数不主动创建自己所需的资源，而是声明自己“需要什么”，由框架在调用前负责实例化、注入参数，并在请求结束后进行收尾**。
+路由通过 `Depends` 声明所需参数、认证与资源。FastAPI 分析签名，递归解析依赖；同一请求内相同依赖通常有缓存，可用 `use_cache=False` 改变行为。测试可通过 `app.dependency_overrides` 替换实现。
 
-FastAPI 通过 `Depends` 提供声明式依赖注入，其底层借助 Python 的 `inspect` 模块分析函数签名，解析出所有依赖参数并构建有向无环图（DAG），按拓扑序依次解析执行。
+## 2. 资源生命周期与事务生命周期要分开
 
----
+带 `yield` 的依赖适合管理会话释放；**不要默认在 yield 之后 commit**，因为默认请求作用域可能在响应发送完成后才执行收尾。若提交失败，客户端可能已经拿到成功响应。
 
-## 2. 常见使用场景
-
-1. **安全校验与认证鉴权**（获取当前登录用户、解析 JWT Token、权限 RBAC 校验）。
-2. **共享数据库连接与事务上下文**（每请求一个 DB Session）。
-3. **通用分页与筛选参数复用**。
-4. **测试时的依赖替换（`app.dependency_overrides`）**：单测时用内存数据库或 Mock 用户秒级替换真实依赖。
-
----
-
-## 3. 带 yield 的依赖（上下文生命周期管理）
-
-利用生成器语法 `yield`，可以非常直观地实现「请求到达时初始化 -> 请求处理 -> 响应返回后清理资源」的完整闭环：
+下面使用 SQLAlchemy 2.x 的异步会话工厂，在路由的事务块正常退出时提交、异常时回滚；提交成功后才返回。安装示例依赖：`fastapi sqlalchemy aiosqlite`。
 
 ```python
+from collections.abc import AsyncIterator
 from fastapi import Depends, FastAPI
-from typing import AsyncGenerator
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-engine = create_async_engine("sqlite+aiosqlite:///./test.db")
-AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-
-# ★ 数据库 Session 依赖
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    async with AsyncSessionLocal() as session:
-        try:
-            yield session         # 注入给路由处理函数
-            await session.commit() # 正常处理则统一提交
-        except Exception:
-            await session.rollback() # 异常则自动回滚
-            raise
-        # 退出 async with 块时自动关闭会话
-
+engine = create_async_engine("sqlite+aiosqlite:///./example.db")
+SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 app = FastAPI()
+
+async def get_db() -> AsyncIterator[AsyncSession]:
+    async with SessionLocal() as session:
+        yield session
 
 @app.get("/users/{user_id}")
 async def read_user(user_id: int, db: AsyncSession = Depends(get_db)):
-    # 直接使用由框架安全注入的 db 实例
-    return {"user_id": user_id}
+    async with db.begin():
+        # 用 SELECT 演示无业务表依赖的可运行事务；写业务也在此边界内完成。
+        value = await db.scalar(text("SELECT :user_id"), {"user_id": user_id})
+    return {"user_id": value}
 ```
+
+## 3. 说明版本与 scope
+
+FastAPI 0.118.0 起，请求作用域 yield 依赖的退出时机重新放在响应发送之后，适配流式响应。0.121.0 起可显式选择 `Depends(get_db, scope="function")`，使退出发生在路由函数完成后、发送响应前；流式响应若仍需要会话则不能提前关闭。
+
+因此应根据安装版本、scope 与是否流式输出讨论时序，不把一种固定的中间件/依赖清理顺序当成全部版本的通则。
+
+参考：[高级依赖与 scope](https://fastapi.tiangolo.com/advanced/advanced-dependencies/)。

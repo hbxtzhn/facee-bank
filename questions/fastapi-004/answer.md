@@ -33,7 +33,7 @@ async def add_trace_and_timing(request: Request, call_next):
 
 ## 2. 全局统一异常捕获与标准化返回
 
-在生产企业级 API 开发中，绝不能直接把 500 堆栈抛给前端，而是应收拢为统一格式 `{code, message, data}`：
+全局响应体可以统一，但应保留有意义的 HTTP 状态码，便于客户端、代理和监控区分失败。下面的业务异常以冲突为例返回 409；参数错误示例自定义为 400（FastAPI 默认是 422）。
 
 ```python
 from fastapi import FastAPI, Request
@@ -50,7 +50,7 @@ class BusinessException(Exception):
 @app.exception_handler(BusinessException)
 async def business_exception_handler(request: Request, exc: BusinessException):
     return JSONResponse(
-        status_code=200,  # 业务码包裹在 JSON 中，HTTP 状态码返回 200
+        status_code=409,  # 示例：业务冲突；按语义选择 400/401/403/404/409 等状态码
         content={"code": exc.code, "message": exc.msg, "data": None}
     )
 

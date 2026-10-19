@@ -1,3 +1,5 @@
-## 追问 1：在 FastAPI 中定义 def 路由和 async def 路由，底层的调度线程模型有何不同？
+## 追问 1：def 与 async def 路由如何调度？
 
-若写 async def，FastAPI 直接在主事件循环中运行该协程；若写普通 def，FastAPI 判定其可能含有同步阻塞代码，会自动将其扔到内置的外部线程池（ThreadPoolExecutor）中执行，防止阻塞主事件循环。
+`async def` 路由在事件循环中执行，必须避免阻塞该线程。普通 `def` 路由及同步依赖由 Starlette/AnyIO 在线程池中执行，通常通过 `anyio.to_thread.run_sync` 调度；不能把它固定等同于某个 ThreadPoolExecutor 实例。自己在 async 路由里直接调用的普通工具函数不会因此自动转入线程池。
+
+参考：[Starlette 线程池](https://www.starlette.dev/threadpool/)。

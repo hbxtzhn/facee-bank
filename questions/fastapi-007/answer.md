@@ -1,61 +1,35 @@
-## 1. 传统 on_event 的历史缺陷
+## 1. 用 lifespan 将创建与释放放在一起
 
-在早期的 FastAPI / Starlette 中，管理生命周期采用事件监听器：
-```python
-# 传统写法（官方已正式弃用 Deprecated）
-@app.on_event("startup")
-async def startup_event():
-    # 初始化 DB
-    pass
+FastAPI 推荐使用 lifespan 上下文管理器；`on_event("startup")` / `on_event("shutdown")` 已弃用。统一上下文便于共享局部资源，也能用 `try/finally` 表达成对释放。不能把配置了 lifespan 后的旧事件处理器也默认算成会一起执行。
 
-@app.on_event("shutdown")
-async def shutdown_event():
-    # 关闭 DB
-    pass
-```
-
-### 痛点：
-1. **启动与清理割裂在两个独立函数中**：无法直接共享局部变量（例如启动时创建的引擎实例必须借用全局变量传递给关闭函数）；
-2. **异常回滚复杂**：若 startup 中途抛出异常，shutdown 不会被调用，可能导致前面已申请的连接或资源无法正常析构释放；
-3. **类型推导与测试不友好**：对 Starlette 的 ASGI 标准演进兼容较差。
-
----
-
-## 2. 现代推荐：lifespan 上下文管理器
-
-FastAPI 官方全面推荐使用 Python 标准库的 `@asynccontextmanager` 定义统一的 `lifespan`：
+下面使用当前 redis-py 的 `redis.asyncio`，不再使用已停止独立维护的 aioredis 包。
 
 ```python
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
-import aioredis
+from redis.asyncio import Redis
 
-# ★ 集中式生命周期上下文管理
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # ── [启动阶段] ── (yield 之前)
-    print(">>> 正在初始化系统：建立 Redis 连接池、预热 AI 大模型...")
-    redis = await aioredis.from_url("redis://localhost:6379")
-    app.state.redis = redis  # 挂载到应用全局状态
-    
-    yield  # ★ 此时应用启动成功，开始接收并处理客户端 HTTP 请求
-    
-    # ── [关闭阶段] ── (yield 之后，哪怕发生终止信号也会执行)
-    print("<<< 收到关闭信号：正在优雅关闭 Redis 连接池、flush 缓冲日志...")
-    await redis.close()
+    redis = Redis.from_url("redis://localhost:6379", decode_responses=True)
+    try:
+        await redis.ping()  # 启动前检查；失败也会进入 finally
+        app.state.redis = redis
+        yield
+    finally:
+        await redis.aclose()
 
-# 绑定生命周期
 app = FastAPI(lifespan=lifespan)
 
 @app.get("/ping")
 async def ping(request: Request):
-    # 路由中轻松获取全局就绪资源
-    redis = request.app.state.redis
-    val = await redis.ping()
-    return {"redis_ping": val}
+    return {"redis_ping": await request.app.state.redis.ping()}
 ```
 
-### 核心优势：
-- **逻辑高内聚**：资源的“创建”与“释放”写在同一个上下文里，成对出现，一清二楚；
-- **利用 Python 原生异常栈**：支持使用标准 `try...finally` 结构，保证关闭清理必定被执行；
-- **资源共享极简**：通过闭包作用域或 `app.state` 传递，告别全局脏变量。
+安装示例依赖 `fastapi redis`，运行需要 Redis；单元测试应替换为桩对象，不访问真实服务。`from_url` 创建客户端不需要 await；连接相关操作和 `aclose()` 需要 await。
+
+## 2. 清理不是任何故障下的绝对保证
+
+正常退出或被应用正确处理的异常会执行 finally；SIGKILL、进程崩溃和机器断电无法保证执行 Python 清理逻辑。初始化多个资源可配合 `AsyncExitStack`，在中途失败时释放之前已成功获取的资源。
+
+参考：[FastAPI lifespan](https://fastapi.tiangolo.com/advanced/events/)、[redis-py asyncio](https://redis.readthedocs.io/en/stable/examples/asyncio_examples.html)。
