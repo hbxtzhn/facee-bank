@@ -30,3 +30,9 @@
 | xingshaocheng/architect-awesome | 60.8k | 无 | 同上（且仅链接清单） |
 
 详见 FaceE 项目仓库 `docs/题库内容来源调研.md`。
+
+## v1.6.0 AgentHub 项目深挖（120 题）
+
+`questions/agenthub-001/` 至 `questions/agenthub-120/` 为本项目新增原创编写内容，随 CC-BY-4.0 提供。按经授权的简历项目描述与项目设计经验整理为通用场景，不复制私有源码、日志、个人资料和运维配置；私有材料不随仓库或发行包公开。
+
+TypeScript、Node.js、SQLite、Cloudflare、MDN 和 OWASP 官方资料用于核对通用机制与 API 边界，访问日期为 2026-10-30。具体题号、链接和核对范围见 [复习索引](docs/agenthub-interview-120.md#官方资料与核对范围)。官方文档不作为项目上线、个人贡献或性能指标的证明；扩展题不代表已有实现。未复制上游文档全文或私有软件源代码。
