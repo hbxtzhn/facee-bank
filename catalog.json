@@ -3,9 +3,9 @@
   "bank": {
     "id": "facee-bank",
     "name": "FaceE 面试题库",
-    "version": "1.6.0",
-    "updatedAt": "2026-10-30T12:17:50Z",
-    "description": "全栈与 Agent 工程面试题库：770 题，新增 AgentHub 项目深挖 120 题，覆盖模型容错、工具副作用、RAG、多租户、Cloudflare、可靠交付与故障排查。",
+    "version": "1.7.0",
+    "updatedAt": "2026-11-01T14:43:29Z",
+    "description": "全栈与 Agent 工程面试题库：750 题，包含 AgentHub 项目深度学习与追问 100 题。",
     "homepage": "https://github.com/HBxtzhn/facee-bank"
   },
   "categories": [
@@ -129,88 +129,11 @@
       "questionCount": 68
     },
     {
-      "id": "agenthub-architecture",
-      "name": "AgentHub · 项目架构与表达",
+      "id": "agenthub-project",
+      "name": "AgentHub · 项目面试",
       "order": 180,
-      "description": "项目定位、职责、架构边界和技术取舍",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-typescript",
-      "name": "AgentHub · TypeScript 与异步",
-      "order": 190,
-      "description": "类型、上下文、并发、取消与跨运行时接口",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-tools",
-      "name": "AgentHub · Agent 与工具执行",
-      "order": 200,
-      "description": "工具授权、执行证据、循环控制与协议适配",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-fallback",
-      "name": "AgentHub · 模型容错与副作用",
-      "order": 210,
-      "description": "安全重放、备用链、熔断与统一预算",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-delivery",
-      "name": "AgentHub · 取消与可靠交付",
-      "order": 220,
-      "description": "截止时间、代际、去重、ACK 与结果不明",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-search",
-      "name": "AgentHub · FTS5 与搜索",
-      "order": 230,
-      "description": "倒排索引、中文短词、查询约束和检索测试",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-rag",
-      "name": "AgentHub · RAG 与质量评测",
-      "order": 240,
-      "description": "前置检索、来源约束、评测与扩展方案",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-auth",
-      "name": "AgentHub · 权限与多租户",
-      "order": 250,
-      "description": "可信身份、群级授权、越权与生命周期",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-privacy",
-      "name": "AgentHub · 隐私与知识公开",
-      "order": 260,
-      "description": "落盘控制、审核、来源撤回和最小化采集",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-cloud",
-      "name": "AgentHub · Cloudflare 与分布式",
-      "order": 270,
-      "description": "Worker、DO、连接、D1 和真实运行时",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-data",
-      "name": "AgentHub · 数据迁移与发布",
-      "order": 280,
-      "description": "对象索引、对账、迁移、回滚与分发校验",
-      "questionCount": 10
-    },
-    {
-      "id": "agenthub-interview",
-      "name": "AgentHub · 排障与模拟面试",
-      "order": 290,
-      "description": "观测、故障测试、流式交付和项目深挖",
-      "questionCount": 10
+      "description": "围绕项目链路、检索、工具容错、权限、存储、排障和面试追问",
+      "questionCount": 100
     }
   ],
   "tags": [
@@ -8729,149 +8652,129 @@
       "followupCount": 2
     },
     {
-      "id": "agenthub-001",
-      "title": "如何用两分钟介绍一个多端 Agent 知识服务平台？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-architecture",
+      "id": "agenthub-v2-001",
+      "title": "为什么主模型报错后不能直接让备用模型重试？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10010,
       "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
+      "followupCount": 4,
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-002",
-      "title": "这个平台与普通聊天机器人相比，系统边界有什么不同？",
+      "id": "agenthub-v2-002",
+      "title": "网页问答为什么要在模型回答前先检索？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10020,
       "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
+      "followupCount": 3,
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-003",
-      "title": "如何区分 Agent 核心与 QQ、网页、Worker 等宿主能力？",
+      "id": "agenthub-v2-003",
+      "title": "多群系统如何防止普通成员使用管理员工具？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10030,
       "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
+      "followupCount": 3,
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-004",
-      "title": "为什么网页通道和私聊记忆范围不能使用同一个字段表达？",
+      "id": "agenthub-v2-004",
+      "title": "从用户发消息到获得回答，项目大致经过哪些步骤？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10040,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-005",
-      "title": "为什么不能仅凭对话量和知识条数评价项目价值？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-architecture",
+      "id": "agenthub-v2-005",
+      "title": "项目里的 Agent 和普通模型问答有什么区别？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10050,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-006",
-      "title": "为什么 Agent 在线问答和长时间后台任务适合采用不同执行方式？",
+      "id": "agenthub-v2-006",
+      "title": "为什么要把 Agent 核心和运行它的宿主分开？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10060,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-007",
-      "title": "如何让公开知识中的结论能够追溯到真实讨论？",
+      "id": "agenthub-v2-007",
+      "title": "工具的只读、外部只读、写入和未知分别是什么意思？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10070,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-008",
-      "title": "如何解释为什么先使用 FTS5，而不是直接建设向量数据库？",
+      "id": "agenthub-v2-008",
+      "title": "为什么一个只读工具失败后，项目仍会阻止备用模型重放？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10080,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-009",
-      "title": "怎样向面试官说明技术债和架构演进，而不把目标架构当成现状？",
+      "id": "agenthub-v2-009",
+      "title": "为什么项目要区分模型超时和工具执行慢？",
       "difficulty": "medium",
-      "categoryId": "agenthub-architecture",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10090,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-010",
-      "title": "如果群聊规模扩大十倍，你会如何判断先优化哪一层？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-architecture",
+      "id": "agenthub-v2-010",
+      "title": "模型尝试可以重试，为什么仍需要总时间预算？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "architecture",
-        "agent"
+        "agenthub"
       ],
       "order": 10100,
       "hasAnswer": true,
@@ -8879,149 +8782,129 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-011",
-      "title": "TypeScript 静态类型为什么不能替代工具参数的运行时校验？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-typescript",
+      "id": "agenthub-v2-011",
+      "title": "相同消息重新到达时，项目如何避免重复调用模型？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10110,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-012",
-      "title": "如何用可辨识联合类型建模 Agent 事件和投递结果？",
+      "id": "agenthub-v2-012",
+      "title": "FTS5 trigram 检索为什么可能查不到两个字的关键词？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10120,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-013",
-      "title": "为什么工具副作用声明适合绑定对象身份，而不是只绑定工具名称？",
+      "id": "agenthub-v2-013",
+      "title": "为什么检索时先做权限过滤，而不是让模型自己决定能不能看？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10130,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-014",
-      "title": "AsyncLocalStorage 如何隔离并发请求的身份和会话范围？",
+      "id": "agenthub-v2-014",
+      "title": "检索到的资料，为什么还要再判断相关性？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10140,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-015",
-      "title": "单线程 JavaScript 为什么仍然会出现竞态条件？",
+      "id": "agenthub-v2-015",
+      "title": "项目为什么要区分“检索命中”和“回答引用”？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10150,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-016",
-      "title": "Promise.all 和 Promise.allSettled 在工具并发中应该如何选择？",
+      "id": "agenthub-v2-016",
+      "title": "为什么要把检索内容标记为数据，而不是当成系统指令？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10160,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-017",
-      "title": "为什么 setTimeout 不能保证 Agent 恰好在指定时刻中止？",
+      "id": "agenthub-v2-017",
+      "title": "网页问答和群聊知识检索是同一条代码链吗？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10170,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-018",
-      "title": "如何防止 AbortSignal 监听器在多轮 Agent 调用中泄漏？",
+      "id": "agenthub-v2-018",
+      "title": "群聊历史和个人问答记忆有什么区别？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10180,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-019",
-      "title": "为什么跨 Node 和 Worker 的公共 SQL 接口应保持异步且精简？",
+      "id": "agenthub-v2-019",
+      "title": "使用私有知识后，为什么回答也需要带上私有标记？",
       "difficulty": "medium",
-      "categoryId": "agenthub-typescript",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10190,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-020",
-      "title": "如何设计可测试的时钟、模型、工具和宿主依赖？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-typescript",
+      "id": "agenthub-v2-020",
+      "title": "为什么不能让模型传入的 userId 或昵称决定权限？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "typescript",
-        "async-io"
+        "agenthub"
       ],
       "order": 10200,
       "hasAnswer": true,
@@ -9029,104 +8912,90 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-021",
-      "title": "Agent、普通模型调用和固定工作流有什么区别？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-tools",
+      "id": "agenthub-v2-021",
+      "title": "为什么同一条内容能在群里使用，却不一定能成为公开知识？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10210,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-022",
-      "title": "Function Calling 中模型和工具执行器各自负责什么？",
+      "id": "agenthub-v2-022",
+      "title": "D1、R2 和 Durable Object 在项目中分别承担什么？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10220,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-023",
-      "title": "怎样为不同角色构造最小工具集合？",
+      "id": "agenthub-v2-023",
+      "title": "为什么项目抽象异步 SQL 接口时，刻意不提供交互式事务？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10230,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-024",
-      "title": "如何设计 Agent 循环的停止条件？",
+      "id": "agenthub-v2-024",
+      "title": "为什么回答生成完成后，消息仍可能没有送达？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10240,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-025",
-      "title": "为什么外部网页和检索文本必须作为数据处理？",
+      "id": "agenthub-v2-025",
+      "title": "发送消息为什么要先写入投递意图？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10250,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-026",
-      "title": "工具结果过大时，如何避免挤爆上下文和掩盖重要证据？",
+      "id": "agenthub-v2-026",
+      "title": "迟到的 ACK 为什么不能触发再次发送？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10260,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-027",
-      "title": "怎样用执行状态区分模型请求、工具开始和工具完成？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-tools",
+      "id": "agenthub-v2-027",
+      "title": "为什么取消请求和撤销已经完成的外部动作不是一回事？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10270,
       "hasAnswer": true,
@@ -9134,44 +9003,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-028",
-      "title": "如何设计工具调用的错误分类和反馈？",
+      "id": "agenthub-v2-028",
+      "title": "上下文重置后的 epoch 是什么，解决什么问题？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10280,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-029",
-      "title": "模型提供商之间的工具协议差异应如何封装？",
+      "id": "agenthub-v2-029",
+      "title": "群会话记忆为什么要同时限制轮次数和内容大小？",
       "difficulty": "medium",
-      "categoryId": "agenthub-tools",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10290,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-030",
-      "title": "如何在 Agent 框架升级时守住业务约束？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-tools",
+      "id": "agenthub-v2-030",
+      "title": "项目如何记录一轮模型尝试，方便排查问题？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "tools"
+        "agenthub"
       ],
       "order": 10300,
       "hasAnswer": true,
@@ -9179,44 +9042,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-031",
-      "title": "为什么模型备用切换不能简单实现为 catch 后重新调用？",
+      "id": "agenthub-v2-031",
+      "title": "为什么主模型和备用模型的 token 用量要分开记？",
       "difficulty": "medium",
-      "categoryId": "agenthub-fallback",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10310,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-032",
-      "title": "只读、外部只读、写入和未知工具应该如何区分？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-fallback",
+      "id": "agenthub-v2-032",
+      "title": "记录详细 trace 为什么要设置长度上限和截断策略？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10320,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-033",
-      "title": "为什么后续成功的只读工具不能清除早先写工具的风险？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-fallback",
+      "id": "agenthub-v2-033",
+      "title": "审核模型返回格式错误时，为什么不能默认通过？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10330,
       "hasAnswer": true,
@@ -9224,14 +9081,12 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-034",
-      "title": "并行只读工具尚未全部结束时，为什么不能立刻切换模型？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-fallback",
+      "id": "agenthub-v2-034",
+      "title": "为什么工具副作用声明绑定工具对象，而不是只看名字？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10340,
       "hasAnswer": true,
@@ -9239,59 +9094,51 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-035",
-      "title": "为什么发送开始后，模型层应停止备用切换？",
+      "id": "agenthub-v2-035",
+      "title": "如果模型重复使用同一个工具调用 ID，会有什么风险？",
       "difficulty": "medium",
-      "categoryId": "agenthub-fallback",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10350,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-036",
-      "title": "模型故障、额度不足、认证失败和内容拒绝如何影响备用策略？",
+      "id": "agenthub-v2-036",
+      "title": "一次模型尝试结束后，迟到的工具完成通知为什么不能随意修改记录？",
       "difficulty": "medium",
-      "categoryId": "agenthub-fallback",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10360,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-037",
-      "title": "重试、备用模型、熔断和降级之间有什么区别？",
+      "id": "agenthub-v2-037",
+      "title": "项目为什么要对模型错误做分类，而不是统一显示原始异常？",
       "difficulty": "medium",
-      "categoryId": "agenthub-fallback",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10370,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-038",
-      "title": "如何设计熔断器的半开探测，避免恢复瞬间惊群？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-fallback",
+      "id": "agenthub-v2-038",
+      "title": "备用模型明明配置了，为什么仍可能没有被调用？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10380,
       "hasAnswer": true,
@@ -9299,29 +9146,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-039",
-      "title": "备用模型为什么还要检查上下文容量和最小剩余时间？",
+      "id": "agenthub-v2-039",
+      "title": "为什么需要分别记录工具“被通知”“开始执行”和“执行完成”？",
       "difficulty": "medium",
-      "categoryId": "agenthub-fallback",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10390,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-040",
-      "title": "为什么应用与 AI Gateway 的重试必须统一预算？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-fallback",
+      "id": "agenthub-v2-040",
+      "title": "一轮里用了私有资料，切换备用模型后这个标记会丢吗？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "agent",
-        "distributed"
+        "agenthub"
       ],
       "order": 10400,
       "hasAnswer": true,
@@ -9329,44 +9172,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-041",
-      "title": "为什么端到端截止时间比每层单独超时更重要？",
+      "id": "agenthub-v2-041",
+      "title": "如果两个请求同时竞争同一个状态，条件更新怎样避免重复成功？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10410,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-042",
-      "title": "AbortController 能否保证正在执行的工具停止并回滚？",
+      "id": "agenthub-v2-042",
+      "title": "网页检索为什么要给 FTS 查询词加引号并使用参数绑定？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10420,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-043",
-      "title": "上下文 epoch 如何阻止重置前的旧答案晚到发送？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-delivery",
+      "id": "agenthub-v2-043",
+      "title": "为什么网页问答遇到打招呼时可以跳过预检索？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10430,
       "hasAnswer": true,
@@ -9374,29 +9211,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-044",
-      "title": "如何区分模型无进展和工具执行较慢？",
+      "id": "agenthub-v2-044",
+      "title": "为什么群内个人记忆的作用域要同时包含群和用户？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10440,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-045",
-      "title": "消息发送超时为什么必须保留“结果不明”状态？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-delivery",
+      "id": "agenthub-v2-045",
+      "title": "群管理员能管理本群，为什么还要校验目标群参数？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10450,
       "hasAnswer": true,
@@ -9404,29 +9237,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-046",
-      "title": "如何区分消息准入去重和回答投递去重？",
+      "id": "agenthub-v2-046",
+      "title": "为什么管理操作只认本轮直接请求，不认引用消息里的命令？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10460,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-047",
-      "title": "迟到 ACK 应该更新哪些状态，为什么不能继续补发？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-delivery",
+      "id": "agenthub-v2-047",
+      "title": "如果群角色策略暂时读不到，为什么按普通成员处理？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10470,
       "hasAnswer": true,
@@ -9434,44 +9263,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-048",
-      "title": "长答案分段发送为什么会让交付正确性更复杂？",
+      "id": "agenthub-v2-048",
+      "title": "为什么“筛掉管理工具”和“工具执行时再次鉴权”需要同时考虑？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10480,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-049",
-      "title": "每群串行队列如何兼顾上下文一致性和跨群并发？",
+      "id": "agenthub-v2-049",
+      "title": "共享公开知识库开关和本群私有笔记是什么关系？",
       "difficulty": "medium",
-      "categoryId": "agenthub-delivery",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10490,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-050",
-      "title": "从外部平台收消息到发送回答，能否保证端到端 exactly-once？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-delivery",
+      "id": "agenthub-v2-050",
+      "title": "项目为什么不把任何一轮回答都写成可供后续检索的问答记忆？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "network"
+        "agenthub"
       ],
       "order": 10500,
       "hasAnswer": true,
@@ -9479,89 +9302,77 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-051",
-      "title": "FTS5 倒排索引与普通 B-tree 索引分别适合什么查询？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-search",
+      "id": "agenthub-v2-051",
+      "title": "用户能访问一条资料和它是否应该被引用，是同一个判断吗？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10510,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-052",
-      "title": "FTS5 trigram 为什么适合部分中文技术检索，又有哪些限制？",
+      "id": "agenthub-v2-052",
+      "title": "为什么管理工具需要验证参数，而不能完全相信 TypeScript 类型？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10520,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-053",
-      "title": "如何防止用户输入改变 FTS5 查询语法？",
+      "id": "agenthub-v2-053",
+      "title": "为什么群历史检索需要限制时间窗口和返回量？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10530,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-054",
-      "title": "为什么某些检索接口不适合用 LIKE 百分号包围关键词？",
+      "id": "agenthub-v2-054",
+      "title": "为什么 QQ 接入和群 Agent 处理要拆开？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10540,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-055",
-      "title": "只提取一个最长关键词作为检索词有什么取舍？",
+      "id": "agenthub-v2-055",
+      "title": "为什么路由连接和经常变化的业务代码要分开部署？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10550,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-056",
-      "title": "全文索引更新为什么必须与业务内容保持一致？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-search",
+      "id": "agenthub-v2-056",
+      "title": "接入事件的 ACK 和回答消息的 ACK 有什么区别？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10560,
       "hasAnswer": true,
@@ -9569,29 +9380,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-057",
-      "title": "BM25、召回和重排分别解决什么问题？",
+      "id": "agenthub-v2-057",
+      "title": "为什么输入事件可以重发，发送类动作却要对超时保守处理？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10570,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-058",
-      "title": "客户端传回“我刚才看过这些搜索结果”时为什么还要重新鉴权？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-search",
+      "id": "agenthub-v2-058",
+      "title": "群消息为什么需要保证同群顺序，又如何避免所有群互相等待？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10580,
       "hasAnswer": true,
@@ -9599,29 +9406,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-059",
-      "title": "两字关键词检索应如何避免退化成跨租户全表扫描？",
+      "id": "agenthub-v2-059",
+      "title": "为什么图片和大文件不能简单通过模型工具调用中的文本参数传递？",
       "difficulty": "medium",
-      "categoryId": "agenthub-search",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10590,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-060",
-      "title": "如何为项目设计一组可复现的检索回归用例？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-search",
+      "id": "agenthub-v2-060",
+      "title": "图片读取失败时，为什么要告诉模型“图片不可读”？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "database",
-        "rag"
+        "agenthub"
       ],
       "order": 10600,
       "hasAnswer": true,
@@ -9629,89 +9432,77 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-061",
-      "title": "一个完整的 RAG 问答链路包含哪些步骤？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-rag",
+      "id": "agenthub-v2-061",
+      "title": "群图片为什么在模型调用前就准备，而不是完全依赖模型调用看图工具？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10610,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-062",
-      "title": "为什么要在调用模型前做一次确定性的公开检索？",
+      "id": "agenthub-v2-062",
+      "title": "主模型和备用模型为什么要检查上下文长度与输入能力？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10620,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-063",
-      "title": "检索结果为什么不应该混入“最近聊天记录”区块？",
+      "id": "agenthub-v2-063",
+      "title": "为什么“已经配置某个模型”和“这个模型可调用”是两回事？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10630,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-064",
-      "title": "来源链接补充与引用真实性有什么区别？",
+      "id": "agenthub-v2-064",
+      "title": "为什么离线回归要覆盖失败场景，而不能只测正常回答？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10640,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-065",
-      "title": "如何处理过期知识和带时间边界的回答？",
+      "id": "agenthub-v2-065",
+      "title": "可控时钟在超时和队列测试里有什么用？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10650,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-066",
-      "title": "如何构建检索增强问答的离线评测集？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-rag",
+      "id": "agenthub-v2-066",
+      "title": "用模拟模型和模拟发送端做测试，能验证什么、不能验证什么？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10660,
       "hasAnswer": true,
@@ -9719,44 +9510,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-067",
-      "title": "Recall@K、MRR 与答案支持率分别说明什么？",
+      "id": "agenthub-v2-067",
+      "title": "怎样验证会话隔离，而不是只验证查询能返回数据？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10670,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-068",
-      "title": "无检索结果、检索失败和低相关结果应该如何区分？",
+      "id": "agenthub-v2-068",
+      "title": "离线测试怎样证明“发送结果未知时不重发正文”？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10680,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-069",
-      "title": "如果要扩展混合检索，如何比较关键词与向量召回？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-rag",
+      "id": "agenthub-v2-069",
+      "title": "如何从运行记录定位“没有触发备用模型”的原因？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10690,
       "hasAnswer": true,
@@ -9764,74 +9549,64 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-070",
-      "title": "如何设计 RAG 缓存键和撤回失效策略？",
+      "id": "agenthub-v2-070",
+      "title": "项目如何只记录必要元数据，同时减少正文进入某些采集路径？",
       "difficulty": "medium",
-      "categoryId": "agenthub-rag",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "rag",
-        "ai"
+        "agenthub"
       ],
       "order": 10700,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-071",
-      "title": "认证、授权、RBAC 和资源范围有什么区别？",
-      "difficulty": "easy",
-      "categoryId": "agenthub-auth",
+      "id": "agenthub-v2-071",
+      "title": "如何用历史耗时分析备用模型的时间预算？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10710,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-072",
-      "title": "为什么可信身份不能来自昵称、引用消息或转发内容？",
+      "id": "agenthub-v2-072",
+      "title": "简历中的参与人数和回答数量能证明回答质量吗？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10720,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-073",
-      "title": "本群管理员和全局维护者的权限边界如何设计？",
+      "id": "agenthub-v2-073",
+      "title": "项目复盘时，如何区分代码事实、线上事实和个人贡献？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10730,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-074",
-      "title": "如何防止 IDOR，即修改资源 ID 访问别人的内容？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-auth",
+      "id": "agenthub-v2-074",
+      "title": "项目里的知识条目和原始群聊有什么区别？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10740,
       "hasAnswer": true,
@@ -9839,29 +9614,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-075",
-      "title": "工具列表过滤和执行点鉴权为什么需要同时存在？",
+      "id": "agenthub-v2-075",
+      "title": "为什么知识条目要保留来源 ID？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10750,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-076",
-      "title": "TOCTOU 在长时间 Agent 调用中如何出现？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-auth",
+      "id": "agenthub-v2-076",
+      "title": "为什么已发布条目修改内容后，还要重新审核？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10760,
       "hasAnswer": true,
@@ -9869,59 +9640,51 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-077",
-      "title": "多租户隔离为什么需要贯穿记忆、队列、图片和缓存？",
+      "id": "agenthub-v2-077",
+      "title": "为什么知识条目要记录信息截至日期和可能过期？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10770,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-078",
-      "title": "群问答准入和群内容公开为什么必须独立配置？",
+      "id": "agenthub-v2-078",
+      "title": "精选内容、已发布内容和访客可见内容有什么关系？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10780,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-079",
-      "title": "Cookie、CSRF 与 CORS 在网页管理接口中分别解决什么问题？",
+      "id": "agenthub-v2-079",
+      "title": "内容来源被撤回后，为什么要检查依赖它的条目？",
       "difficulty": "medium",
-      "categoryId": "agenthub-auth",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10790,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-080",
-      "title": "如何设计多群权限回归矩阵？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-auth",
+      "id": "agenthub-v2-080",
+      "title": "审核隔离、审核拒绝和审核通过分别是什么？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "distributed"
+        "agenthub"
       ],
       "order": 10800,
       "hasAnswer": true,
@@ -9929,44 +9692,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-081",
-      "title": "为什么敏感数据要在进入持久化前控制，而不是写完再脱敏？",
+      "id": "agenthub-v2-081",
+      "title": "为什么知识条目的公开响应要重建字段，而不是直接返回数据库对象？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10810,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-082",
-      "title": "公开 DTO 为什么适合按白名单重建，而不是删除几个敏感字段？",
+      "id": "agenthub-v2-082",
+      "title": "为什么不能把网页访问范围直接映射成 QQ 私聊身份？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10820,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-083",
-      "title": "私有知识引用为什么会影响回答记录和后续公开资格？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-privacy",
+      "id": "agenthub-v2-083",
+      "title": "为什么项目需要分别理解原始聊天、审核候选和公开投影？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10830,
       "hasAnswer": true,
@@ -9974,29 +9731,25 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-084",
-      "title": "知识审核为什么需要独立于内容生成？",
+      "id": "agenthub-v2-084",
+      "title": "网页检索怎么从用户一整句话中选出查询词？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10840,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-085",
-      "title": "审核批次格式错误为什么应拆分隔离，而不是无限重试或默认通过？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-privacy",
+      "id": "agenthub-v2-085",
+      "title": "为什么一次预检索要限制候选条数？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10850,
       "hasAnswer": true,
@@ -10004,59 +9757,51 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-086",
-      "title": "来源撤回后，怎样处理派生条目、搜索索引和缓存？",
+      "id": "agenthub-v2-086",
+      "title": "没有检索结果时，模型还能回答吗？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10860,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-087",
-      "title": "化名为什么适合在响应生成时应用？",
+      "id": "agenthub-v2-087",
+      "title": "为什么检索资料里的链接也要做范围和格式检查？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10870,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-088",
-      "title": "埋点和可观测日志如何遵守数据最小化？",
+      "id": "agenthub-v2-088",
+      "title": "用户从站内搜索结果进入问答时，为什么还要重新查资料？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10880,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-089",
-      "title": "附件读取如何守住路径、大小和会话范围边界？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-privacy",
+      "id": "agenthub-v2-089",
+      "title": "为什么要对同一个来源去重，而不是重复塞进模型上下文？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10890,
       "hasAnswer": true,
@@ -10064,44 +9809,38 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-090",
-      "title": "怎样把私有项目经验整理成可公开的面试题？",
+      "id": "agenthub-v2-090",
+      "title": "多段回答为什么比单条消息更难确认送达？",
       "difficulty": "medium",
-      "categoryId": "agenthub-privacy",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "security",
-        "knowledge-base"
+        "agenthub"
       ],
       "order": 10900,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-091",
-      "title": "Workers、Durable Objects、D1 和 R2 在这类项目中如何分工？",
+      "id": "agenthub-v2-091",
+      "title": "为什么记录失败原因时要保留“未知”，而不是强行归类？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10910,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-092",
-      "title": "按群划分 Durable Object 为什么仍需要显式控制异步执行顺序？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-cloud",
+      "id": "agenthub-v2-092",
+      "title": "为什么模型拒绝回答不能简单归为服务不可用？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10920,
       "hasAnswer": true,
@@ -10109,89 +9848,77 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-093",
-      "title": "Durable Object 的内存状态为什么不能当作永久事实？",
+      "id": "agenthub-v2-093",
+      "title": "从本地数据库迁到 D1，为什么不能只复制文件然后切换开关？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10930,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-094",
-      "title": "路由协调器为什么不应该等待整轮模型生成结束？",
+      "id": "agenthub-v2-094",
+      "title": "如果面试官让你介绍项目，应该先讲清楚哪条业务主线？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10940,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-095",
-      "title": "WebSocket 心跳、重连退避和业务 ACK 分别解决什么问题？",
+      "id": "agenthub-v2-095",
+      "title": "面试官问“项目最难的点是什么”，如何讲模型容错？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10950,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-096",
-      "title": "WebSocket Hibernation 如何影响连接与状态管理？",
+      "id": "agenthub-v2-096",
+      "title": "用户反馈“问题有答案，但网页没有引用”，应该怎么排查？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10960,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-097",
-      "title": "事件至少一次与发送最多一次为什么可以同时存在？",
+      "id": "agenthub-v2-097",
+      "title": "群友反馈“机器人回答了两次”，应该怎样分析？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10970,
       "hasAnswer": true,
       "followupCount": 2,
-      "estimatedMinutes": 5
+      "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-098",
-      "title": "D1 原子 batch 如何与条件更新一起守住一次性消费？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-cloud",
+      "id": "agenthub-v2-098",
+      "title": "群用户说“我能看到别人的历史”，该如何判断问题范围？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10980,
       "hasAnswer": true,
@@ -10199,14 +9926,12 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-099",
-      "title": "D1 开启读副本后，如何理解读后写和会话一致性？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-cloud",
+      "id": "agenthub-v2-099",
+      "title": "如果要改进检索质量，应该先怎么验证问题，而不是直接上向量库？",
+      "difficulty": "medium",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 10990,
       "hasAnswer": true,
@@ -10214,316 +9939,14 @@
       "estimatedMinutes": 8
     },
     {
-      "id": "agenthub-100",
-      "title": "为什么 Node 单元测试通过后仍需要在 workerd 中验证？",
+      "id": "agenthub-v2-100",
+      "title": "面试官质疑“你们无法保证恰好一次”，应该如何理解这个边界？",
       "difficulty": "medium",
-      "categoryId": "agenthub-cloud",
+      "categoryId": "agenthub-project",
       "tags": [
-        "agenthub",
-        "distributed",
-        "architecture"
+        "agenthub"
       ],
       "order": 11000,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-101",
-      "title": "为什么完整会话日志适合放对象存储，索引摘要放关系数据库？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11010,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-102",
-      "title": "为什么读取对象存储列表必须处理分页？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11020,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-103",
-      "title": "内容同步为什么既需要增量差异，也需要定期对账？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11030,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-104",
-      "title": "如何防止上游读取失败被误认为批量删除？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11040,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-105",
-      "title": "从本地 SQLite 迁移到 D1，如何设计可回滚切换？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11050,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-106",
-      "title": "数据库变更为什么适合采用 expand-contract 思路？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11060,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-107",
-      "title": "UPSERT 和唯一约束如何帮助实现可恢复导入？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11070,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-108",
-      "title": "为什么回滚时必须保留发送账本和持久去重状态？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11080,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-109",
-      "title": "影子模式与灰度切换如何避免双发送？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11090,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-110",
-      "title": "题库发布为什么需要同时校验版本、目录和最终 ZIP？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-data",
-      "tags": [
-        "agenthub",
-        "database",
-        "engineering"
-      ],
-      "order": 11100,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-111",
-      "title": "Agent 系统的 trace 至少应该能回答哪些诊断问题？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11110,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-112",
-      "title": "如何用历史事件评估备用模型的时间分配？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11120,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-113",
-      "title": "如何定义 Agent 的 SLI、SLO 和错误预算？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11130,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-114",
-      "title": "如何设计覆盖重复写入和迟到回包的故障注入测试？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11140,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-115",
-      "title": "网页流式回答如何处理断开、终态和服务端取消？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11150,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-116",
-      "title": "排查“备用回答成功但出现两条公告”应该按什么顺序取证？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11160,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-117",
-      "title": "如何排查“搜索能命中，但回答没有使用知识库”？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11170,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-118",
-      "title": "如何回答“你遇到的最难故障是什么”，又不虚构事故经历？",
-      "difficulty": "medium",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11180,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 5
-    },
-    {
-      "id": "agenthub-119",
-      "title": "如果从零重做一次，你会保留什么，优先改什么？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11190,
-      "hasAnswer": true,
-      "followupCount": 2,
-      "estimatedMinutes": 8
-    },
-    {
-      "id": "agenthub-120",
-      "title": "如何在四十五分钟项目深挖中串起架构、难点和证据？",
-      "difficulty": "hard",
-      "categoryId": "agenthub-interview",
-      "tags": [
-        "agenthub",
-        "performance",
-        "practical"
-      ],
-      "order": 11200,
       "hasAnswer": true,
       "followupCount": 2,
       "estimatedMinutes": 8

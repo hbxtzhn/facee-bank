@@ -57,7 +57,7 @@ FaceE 题库（facee-bank）
 若需使用本仓库内容，请同时遵守 CC-BY-4.0 与 Apache-2.0 的要求：
 保留署名、许可证文本，并说明修改。
 
-5) v1.6.0 新增 AgentHub 项目深挖内容 —— questions/agenthub-001/ 至
-   questions/agenthub-120/，共 120 题：新增原创场景、答案、追问与复习索引，
-   按 CC-BY-4.0 提供，不归入 JavaGuide 改编内容。官方参考与边界说明见
-   docs/agenthub-interview-120.md 和 sources.md；不附带私有源码及原始资料。
+5) v1.7.0 AgentHub 项目学习内容 —— questions/agenthub-v2-001/ 至
+   questions/agenthub-v2-100/，共 100 题：按 CC-BY-4.0 提供，
+   不归入 JavaGuide 改编内容。项目材料的使用边界见 sources.md；
+   不附带私有源码及原始资料。
