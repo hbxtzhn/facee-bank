@@ -1,1 +1,0 @@
-核心: 资源导向设计。URL用名词复数表示资源(`/tickets`、`/tickets/{id}`)，HTTP方法表达动作(GET查/POST创/PUT全量更新/PATCH部分更新/DELETE删)。状态码规范: 200成功、201创建、204无内容、400参数错误、401未认证、403无权限、404不存在、500服务端错误。分页统一page/pageSize，返回total+hasMore。好的标准: URL可读性强、幂等性正确(GET/PUT/DELETE幂等，POST非幂等)、错误信息有业务含义。

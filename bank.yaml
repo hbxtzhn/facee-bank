@@ -1,0 +1,54 @@
+# FaceE 面试题库（规范 v2 编写格式）
+# 规范：https://github.com/HBxtzhn/facee/blob/main/docs/题库规范-v2-草案.md
+schemaVersion: 2
+bank:
+  id: github.com/hbxtzhn/facee-bank
+  name: FaceE 面试题库
+  version: 2.0.0
+  description: 全栈与 Agent 工程面试题库
+  locale: zh-CN
+  license: CC-BY-4.0
+  homepage: https://github.com/HBxtzhn/facee-bank
+  feedbackUrl: https://github.com/HBxtzhn/facee-bank/issues/new?template=content.yml&question={questionId}
+  update:
+    manifest: https://github.com/HBxtzhn/facee-bank/releases/latest/download/latest.json
+
+# 分类草案（14 个），细分交给标签
+categories:
+  - { id: java, name: Java 基础与集合, order: 10 }
+  - { id: java-concurrency, name: Java 并发, order: 20 }
+  - { id: jvm, name: JVM, order: 30 }
+  - { id: spring, name: Spring 生态, order: 40 }
+  - { id: python, name: Python, order: 50 }
+  - { id: frontend, name: 前端, order: 60 }
+  - { id: mysql, name: MySQL, order: 70 }
+  - { id: redis, name: Redis, order: 80 }
+  - { id: network, name: 网络与 HTTP, order: 90 }
+  - { id: os, name: 操作系统, order: 100 }
+  - { id: distributed, name: 分布式与微服务, order: 110 }
+  - { id: system-design, name: 系统设计, order: 120 }
+  - { id: ai-engineering, name: AI 应用工程, order: 130 }
+  - { id: project, name: 项目深挖, order: 140 }
+
+tags:
+  - { id: storage, name: 存储, parent: null }
+  - { id: redis, name: Redis, parent: storage }
+  - { id: memory, name: 内存, parent: redis }
+  - { id: concurrency, name: 并发, parent: null }
+  - { id: thread-pool, name: 线程池, parent: concurrency }
+  - { id: network, name: 网络, parent: null }
+  - { id: http, name: HTTP, parent: network }
+  - { id: frontend, name: 前端, parent: null }
+  - { id: upload, name: 文件上传, parent: frontend }
+  - { id: ai, name: AI, parent: null }
+  - { id: rag, name: RAG, parent: ai }
+  - { id: performance, name: 性能, parent: null }
+
+collections: []
+
+lifecycle:
+  removed: []
+  merged: {}
+
+release:
+  changes: 题库按规范 v2 重建。
