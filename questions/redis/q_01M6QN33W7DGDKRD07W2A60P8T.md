@@ -35,13 +35,14 @@ Redis 常被当作缓存使用，里面的数据只是数据库的「临时副�
 - **TTL**（Time To Live）：key 还能活多久，也是查询剩余时间的命令名。
 - **持久 key**：没设过期时间的 key，会一直保留，直到被显式删除。
 
-### 设置过期时间：两种写法
-- 先写入、再设过期：`SET code:13800000000 123456`，然后 `EXPIRE code:13800000000 300`；
-- 写入时一步完成：`SET code:13800000000 123456 EX 300`。
+### 设置过期时间：三类命令对比
+| 写法 | 时间含义 | 适合场景 |
+|---|---|---|
+| `SET key value EX 秒`（`PX` 为毫秒） | 从现在起多久 | 写入时一起设：缓存、验证码 |
+| `EXPIRE key 秒`（`PEXPIRE` 为毫秒） | 从现在起多久 | 给已有 key 设置或续期 |
+| `EXPIREAT key 时间戳`（`PEXPIREAT` 为毫秒） | 到某个时刻 | 固定时刻失效，如「今晚 0 点」 |
 
-推荐第二种：两条命令之间如果程序崩溃，key 就会永远不过期；一条命令要么全部成功、要么都不生效。
-
-要毫秒精度用 `PEXPIRE`；要指定「几点几分过期」用 `EXPIREAT`（Unix 时间戳）。
+写入新数据时优先用 `SET … EX`：如果先 `SET` 再 `EXPIRE`，两条命令之间程序崩溃，key 就会永远不过期；一条命令则不存在这个问题。
 
 ### 查看和取消
 - `TTL key`：返回剩余秒数。`-1` 表示 key 存在但没设过期，`-2` 表示 key 不存在。
@@ -56,11 +57,24 @@ Redis 常被当作缓存使用，里面的数据只是数据库的「临时副�
 - 过期时间以毫秒级 Unix 绝对时间戳保存。Redis 停机期间时间照样在走；把服务器时钟调快，key 也会提前过期。
 
 ## 示例
+小实验：验证上面几条规则（Redis 7.2 / 8.0 实测，`# →` 后是输出）：
+
 ```bash
-redis-cli SET code:13800000000 123456 EX 300   # 写入并设置 300 秒后过期
-redis-cli TTL code:13800000000                 # 剩余秒数
-redis-cli SET code:13800000000 654321          # 覆盖写入，过期时间被清掉
-redis-cli TTL code:13800000000                 # 返回 -1
+docker run -d --rm --name redis-lab redis:7.2
+rc() { docker exec redis-lab redis-cli "$@"; }
+
+rc SET code:1 123456 EX 300    # → OK
+rc TTL code:1                  # → 300
+rc SET code:1 654321           # → OK（整体覆盖写入）
+rc TTL code:1                  # → -1：过期时间被清掉了
+rc INCR counter                # → 1
+rc EXPIRE counter 300          # → 1
+rc INCR counter                # → 2
+rc TTL counter                 # → 300：INCR 不影响过期时间
+rc TTL nokey                   # → -2：key 不存在
+rc EXPIRE counter 0            # → 1
+rc EXISTS counter              # → 0：传 0 直接删除
+docker rm -f redis-lab
 ```
 
 ## 易错点

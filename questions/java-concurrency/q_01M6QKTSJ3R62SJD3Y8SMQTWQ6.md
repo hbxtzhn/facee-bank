@@ -58,23 +58,24 @@ estimatedMinutes: 5
 
 容易反直觉的是第 2、3 步：先排队，队列满了才加线程。所以如果队列没有上限，第 3 步永远不会发生，最大线程数设了等于没设。
 
-### 为什么不用 Executors 的工厂方法
-`Executors` 的工厂方法一行就能建好线程池，但它们都有一个「无上限」：
+### 方案对比：为什么生产环境自己构造
+| 方案 | 线程数 | 排队 | 适合 | 风险 |
+|---|---|---|---|---|
+| 自己 `new ThreadPoolExecutor` | 自己定上限 | 自己定有界队列 | 生产环境默认选择 | 参数要压测确定 |
+| `newFixedThreadPool` / `newSingleThreadExecutor` | 固定 | 无界 `LinkedBlockingQueue` | 任务量可控的小工具 | 任务堆积耗尽内存 |
+| `newCachedThreadPool` | 最多 `Integer.MAX_VALUE` | 不排队，直接交给线程 | 大量短小任务 | 线程无限增加 |
+| `newVirtualThreadPerTaskExecutor`（Java 21+） | 每任务一个虚拟线程 | 不排队 | 大量阻塞 IO | 需另行限流；计算密集型没有收益 |
 
-| 方法 | 无上限的部分 | 后果 |
-|---|---|---|
-| `newFixedThreadPool` / `newSingleThreadExecutor` | 队列（`LinkedBlockingQueue`） | 任务越积越多，耗尽内存 |
-| `newCachedThreadPool` | 线程数（`Integer.MAX_VALUE`） | 线程无限增加 |
-| `newScheduledThreadPool` | 延迟队列 | 任务越积越多 |
-
-自己调构造器把每个上限写清楚，出问题时是可控的拒绝，而不是整个服务挂掉。
+结论：生产环境默认自己构造 `ThreadPoolExecutor`，把每个上限写清楚，出问题时是可控的拒绝，而不是整个服务挂掉。Java 21 起，阻塞 IO 型任务可以考虑虚拟线程。
 
 ### 进阶：参数怎么定、虚拟线程（基础薄弱可先跳过）
 - 计算密集型任务：线程数接近 CPU 核数；IO 密集型任务：线程大多在等待，可以更多，具体数值靠压测确定。
 - 上线后监控 `getQueue().size()`、`getActiveCount()` 和拒绝次数；运行中可以调 `setCorePoolSize` / `setMaximumPoolSize` 修改。
-- Java 21 起，阻塞 IO 型任务可以用 `Executors.newVirtualThreadPerTaskExecutor()`，每个任务一个虚拟线程。JEP 444 说明虚拟线程不应池化；要限制并发数，用 `Semaphore`。
+- 虚拟线程：JEP 444 说明虚拟线程不应池化；要限制并发数（例如保护下游数据库），用 `Semaphore`。
 
 ## 示例
+生产环境的创建方式：
+
 ```java
 // 参数数值仅为示例，需按压测结果确定
 ThreadFactory factory = new ThreadFactory() {
@@ -103,6 +104,40 @@ if (!pool.awaitTermination(30, TimeUnit.SECONDS)) {
 }
 ```
 
+小实验：核心 2、最大 4、队列 2，连续提交 7 个不会结束的任务（JDK 21 实测，输出见末尾注释）：
+
+```java
+import java.util.concurrent.*;
+
+public class PoolOrderDemo {
+    public static void main(String[] args) {
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(
+                2, 4, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
+        CountDownLatch gate = new CountDownLatch(1); // 让任务一直占着线程
+        for (int i = 1; i <= 7; i++) {
+            try {
+                pool.execute(() -> {
+                    try { gate.await(); } catch (InterruptedException ignored) { }
+                });
+                System.out.printf("任务%d 已提交：线程数=%d，队列中=%d%n",
+                        i, pool.getPoolSize(), pool.getQueue().size());
+            } catch (RejectedExecutionException e) {
+                System.out.printf("任务%d 被拒绝：%s%n", i, e.getClass().getSimpleName());
+            }
+        }
+        gate.countDown();
+        pool.shutdown();
+    }
+}
+// 任务1 已提交：线程数=1，队列中=0    ← 新建核心线程
+// 任务2 已提交：线程数=2，队列中=0    ← 新建核心线程
+// 任务3 已提交：线程数=2，队列中=1    ← 核心满了，先排队
+// 任务4 已提交：线程数=2，队列中=2
+// 任务5 已提交：线程数=3，队列中=2    ← 队列满了，才加线程
+// 任务6 已提交：线程数=4，队列中=2
+// 任务7 被拒绝：RejectedExecutionException
+```
+
 ## 易错点
 - 以为线程数先涨到最大值再排队；实际是先排队，队列满了才继续创建线程
 - 用无界队列又设置了 maximumPoolSize，以为能扩容；实际最大线程数永远用不上
@@ -111,7 +146,7 @@ if (!pool.awaitTermination(30, TimeUnit.SECONDS)) {
 
 ## 追问
 ### [f1] 核心线程 2、最大线程 4、队列容量 2，同时提交 7 个长任务，第 7 个会怎样？
-第 1、2 个创建核心线程，第 3、4 个进入队列，第 5、6 个因队列满而新建线程，线程数达到 4。第 7 个时线程和队列都满了，被拒绝；默认 `AbortPolicy` 会抛出 `RejectedExecutionException`。
+第 1、2 个创建核心线程，第 3、4 个进入队列，第 5、6 个因队列满而新建线程，线程数达到 4。第 7 个时线程和队列都满了，被拒绝；默认 `AbortPolicy` 会抛出 `RejectedExecutionException`。可以运行示例中的小实验验证。
 
 ### [f2] JDK 内置了哪几种拒绝策略？
 - `AbortPolicy`：抛出 `RejectedExecutionException`，是默认策略；

@@ -13,6 +13,7 @@ references:
   - { title: "Redis 源码 src/expire.c（activeExpireCycle）", url: "https://github.com/redis/redis/blob/unstable/src/expire.c" }
   - { title: "Redis 5.0 源码 src/expire.c（旧版随机抽样）", url: "https://github.com/redis/redis/blob/5.0/src/expire.c" }
   - { title: "redis.conf（hz、active-expire-effort、maxmemory-policy、lazyfree）", url: "https://github.com/redis/redis/blob/unstable/redis.conf" }
+  - { title: "Redis 文档：DEBUG（仅调试用）", url: "https://redis.io/docs/latest/commands/debug/" }
   - { title: "Redis 文档：Replication · How Redis replication deals with expires on keys", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/" }
 reviewedAt: 2026-11-06
 estimatedMinutes: 4
@@ -58,6 +59,15 @@ serverCron 每次执行时，会做这样一轮清理：
 
 抽查而不是全查、设上限而不是查到底，是在「及时释放内存」和「不拖慢正常请求」之间取平衡。
 
+### 三种删除策略对比
+| 策略 | 什么时候删 | CPU 开销 | 内存占用 | Redis 用了吗 |
+|---|---|---|---|---|
+| 定时删除（每个 key 一个定时器） | 到期立刻删 | 最大，定时器多了挤占主线程 | 最省 | 没用 |
+| 惰性删除 | 被访问时 | 几乎为零 | 没人访问的过期 key 一直占着 | 用了 |
+| 定期删除 | 后台分批抽查 | 可控，有时间上限 | 大部分能及时释放 | 用了 |
+
+结论：Redis 放弃了最及时、但也最费 CPU 的定时删除，组合使用惰性删除和定期删除，在 CPU 和内存之间取折中。
+
 ### 两种都没删掉怎么办
 两种方式都可能有漏网的过期 key。内存用到 `maxmemory` 上限后，由 `maxmemory-policy`（内存淘汰策略）决定删谁，例如 `volatile-lru` 会在设了过期时间的 key 中淘汰最久没用的。注意默认策略是 `noeviction`：什么都不删，新的写命令直接报错。
 
@@ -79,12 +89,20 @@ serverCron 每次执行时，会做这样一轮清理：
 调高 `active-expire-effort` 会增加每批数量和时间预算，代价是更多 CPU 和延迟。
 
 ## 示例
+小实验：关掉定期删除，亲眼看到「过期了但还在内存里」（Redis 7.2 / 8.0 实测，`# →` 后是输出）：
+
 ```bash
-# 慢周期频率与清理力度
-redis-cli CONFIG GET hz
-redis-cli CONFIG GET active-expire-effort
-# expired_keys：累计过期删除数；expired_stale_perc：估算的残留过期 key 比例
-redis-cli INFO stats | grep -E 'expired_keys|expired_stale_perc|expired_time_cap_reached_count'
+# 启动一个临时 Redis；DEBUG 命令默认禁用，实验时打开
+docker run -d --rm --name redis-lab redis:7.2 redis-server --enable-debug-command yes
+rc() { docker exec redis-lab redis-cli "$@"; }
+
+rc DEBUG SET-ACTIVE-EXPIRE 0   # 关掉定期删除，只剩惰性删除（仅限实验）
+rc SET k v PX 100              # 100 毫秒后过期
+sleep 1
+rc DBSIZE                      # → 1：k 早已过期，但还在内存里
+rc GET k                       # → 空：访问时发现过期，当场删除
+rc DBSIZE                      # → 0
+docker rm -f redis-lab
 ```
 
 ## 易错点

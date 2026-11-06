@@ -47,23 +47,48 @@ Java 文档对线程池作用的概括是两点：
 
 此外，线程池还提供统计信息（例如已完成任务数），方便监控。
 
-### 进阶：虚拟线程（基础薄弱可先跳过）
-Java 21 引入了虚拟线程。它不和操作系统线程一一对应，创建成本很低，JEP 444 明确说明虚拟线程不应池化。所以对大量阻塞 IO 的任务，Java 21 起可以每个任务一个虚拟线程。计算密集型任务仍然用平台线程池。
+### 三种做法对比
+| 做法 | 线程从哪来 | 优点 | 缺点 | 适合 |
+|---|---|---|---|---|
+| 每个任务 `new Thread()` | 每次新建操作系统线程 | 写法最简单 | 开销大，数量失控 | 只跑一两次的小任务 |
+| 平台线程池 | 复用一组固定的线程 | 开销小，数量可控 | 要设计参数 | 绝大多数后端场景 |
+| 虚拟线程（Java 21+） | 每任务一个轻量线程 | 创建成本很低，适合大量等待 | 计算密集型没有收益 | 大量阻塞 IO 的任务 |
+
+结论：默认用线程池；Java 21 起，大量阻塞 IO 的任务可以考虑虚拟线程（JEP 444 明确说明虚拟线程不应池化）。
 
 ## 示例
-```java
-// 不推荐：每个任务一个新线程
-for (Order order : orders) {
-    new Thread(() -> handle(order)).start();
-}
+小实验：同样 100 个任务，看各自用了几个线程（JDK 21 实测，输出见末尾注释）：
 
-// 推荐：固定数量的线程复用执行（参数如何设置见「如何创建线程池」）
-ExecutorService pool = new ThreadPoolExecutor(
-        4, 4, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000));
-for (Order order : orders) {
-    pool.execute(() -> handle(order));
+```java
+import java.util.*;
+import java.util.concurrent.*;
+
+public class ReuseDemo {
+    public static void main(String[] args) throws Exception {
+        Set<String> names = ConcurrentHashMap.newKeySet(); // 记录用到了哪些线程
+
+        List<Thread> threads = new ArrayList<>();          // 方式一：每个任务新建线程
+        for (int i = 0; i < 100; i++) {
+            Thread t = new Thread(() -> names.add(Thread.currentThread().getName()));
+            t.start();
+            threads.add(t);
+        }
+        for (Thread t : threads) t.join();
+        System.out.println("每任务新建线程：100 个任务用了 " + names.size() + " 个线程");
+
+        names.clear();                                     // 方式二：4 个线程的线程池
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(
+                4, 4, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
+        for (int i = 0; i < 100; i++) {
+            pool.execute(() -> names.add(Thread.currentThread().getName()));
+        }
+        pool.shutdown();
+        pool.awaitTermination(10, TimeUnit.SECONDS);
+        System.out.println("线程池：100 个任务用了 " + names.size() + " 个线程");
+    }
 }
-pool.shutdown();
+// 每任务新建线程：100 个任务用了 100 个线程
+// 线程池：100 个任务用了 4 个线程
 ```
 
 ## 易错点
