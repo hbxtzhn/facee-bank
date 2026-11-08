@@ -5,7 +5,7 @@ type: concept
 difficulty: medium
 importance: 3
 category: redis
-tags: [redis, memory]
+tags: [expiration, replacement-policy]
 prerequisites: [q_01M6QN33W7DGDKRD07W2A60P8T]
 appliesTo: ["Redis >= 6.0"]
 source: { name: FaceE, license: CC-BY-4.0 }
@@ -76,7 +76,7 @@ serverCron 每次执行时，会做这样一轮清理：
 
 ### 进阶：源码与版本细节（基础薄弱可先跳过）
 - 惰性删除入口：`lookupKey` 中调用 `expireIfNeeded`。定期删除入口：`activeExpireCycle`。
-- 除了 serverCron 中的「慢周期」，每次事件循环的 `beforeSleep` 还会跑「快周期」：单次不超过 1000 微秒，只在上次慢周期超时退出、或估算的残留过期比例偏高时运行。
+- 除了 serverCron 中的「慢周期」，每次事件循环的 `beforeSleep` 还会跑「快周期」。快周期单次不超过 1000 微秒。它只在两种情况下运行：上次慢周期超时退出，或估算的残留过期比例偏高。
 - 版本差异：
 
 | 行为 | Redis 5 及以前 | Redis 6.0 及以后 |

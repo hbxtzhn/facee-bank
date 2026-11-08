@@ -5,7 +5,7 @@ type: concept
 difficulty: easy
 importance: 2
 category: redis
-tags: [redis]
+tags: [expiration]
 appliesTo: ["Redis >= 2.8", "EXPIRE 的 NX / XX / GT / LT 选项：Redis >= 7.0"]
 related: [q_01M6QKTSDZJXVNP4HHXN7MW771]
 source: { name: FaceE, license: CC-BY-4.0 }
@@ -42,7 +42,7 @@ Redis 常被当作缓存使用，里面的数据只是数据库的「临时副�
 | `EXPIRE key 秒`（`PEXPIRE` 为毫秒） | 从现在起多久 | 给已有 key 设置或续期 |
 | `EXPIREAT key 时间戳`（`PEXPIREAT` 为毫秒） | 到某个时刻 | 固定时刻失效，如「今晚 0 点」 |
 
-写入新数据时优先用 `SET … EX`：如果先 `SET` 再 `EXPIRE`，两条命令之间程序崩溃，key 就会永远不过期；一条命令则不存在这个问题。
+结论：写入新数据时优先用 `SET … EX`。如果先 `SET` 再 `EXPIRE`，两条命令之间程序崩溃，key 就会永远不过期；一条命令则不存在这个问题。
 
 ### 查看和取消
 - `TTL key`：返回剩余秒数。`-1` 表示 key 存在但没设过期，`-2` 表示 key 不存在。

@@ -1,0 +1,16 @@
+# 题目清单示例：node scripts/gen.mjs --plan plans/example.yaml
+#
+# model  调用 pi 时的 --model，可被命令行 --model 覆盖
+# items  每项一道题：
+#   title     题目标题（已存在于题库的会跳过）
+#   category  取自 bank.yaml categories
+#   level     basic 基础题 / interview 面试题
+#   type      可选：concept / scenario / coding / design / behavioral / choice
+#   note      可选：给生成者的补充说明，如「侧重 InnoDB」
+
+model: magpie/workbuddy/deepseek-v4.1-flash
+
+items:
+  - title: MySQL 联合索引的最左前缀原则是什么？
+    category: mysql
+    level: interview

@@ -31,18 +31,1350 @@ categories:
   - { id: project, name: 项目深挖, order: 140 }
 
 tags:
-  - { id: storage, name: 存储, parent: null }
-  - { id: redis, name: Redis, parent: storage }
-  - { id: memory, name: 内存, parent: redis }
-  - { id: concurrency, name: 并发, parent: null }
-  - { id: thread-pool, name: 线程池, parent: concurrency }
-  - { id: network, name: 网络, parent: null }
-  - { id: http, name: HTTP, parent: network }
-  - { id: frontend, name: 前端, parent: null }
-  - { id: upload, name: 文件上传, parent: frontend }
-  - { id: ai, name: AI, parent: null }
-  - { id: rag, name: RAG, parent: ai }
-  - { id: performance, name: 性能, parent: null }
+  - id: language-runtime
+    name: 语言与运行时
+    parent: null
+    description: 包括面向对象、语言类型、对象方法、异常、反射、字节码执行与类加载；不包括内存与 GC（见 memory-management）、并发（见 concurrency）
+    aliases:
+      - 语言基础
+      - 编程语言
+      - 运行时
+  - id: oop
+    name: 面向对象
+    parent: language-runtime
+    description: 包括类与对象、封装、继承、多态、方法重载与重写、抽象类与接口、构造方法、this、static；不包括对象拷贝与 equals/hashCode（见 object-methods）
+    aliases:
+      - 封装
+      - 继承
+      - 多态
+      - 重载
+      - 重写
+      - Overload
+      - Override
+      - 抽象类
+      - 接口
+      - static
+      - this
+  - id: type-system
+    name: 语言数据类型
+    parent: language-runtime
+    description: 包括编程语言内置类型：Java 基本/引用/包装类型、自动装箱、泛型、String 不可变与 StringBuilder/StringBuffer；不包括 Redis 的数据类型（见 redis-data-types）
+    aliases:
+      - 基本数据类型
+      - 引用类型
+      - 包装类
+      - 自动装箱
+      - 拆箱
+      - 泛型
+      - Java String
+      - StringBuilder
+      - StringBuffer
+  - id: object-methods
+    name: 对象拷贝与相等
+    parent: language-runtime
+    description: 包括 Object 的 clone（浅拷贝/深拷贝）、equals 与 hashCode 及其重写约定；不包括哈希表结构（见 hash-table）
+    aliases:
+      - 深拷贝
+      - 浅拷贝
+      - clone
+      - Cloneable
+      - equals
+      - hashCode
+  - id: exception
+    name: 异常处理
+    parent: language-runtime
+    description: 包括异常分类（Error/受检/运行时）、throw/throws、try-catch，以及异常对事务回滚的影响；不包括事务失效的其他原因（见 transaction-management）
+    aliases:
+      - 异常
+      - Error
+      - 受检异常
+      - RuntimeException
+      - try-catch
+      - throws
+  - id: reflection
+    name: 反射
+    parent: language-runtime
+    description: 包括反射的用法与原理（Class 对象、Method.invoke），以及框架用反射创建对象、映射属性；不包括动态代理（见 dynamic-proxy）
+    aliases:
+      - Class 对象
+      - Method.invoke
+  - id: bytecode-execution
+    name: 字节码与执行引擎
+    parent: language-runtime
+    description: 包括平台无关性、JDK/JRE/JVM 关系、字节码、解释执行与 JIT 编译；不包括类加载过程（见 class-loading）
+    aliases:
+      - 字节码
+      - JIT
+      - 即时编译
+      - 解释执行
+      - 跨平台
+      - JDK
+      - JRE
+  - id: class-loading
+    name: 类加载
+    parent: language-runtime
+    description: 包括类加载的阶段、类加载器、双亲委派及打破方式；不包括对象创建与内存分配（见 memory-area）
+    aliases:
+      - 类加载器
+      - 双亲委派
+      - ClassLoader
+      - 加载链接初始化
+  - id: memory-management
+    name: 内存管理
+    parent: null
+    description: 包括运行时内存区域与对象分配、垃圾回收、OOM 与性能排查、操作系统虚拟内存；不包括缓存淘汰与页面置换算法（见 replacement-policy）
+    aliases:
+      - 内存
+  - id: memory-area
+    name: 内存区域与对象分配
+    parent: memory-management
+    description: 包括堆、栈、程序计数器、方法区、常量池、直接内存及版本变化，以及 new 对象过程、Eden/Survivor 分配、晋升老年代、逃逸分析；不包括回收算法（见 gc-algorithm）
+    aliases:
+      - 运行时数据区
+      - 堆
+      - 栈
+      - 方法区
+      - 元空间
+      - 程序计数器
+      - 直接内存
+      - 对象创建
+      - 晋升
+      - 逃逸分析
+      - TLAB
+  - id: gc-algorithm
+    name: 垃圾回收基础
+    parent: memory-management
+    description: 包括垃圾判定（可达性、GC Roots）、回收算法、分代回收、Minor/Full GC 触发、四种引用；不包括具体收集器（见 gc-collector）
+    aliases:
+      - GC
+      - 垃圾回收
+      - GC Roots
+      - 可达性分析
+      - 标记清除
+      - 复制算法
+      - 标记整理
+      - 分代回收
+      - Minor GC
+      - Full GC
+      - 强软弱虚引用
+  - id: gc-collector
+    name: 垃圾收集器
+    parent: memory-management
+    description: 包括 Serial、Parallel、CMS、G1 等收集器的流程、STW、Mixed GC 与选型；不包括通用回收算法（见 gc-algorithm）
+    aliases:
+      - CMS
+      - G1
+      - ZGC
+      - Serial
+      - Parallel
+      - STW
+      - Stop-The-World
+      - Mixed GC
+  - id: performance-diagnosis
+    name: OOM 与性能排查
+    parent: memory-management
+    description: 包括 OOM 类型、内存泄漏成因与排查、JVM 调优参数、诊断工具、Heap Dump、频繁 GC 与 CPU 飙高排查；不包括慢 SQL（见 sql-optimization）、热 key/大 key（见 hot-big-key）
+    aliases:
+      - OOM
+      - OutOfMemoryError
+      - 内存溢出
+      - 内存泄漏
+      - JVM 调优
+      - jstack
+      - jmap
+      - Arthas
+      - Heap Dump
+      - CPU 飙高
+  - id: virtual-memory
+    name: 虚拟内存与分页
+    parent: memory-management
+    description: 包括虚拟/物理地址、分段与分页、页表与多级页表、TLB、swap、缺页中断、写时复制；不包括页面置换算法（见 replacement-policy）
+    aliases:
+      - 虚拟内存
+      - 虚拟地址
+      - 内存分页
+      - 分段
+      - 页表
+      - 多级页表
+      - TLB
+      - 快表
+      - swap
+      - 缺页中断
+      - 写时复制
+      - COW
+  - id: concurrency
+    name: 并发控制
+    parent: null
+    description: 包括线程使用、线程安全与同步原语、内存可见性、各类锁与原子操作、死锁及分布式锁；不包括事务隔离（见 transaction）
+    aliases:
+      - 并发
+      - 多线程
+  - id: thread-basics
+    name: 线程基础与协作
+    parent: concurrency
+    description: 包括线程创建方式与对比、sleep/yield/join、中断、wait/notify、Condition、管道流等线程间协作；不包括进程间通信（见 ipc）、OS 线程实现（见 thread-model）
+    aliases:
+      - 线程创建
+      - Thread
+      - Runnable
+      - Callable
+      - sleep
+      - Thread.join
+      - interrupt
+      - wait
+      - notify
+      - Condition
+      - 线程通信
+  - id: thread-pool
+    name: 线程池
+    parent: concurrency
+    description: 包括线程池作用、核心参数、任务提交流程、阻塞队列、拒绝策略、状态与关闭；不包括线程本身的创建（见 thread-basics）
+    aliases:
+      - ThreadPoolExecutor
+      - 线程池参数
+      - 核心线程数
+      - 拒绝策略
+      - 阻塞队列
+  - id: thread-safety
+    name: 线程安全与同步原语
+    parent: concurrency
+    description: 包括共享数据为何出错、线程安全的含义与单例 Bean 等场景，以及临界区、互斥锁、自旋锁、信号量、PV 操作等通用同步原语；不包括 Java 具体锁实现（见 synchronized、aqs）
+    aliases:
+      - 线程安全
+      - 竞态条件
+      - 临界区
+      - 互斥锁
+      - Mutex
+      - 信号量
+      - Semaphore
+      - PV 操作
+      - 自旋锁
+  - id: thread-local
+    name: ThreadLocal
+    parent: concurrency
+    description: 包括 ThreadLocal 用法、ThreadLocalMap 结构、弱引用与内存泄漏、父子线程传递；不包括一般内存泄漏（见 performance-diagnosis）
+    aliases:
+      - ThreadLocalMap
+      - InheritableThreadLocal
+      - 线程本地变量
+  - id: memory-model
+    name: 内存模型与 volatile
+    parent: concurrency
+    description: 包括 JMM、原子性/可见性/有序性、指令重排序、happens-before、volatile 及内存屏障；不包括锁的实现（见 synchronized）
+    aliases:
+      - JMM
+      - Java 内存模型
+      - 可见性
+      - 有序性
+      - 指令重排
+      - happens-before
+      - volatile
+      - 内存屏障
+  - id: synchronized
+    name: synchronized
+    parent: concurrency
+    description: 包括 synchronized 用法、monitor、锁升级（偏向/轻量/重量级）及与 ReentrantLock 对比；不包括 AQS 系列锁（见 aqs）
+    aliases:
+      - monitor
+      - 锁升级
+      - 偏向锁
+      - 轻量级锁
+      - 重量级锁
+      - Mark Word
+  - id: aqs
+    name: AQS 与显式锁
+    parent: concurrency
+    description: 包括 AQS 原理、ReentrantLock、可重入、公平/非公平锁；不包括 synchronized（见 synchronized）、CAS（见 atomic-operation）
+    aliases:
+      - ReentrantLock
+      - 可重入锁
+      - 公平锁
+      - 非公平锁
+      - Lock
+  - id: atomic-operation
+    name: 原子操作与 CAS
+    parent: concurrency
+    description: 包括 CAS 原理、ABA、自旋开销、原子类，以及 Redis INCR、Lua 脚本、MULTI/EXEC 等把多步操作做成不可打断的手段；不包括乐观/悲观锁的选型（见 optimistic-pessimistic-lock）
+    aliases:
+      - CAS
+      - Compare And Swap
+      - ABA
+      - AtomicInteger
+      - 原子类
+      - 原子递增
+      - INCR
+      - Lua 脚本
+      - 操作原子性
+  - id: optimistic-pessimistic-lock
+    name: 乐观锁与悲观锁
+    parent: concurrency
+    description: 包括乐观锁与悲观锁的思想、实现（版本号、CAS、SELECT … FOR UPDATE）与场景选择；不包括 CAS 细节（见 atomic-operation）
+    aliases:
+      - 乐观锁
+      - 悲观锁
+      - 版本号
+      - FOR UPDATE
+  - id: lock-modes
+    name: 锁模式与锁粒度
+    parent: concurrency
+    description: 包括共享锁/排他锁、读写锁（含 Redisson 读写锁）、意向锁、表锁与行锁、记录锁、间隙锁、临键锁、插入意向锁；不包括死锁（见 deadlock）
+    aliases:
+      - 共享锁
+      - 排他锁
+      - 读写锁
+      - 意向锁
+      - 表锁
+      - 行锁
+      - 记录锁
+      - 间隙锁
+      - Next-Key Lock
+      - 插入意向锁
+  - id: deadlock
+    name: 死锁
+    parent: concurrency
+    description: 包括死锁概念、四个必要条件、避免与排查（线程与数据库），以及饥饿、活锁；不包括一般锁的实现（见 aqs、lock-modes）
+    aliases:
+      - 活锁
+      - 饥饿
+      - 死锁排查
+  - id: distributed-lock
+    name: 分布式锁
+    parent: concurrency
+    description: 包括分布式锁需求、SET NX、续期与看门狗、Redisson 实现、主从切换问题、RedLock、ZooKeeper 锁；不包括单机锁（见 aqs、synchronized）
+    aliases:
+      - SET NX
+      - Redisson
+      - 看门狗
+      - watch dog
+      - RedLock
+      - 红锁
+  - id: transaction
+    name: 事务
+    parent: null
+    description: 包括事务特性、隔离与 MVCC、框架中的事务管理、分布式事务；不包括锁的实现（见 concurrency）
+  - id: transaction-basics
+    name: 事务基础
+    parent: transaction
+    description: 包括 ACID 含义与保障方式、存储引擎对事务的支持、Redis 事务（MULTI/EXEC）的语义；不包括隔离级别（见 isolation-mvcc）
+    aliases:
+      - ACID
+      - 事务原子性
+      - 一致性
+      - 持久性
+      - MULTI
+      - EXEC
+  - id: isolation-mvcc
+    name: 隔离级别与 MVCC
+    parent: transaction
+    description: 包括四种隔离级别、脏读/不可重复读/幻读、隔离实现、MVCC 版本链、ReadView 与可见性判断；不包括间隙锁等锁（见 lock-modes）
+    aliases:
+      - 隔离级别
+      - 脏读
+      - 不可重复读
+      - 幻读
+      - 读已提交
+      - 可重复读
+      - MVCC
+      - ReadView
+      - 版本链
+      - 快照读
+  - id: transaction-management
+    name: 事务管理与失效
+    parent: transaction
+    description: 包括声明式/编程式事务、@Transactional、传播行为、代理创建时机、事务管理器、MyBatis 提交，以及异常被吞、自调用等失效场景；不包括数据库隔离实现（见 isolation-mvcc）
+    aliases:
+      - "@Transactional"
+      - 声明式事务
+      - 编程式事务
+      - 事务传播
+      - REQUIRED
+      - REQUIRES_NEW
+      - 事务失效
+      - 事务不回滚
+  - id: distributed-transaction
+    name: 分布式事务
+    parent: transaction
+    description: 包括 2PC、TCC、事务消息、Exactly Once，以及 redo log 与 binlog 的两阶段提交思路；不包括消息幂等（见 idempotency）
+    aliases:
+      - 2PC
+      - 两阶段提交
+      - TCC
+      - 事务消息
+      - Seata
+      - 最终一致
+  - id: persistence
+    name: 持久化与日志
+    parent: null
+    description: 包括内存数据落盘、数据库日志与崩溃恢复、消息落盘；不包括主从复制（见 replication）
+    aliases:
+      - 持久化
+      - 落盘
+      - 日志
+  - id: rdb-aof
+    name: RDB 与 AOF
+    parent: persistence
+    description: 包括 RDB 快照与 bgsave、AOF 记录/重写/同步策略、两者对比与重启恢复；不包括通用刷盘原理（见 flush-to-disk）
+    aliases:
+      - RDB
+      - AOF
+      - 快照
+      - bgsave
+      - bgrewriteaof
+      - appendfsync
+  - id: database-log
+    name: 数据库日志
+    parent: persistence
+    description: 包括 redo log、undo log、binlog 的作用与区别，UPDATE 执行中的写日志过程；不包括刷盘时机细节（见 flush-to-disk）、主从复制流程（见 replication）
+    aliases:
+      - redo log
+      - undo log
+      - binlog
+      - WAL
+      - 重做日志
+      - 回滚日志
+      - 二进制日志
+  - id: flush-to-disk
+    name: 刷盘策略
+    parent: persistence
+    description: 包括页缓存与 fsync、何时真正落盘，以及 redo log、AOF、MQ Broker 的刷盘策略与顺序写；不包括各日志本身（见 database-log、rdb-aof）
+    aliases:
+      - 刷盘
+      - fsync
+      - Page Cache
+      - 同步刷盘
+      - 异步刷盘
+      - 顺序写
+  - id: index
+    name: 索引
+    parent: null
+    description: 包括索引结构、聚簇与二级索引、索引设计与失效；不包括执行计划与慢查询（见 sql-optimization）
+  - id: index-structure
+    name: 索引结构与类型
+    parent: index
+    description: 包括索引原理、索引类型、哈希索引、B+ 树及与 B 树的对比、建删索引；不包括聚簇/二级索引存储（见 clustered-index）
+    aliases:
+      - 索引类型
+      - B+ 树
+      - B 树
+      - 哈希索引
+      - 主键索引
+      - 唯一索引
+      - 页分裂
+  - id: clustered-index
+    name: 聚簇索引与回表
+    parent: index
+    description: 包括聚簇/二级索引的存储、回表、覆盖索引；不包括联合索引规则（见 index-design）
+    aliases:
+      - 聚簇索引
+      - 非聚簇索引
+      - 二级索引
+      - 回表
+      - 覆盖索引
+  - id: index-design
+    name: 索引设计与失效
+    parent: index
+    description: 包括选列、索引数量、主键选择、前缀索引、联合索引与最左前缀、索引下推、索引失效场景；不包括索引结构（见 index-structure）
+    aliases:
+      - 建索引原则
+      - 前缀索引
+      - 联合索引
+      - 最左前缀
+      - 索引下推
+      - ICP
+      - 索引失效
+  - id: sql-query
+    name: SQL 与查询优化
+    parent: null
+    description: 包括 SQL 语法、存储引擎与执行流程、慢查询与写法优化、分页；不包括索引本身（见 index）
+    aliases:
+      - SQL
+      - 查询优化
+  - id: sql-basics
+    name: SQL 基础语法
+    parent: sql-query
+    description: 包括建库建表、JOIN、子查询、UNION 等基本写法；不包括性能优化（见 sql-optimization）
+    aliases:
+      - DDL
+      - DML
+      - SQL JOIN
+      - 子查询
+      - UNION
+      - 建表
+  - id: query-execution
+    name: 存储引擎与执行流程
+    parent: sql-query
+    description: 包括存储引擎及 InnoDB/MyISAM 对比、Server 层与引擎层、SELECT/UPDATE 执行流程、ORDER BY 排序过程；不包括执行计划分析（见 sql-optimization）
+    aliases:
+      - 存储引擎
+      - InnoDB
+      - MyISAM
+      - 执行流程
+      - 优化器
+      - 执行器
+      - filesort
+  - id: sql-optimization
+    name: 慢查询与 SQL 优化
+    parent: sql-query
+    description: 包括 EXPLAIN、慢查询定位与监控、SELECT *、子查询与 JOIN 优化、小表驱动大表、N+1 等 SQL 写法问题；不包括分页（见 pagination）
+    aliases:
+      - EXPLAIN
+      - 执行计划
+      - 慢查询
+      - 慢 SQL
+      - SQL 优化
+      - 小表驱动大表
+      - JOIN 优化
+  - id: pagination
+    name: 分页查询
+    parent: sql-query
+    description: 包括 LIMIT/OFFSET、深分页优化（延迟关联、书签）、内存分页与物理分页、PageHelper；不包括一般 SQL 优化（见 sql-optimization）
+    aliases:
+      - LIMIT
+      - OFFSET
+      - 深分页
+      - PageHelper
+      - RowBounds
+  - id: data-access
+    name: 数据访问与 ORM
+    parent: null
+    description: 包括 JDBC、连接池、ORM 框架的使用与原理；不包括 IoC/AOP 等通用框架机制（见 framework）
+    aliases:
+      - 持久层
+      - 数据访问
+  - id: orm
+    name: ORM 与 JDBC
+    parent: data-access
+    description: 包括 ORM 概念、JDBC、连接池、MyBatis 半自动特点、与 Hibernate 对比、MyBatis-Plus；不包括 MyBatis 内部执行（见 mybatis-internals）
+    aliases:
+      - JDBC
+      - 连接池
+      - MyBatis
+      - Hibernate
+      - MyBatis-Plus
+      - JPA
+  - id: mybatis-internals
+    name: MyBatis 执行原理
+    parent: data-access
+    description: 包括 SqlSessionFactory/SqlSession 生命周期与构建、Mapper 接口与映射文件、MapperProxy 调用链、Executor 与批处理、四大 Handler、Spring 整合；不包括参数/结果映射规则（见 sql-mapping）
+    aliases:
+      - SqlSession
+      - SqlSessionFactory
+      - SqlSessionTemplate
+      - Mapper
+      - MapperProxy
+      - MapperMethod
+      - MyBatis Executor
+      - BatchExecutor
+      - StatementHandler
+  - id: sql-mapping
+    name: 参数与结果映射
+    parent: data-access
+    description: 包括多参数与 @Param、#{} 与 ${}（SQL 注入）、LIKE 写法、主键回填、resultMap、驼峰映射、TypeHandler、鉴别器；不包括关联映射（见 association-mapping）
+    aliases:
+      - "#{}"
+      - ${}
+      - "@Param"
+      - SQL 注入
+      - resultMap
+      - TypeHandler
+      - 驼峰映射
+      - useGeneratedKeys
+  - id: dynamic-sql
+    name: 动态 SQL
+    parent: data-access
+    description: 包括 if/choose/trim/where/set/foreach、sql 片段复用、OGNL 取值；不包括参数传递（见 sql-mapping）
+    aliases:
+      - foreach
+      - where
+      - trim
+      - choose
+      - OGNL
+      - include
+  - id: association-mapping
+    name: 关联映射与延迟加载
+    parent: data-access
+    description: 包括一对一/一对多/多对多映射、嵌套查询与嵌套结果、N+1、延迟加载及其代理实现与配置；不包括普通结果映射（见 sql-mapping）
+    aliases:
+      - association
+      - collection
+      - 嵌套查询
+      - 嵌套结果
+      - N+1
+      - 延迟加载
+      - 懒加载
+      - fetchType
+  - id: framework
+    name: 框架机制
+    parent: null
+    description: 包括 IoC、Bean、AOP、动态代理、MVC、配置、插件拦截、设计模式；不包括数据访问细节（见 data-access）
+    aliases:
+      - 框架原理
+      - 框架核心
+  - id: ioc-di
+    name: IoC 与依赖注入
+    parent: framework
+    description: 包括控制反转、注入方式、ApplicationContext、组件注册与 @Autowired、Mapper 等对象注入容器；不包括 Bean 生命周期（见 bean-lifecycle）
+    aliases:
+      - IoC
+      - DI
+      - 控制反转
+      - 依赖注入
+      - ApplicationContext
+      - "@Autowired"
+      - "@Component"
+  - id: bean-lifecycle
+    name: Bean 生命周期与循环依赖
+    parent: framework
+    description: 包括 Bean 生命周期、作用域、代理创建时机、循环依赖与三级缓存；不包括注入方式（见 ioc-di）
+    aliases:
+      - Bean 生命周期
+      - 作用域
+      - scope
+      - BeanPostProcessor
+      - 循环依赖
+      - 三级缓存
+  - id: aop
+    name: AOP
+    parent: framework
+    description: 包括切面、连接点、切点、通知、织入、@Aspect 写法及 AOP 实现事务和日志；不包括代理实现（见 dynamic-proxy）
+    aliases:
+      - 面向切面
+      - 切面
+      - 切点
+      - 通知
+      - 织入
+      - "@Aspect"
+      - "@Around"
+  - id: dynamic-proxy
+    name: 动态代理
+    parent: framework
+    description: 包括 JDK 动态代理与 CGLIB 原理与区别，以及代理导致的自调用失效、Mapper 代理、延迟加载代理等应用；不包括 AOP 概念（见 aop）
+    aliases:
+      - JDK 动态代理
+      - CGLIB
+      - InvocationHandler
+  - id: mvc
+    name: MVC 请求处理
+    parent: framework
+    description: 包括 DispatcherServlet、请求处理流程、HandlerMapping/HandlerAdapter、请求映射与参数接收；不包括 HTTP 协议本身（见 http）
+    aliases:
+      - Spring MVC
+      - DispatcherServlet
+      - HandlerMapping
+      - "@RequestMapping"
+      - "@RestController"
+      - "@RequestBody"
+  - id: configuration
+    name: 配置与自动配置
+    parent: framework
+    description: 包括配置文件与 @Value、配置中心与动态刷新、Spring Boot Starter 与自动配置、MyBatis 全局配置与日志；不包括 Bean 生命周期（见 bean-lifecycle）
+    aliases:
+      - 配置文件
+      - application.yml
+      - "@Value"
+      - 配置中心
+      - "@RefreshScope"
+      - 自动配置
+      - Starter
+      - "@SpringBootApplication"
+      - mybatis-config
+  - id: interceptor
+    name: 插件与拦截器
+    parent: framework
+    description: 包括 MyBatis 插件拦截四大对象、调用链、编写插件及慢 SQL/数据权限/审计等应用；不包括动态代理原理（见 dynamic-proxy）
+    aliases:
+      - 插件
+      - 拦截器
+      - Plugin
+      - "@Intercepts"
+  - id: design-pattern
+    name: 设计模式
+    parent: framework
+    description: 包括单例、代理、命令、建造者、适配器、责任链等模式及其在框架中的应用；不包括代理的技术实现（见 dynamic-proxy）
+    aliases:
+      - 单例模式
+      - 代理模式
+      - 命令模式
+      - 建造者模式
+      - 适配器模式
+      - 责任链
+  - id: cache
+    name: 缓存
+    parent: null
+    description: 包括缓存使用模式、缓存异常、一致性、过期、容量满时的淘汰、热 key 与大 key、ORM 缓存；不包括持久化（见 persistence）
+  - id: cache-pattern
+    name: 缓存读写模式
+    parent: cache
+    description: 包括为何用缓存、查库回写（Cache Aside）、缓存预热、多级缓存；不包括一致性保障（见 cache-consistency）
+    aliases:
+      - Cache Aside
+      - 旁路缓存
+      - 缓存预热
+      - 多级缓存
+      - 本地缓存
+  - id: cache-failure
+    name: 缓存穿透、击穿与雪崩
+    parent: cache
+    description: 包括穿透（缓存空值、布隆过滤器）、击穿（互斥锁、逻辑过期）、雪崩（随机过期、集群、降级、多级缓存）；不包括布隆过滤器原理（见 bloom-filter）
+    aliases:
+      - 缓存穿透
+      - 缓存击穿
+      - 缓存雪崩
+      - 缓存空值
+      - 逻辑过期
+      - 互斥锁重建
+  - id: cache-consistency
+    name: 缓存一致性
+    parent: cache
+    description: 包括缓存与数据库不一致的原因、延迟双删、读写锁、MQ/canal 异步更新、更新清缓存；不包括基本读写流程（见 cache-pattern）
+    aliases:
+      - 双写一致
+      - 延迟双删
+      - canal
+  - id: expiration
+    name: 过期删除
+    parent: cache
+    description: 包括设置过期时间、惰性删除、定期删除（SLOW/FAST）；不包括内存满时的淘汰（见 replacement-policy）
+    aliases:
+      - 过期时间
+      - TTL
+      - EXPIRE
+      - 惰性删除
+      - 定期删除
+  - id: replacement-policy
+    name: 淘汰与置换算法
+    parent: cache
+    description: 容量有限时选谁移出去：包括 Redis 内存淘汰策略、缓存 eviction，以及操作系统页面置换（OPT/FIFO/LRU，内存页可视为磁盘的缓存），两者共享 LRU/LFU/FIFO 等算法；不包括按过期时间删除（见 expiration）、分页机制（见 virtual-memory）
+    aliases:
+      - 淘汰策略
+      - 置换算法
+      - 页面置换
+      - LRU
+      - LFU
+      - FIFO
+      - OPT
+      - maxmemory-policy
+      - eviction
+  - id: hot-big-key
+    name: 热 key 与大 key
+    parent: cache
+    description: 包括热 key、大 key 的危害、发现与处理；不包括热点 key 失效引发的击穿（见 cache-failure）
+    aliases:
+      - 热 key
+      - 大 key
+      - Hot Key
+      - Big Key
+  - id: mybatis-cache
+    name: MyBatis 一二级缓存
+    parent: cache
+    description: 包括一级缓存与清空时机、二级缓存开启与配置、第三方存储、cache-ref、适用场景；不包括分布式缓存一致性（见 cache-consistency）
+    aliases:
+      - 一级缓存
+      - 二级缓存
+      - localCache
+      - cache-ref
+      - Ehcache
+  - id: data-structure
+    name: 数据结构
+    parent: null
+    description: 包括哈希表、集合框架、布隆过滤器、Redis 数据类型及其底层结构；不包括 B+ 树（见 index-structure）
+    aliases:
+      - Data Structure
+  - id: hash-table
+    name: 哈希表
+    parent: data-structure
+    description: 包括哈希函数、桶、冲突处理、HashMap，以及哈希索引、哈希路由与哈希槽背后的哈希原理；不包括 equals/hashCode 约定（见 object-methods）
+    aliases:
+      - HashMap
+      - 哈希冲突
+      - 开放寻址
+      - 拉链法
+      - 哈希取模
+  - id: collections
+    name: 集合框架
+    parent: data-structure
+    description: 包括 Java 集合常用接口与实现、阻塞队列等并发容器的选择、Stream 操作集合；不包括哈希表原理（见 hash-table）
+    aliases:
+      - 集合
+      - Java Collection
+      - Java List
+      - Java Set
+      - Map
+      - Queue
+      - Stream
+  - id: bloom-filter
+    name: 布隆过滤器
+    parent: data-structure
+    description: 包括布隆过滤器原理、误判原因及用途；不包括缓存穿透的其他方案（见 cache-failure）
+    aliases:
+      - Bloom Filter
+      - 位数组
+  - id: redis-data-types
+    name: Redis 数据类型
+    parent: data-structure
+    description: 包括 String/Hash/List/Set/ZSet 等 Redis 数据类型的用途与底层结构（如 ZSet 的跳表），计数器、排行榜等用法；不包括 Java 语言类型（见 type-system）
+    aliases:
+      - Redis 数据结构
+      - Redis String
+      - Hash
+      - Redis List
+      - Redis Set
+      - ZSet
+      - 有序集合
+      - 跳表
+      - SkipList
+  - id: io
+    name: I/O
+    parent: null
+    description: 包括 I/O 流、I/O 模型与多路复用、Socket 与文件描述符、序列化、文件系统；不包括网络协议本身（见 network-protocol）
+    aliases:
+      - 输入输出
+  - id: io-stream
+    name: I/O 流
+    parent: io
+    description: 包括输入/输出流、字节流与字符流、节点流与处理流、管道流；不包括 I/O 模型（见 io-multiplexing）
+    aliases:
+      - IO 流
+      - InputStream
+      - OutputStream
+      - Reader
+      - Writer
+      - 字节流
+      - 字符流
+  - id: io-multiplexing
+    name: I/O 模型与多路复用
+    parent: io
+    description: 包括阻塞/非阻塞 I/O、BIO/NIO/AIO、select/poll/epoll、NIO Selector；不包括单线程事件循环等线程组织方式（见 thread-model）
+    aliases:
+      - BIO
+      - NIO
+      - AIO
+      - 阻塞 IO
+      - 非阻塞 IO
+      - 多路复用
+      - epoll
+      - select
+      - poll
+      - Selector
+  - id: socket
+    name: Socket 与文件描述符
+    parent: io
+    description: 包括 Socket 概念、文件描述符；不包括 TCP 连接管理（见 tcp-connection）
+    aliases:
+      - 套接字
+      - 文件描述符
+      - fd
+  - id: serialization
+    name: 序列化
+    parent: io
+    description: 包括序列化与反序列化、Java 原生序列化、JSON 序列化、RPC 序列化方式；不包括对象拷贝（见 object-methods）
+    aliases:
+      - 反序列化
+      - Serializable
+      - JSON
+      - Jackson
+      - Protobuf
+  - id: file-storage
+    name: 文件系统与存储
+    parent: io
+    description: 包括 inode、硬链接与软链接、存储层次、SSD 与机械硬盘、页缓存；不包括刷盘策略（见 flush-to-disk）
+    aliases:
+      - inode
+      - 硬链接
+      - 软链接
+      - 存储层次
+      - SSD
+      - 机械硬盘
+      - 文件系统
+  - id: network-protocol
+    name: 网络协议
+    parent: null
+    description: 包括分层模型、IP、DNS、TCP/UDP、HTTP/HTTPS 与会话；不包括 I/O 模型（见 io）
+    aliases:
+      - 网络
+      - 计算机网络
+      - 协议
+  - id: network-layering
+    name: 网络分层
+    parent: network-protocol
+    description: 包括分层的意义、封装、OSI 七层、TCP/IP 四层、五层模型；不包括各层具体协议细节
+    aliases:
+      - OSI
+      - 七层模型
+      - TCP/IP 四层
+      - 五层模型
+      - 报文封装
+  - id: ip-addressing
+    name: IP 与寻址
+    parent: network-protocol
+    description: 包括 IP 地址、端口、MAC、NAT、路由器、IP 分片、ARP；不包括域名解析（见 dns）
+    aliases:
+      - IP
+      - 端口
+      - MAC
+      - NAT
+      - ARP
+      - 路由
+      - IP 分片
+  - id: dns
+    name: DNS 与访问流程
+    parent: network-protocol
+    description: 包括 URL 组成、DNS 解析过程、输入 URL 到页面显示的全过程；不包括 HTTP 报文（见 http）
+    aliases:
+      - 域名解析
+      - URL
+      - 输入 URL 到页面
+  - id: tcp-connection
+    name: TCP 连接管理
+    parent: network-protocol
+    description: 包括标志位、三次握手、四次挥手、2MSL/TIME_WAIT、全双工、状态机；不包括可靠传输（见 reliable-transmission）
+    aliases:
+      - 三次握手
+      - 四次挥手
+      - TIME_WAIT
+      - 2MSL
+      - SYN
+      - FIN
+      - TCP 状态机
+  - id: reliable-transmission
+    name: 可靠传输与重传
+    parent: network-protocol
+    description: 包括丢包乱序原因、序列号与确认号、校验和、MSS、超时重传与 RTO、快速重传、SACK/DSACK、TCP 与 UDP 对比、UDP 上的可靠传输；不包括窗口控制（见 flow-control、congestion-control）
+    aliases:
+      - 可靠传输
+      - 序列号
+      - 确认号
+      - 校验和
+      - MSS
+      - 超时重传
+      - 快速重传
+      - RTO
+      - RTT
+      - SACK
+      - UDP
+  - id: flow-control
+    name: 流量控制
+    parent: network-protocol
+    description: 包括 TCP 接收窗口、滑动窗口、发送窗口，以及 MQ 消费者限速等按接收方能力控制速率的做法；不包括网络拥塞（见 congestion-control）
+    aliases:
+      - 滑动窗口
+      - 接收窗口
+      - rwnd
+      - 消费速率
+  - id: congestion-control
+    name: 拥塞控制
+    parent: network-protocol
+    description: 包括拥塞窗口、慢启动、拥塞避免、丢包后调整、快速恢复；不包括接收方流量控制（见 flow-control）
+    aliases:
+      - cwnd
+      - 慢启动
+      - 拥塞避免
+      - 快速恢复
+      - ssthresh
+  - id: http
+    name: HTTP 与会话
+    parent: network-protocol
+    description: 包括 HTTP 与 TCP 关系、报文、GET/POST、状态码、重定向、无状态与 Cookie/Session；不包括加密（见 https-tls）
+    aliases:
+      - GET
+      - POST
+      - 状态码
+      - "301"
+      - "302"
+      - Cookie
+      - Session
+  - id: https-tls
+    name: HTTPS 与加密
+    parent: network-protocol
+    description: 包括 HTTPS、对称/非对称加密、数字证书、TLS 握手；不包括 HTTP 报文（见 http）
+    aliases:
+      - HTTPS
+      - TLS
+      - SSL
+      - 对称加密
+      - 非对称加密
+      - 数字证书
+      - CA
+  - id: process-management
+    name: 进程与调度
+    parent: null
+    description: 包括进程、进程间通信、调度与上下文切换、线程模型、内核态与系统调用；不包括 Java 线程 API（见 concurrency）
+    aliases:
+      - 进程管理
+      - 操作系统
+  - id: process
+    name: 进程基础
+    parent: process-management
+    description: 包括进程概念与状态、并发与并行、fork、僵尸进程与孤儿进程；不包括进程间通信（见 ipc）
+    aliases:
+      - 进程
+      - 进程状态
+      - fork
+      - 僵尸进程
+      - 孤儿进程
+      - 并行
+  - id: ipc
+    name: 进程间通信
+    parent: process-management
+    description: 包括管道、信号、消息队列、共享内存、套接字等 IPC 方式；不包括线程协作（见 thread-basics）、消息中间件（见 messaging）
+    aliases:
+      - 管道
+      - 信号
+      - 共享内存
+      - pipe
+  - id: scheduling
+    name: 调度与上下文切换
+    parent: process-management
+    description: 包括调度算法（FCFS、短作业优先、优先级）与饥饿、CPU 寄存器、上下文切换步骤与代价；不包括用户态/内核态（见 kernel-mode）
+    aliases:
+      - 调度算法
+      - FCFS
+      - SJF
+      - 优先级调度
+      - 上下文切换
+      - 寄存器
+  - id: thread-model
+    name: 线程模型
+    parent: process-management
+    description: 包括线程与进程的区别、内核线程与用户线程、混合模型、Java 线程与 OS 线程的映射，以及 Redis 单线程 + 事件循环为何高效；不包括 I/O 多路复用本身（见 io-multiplexing）
+    aliases:
+      - 内核线程
+      - 用户线程
+      - 单线程模型
+      - 事件循环
+      - Reactor
+      - 进程与线程区别
+  - id: kernel-mode
+    name: 内核与系统调用
+    parent: process-management
+    description: 包括操作系统作用、内核、用户态与内核态、系统调用及切换代价；不包括进程调度（见 scheduling）
+    aliases:
+      - 内核
+      - 用户态
+      - 内核态
+      - 系统调用
+      - syscall
+  - id: distributed-architecture
+    name: 分布式架构
+    parent: null
+    description: 包括 CAP 与共识、复制、故障转移、分片与路由、微服务、限流降级；不包括分布式锁（见 distributed-lock）、分布式事务（见 distributed-transaction）
+    aliases:
+      - 分布式
+      - 高可用
+      - 可扩展
+  - id: consensus
+    name: CAP 与共识
+    parent: distributed-architecture
+    description: 包括 CAP 与 AP/CP 取舍、Raft 选主、Gossip、集群投票、KRaft；不包括哨兵故障转移流程（见 failover）
+    aliases:
+      - CAP
+      - AP
+      - CP
+      - BASE
+      - Raft
+      - Gossip
+      - 选主
+      - 共识算法
+      - KRaft
+      - Paxos
+  - id: replication
+    name: 主从复制
+    parent: distributed-architecture
+    description: 包括主从复制作用与原理、全量与增量同步；不包括故障切换（见 failover）
+    aliases:
+      - 主从同步
+      - 全量同步
+      - 增量同步
+      - 读写分离
+  - id: failover
+    name: 故障转移
+    parent: distributed-architecture
+    description: 包括哨兵监控、主观/客观下线、自动故障转移与选新主、集群故障检测与恢复、脑裂；不包括数据同步（见 replication）
+    aliases:
+      - 哨兵
+      - Sentinel
+      - 主观下线
+      - 客观下线
+      - 脑裂
+  - id: sharding
+    name: 分片与路由
+    parent: distributed-architecture
+    description: 包括分库分表、垂直/水平拆分、分片键、范围/Hash/配置路由、哈希槽与槽分配、分片集群组成；不包括主从复制（见 replication）
+    aliases:
+      - 分库分表
+      - 分片
+      - 分片键
+      - 分片路由
+      - 哈希槽
+      - 一致性哈希
+      - 分片集群
+  - id: microservice
+    name: 微服务
+    parent: distributed-architecture
+    description: 包括微服务架构、与单体对比、服务注册与发现、API 网关、Spring Cloud 组件；不包括配置读取（见 configuration）
+    aliases:
+      - 注册中心
+      - 服务发现
+      - API 网关
+      - Spring Cloud
+      - Nacos
+      - Eureka
+  - id: degradation
+    name: 限流与降级
+    parent: distributed-architecture
+    description: 包括限流、熔断降级、削峰保护下游与依赖故障时的兜底；不包括 TCP 流量控制（见 flow-control）
+    aliases:
+      - 限流
+      - 降级
+      - 熔断
+  - id: messaging
+    name: 消息通信
+    parent: null
+    description: 包括消息队列作用、模型、选型、可靠性、幂等、顺序与积压，以及 RPC；不包括进程间消息队列（见 ipc）
+    aliases:
+      - 消息队列
+      - MQ
+      - 消息中间件
+  - id: async-messaging
+    name: 异步与解耦
+    parent: messaging
+    description: 包括消息队列是什么、在架构中的位置、异步、解耦、削峰、日志收集及引入的新问题；不包括消息模型（见 message-model）
+    aliases:
+      - 异步
+      - 解耦
+      - 削峰填谷
+      - 消息队列作用
+  - id: message-model
+    name: 消息模型与推拉
+    parent: messaging
+    description: 包括点对点、发布订阅、Topic 与分区、JMS、AMQP、Exchange 路由、推/拉模式与长轮询；不包括产品选型（见 mq-selection）
+    aliases:
+      - 点对点
+      - 发布订阅
+      - Topic
+      - Partition
+      - JMS
+      - AMQP
+      - Exchange
+      - 推模式
+      - 拉模式
+      - 长轮询
+  - id: mq-selection
+    name: 消息队列选型
+    parent: messaging
+    description: 包括 Kafka、RocketMQ、RabbitMQ、Pulsar、ActiveMQ、MQTT 的特点与适用场景；不包括可靠性方案（见 message-reliability）
+    aliases:
+      - Kafka
+      - RocketMQ
+      - RabbitMQ
+      - Pulsar
+      - ActiveMQ
+      - MQTT
+  - id: message-reliability
+    name: 消息可靠性
+    parent: messaging
+    description: 包括生产端确认、Broker 持久化、ACK、死信队列、消费失败兜底、投递语义、MQ 故障时的可用性；不包括重复消费（见 idempotency）
+    aliases:
+      - 消息丢失
+      - ACK
+      - 死信队列
+      - 至少一次
+      - 恰好一次
+  - id: idempotency
+    name: 幂等
+    parent: messaging
+    description: 包括幂等概念、重复消费原因与方案、TCC 与 HTTP 方法的幂等；不包括可靠投递（见 message-reliability）
+    aliases:
+      - 重复消费
+      - 去重
+      - Idempotent
+  - id: message-ordering
+    name: 顺序与延时消息
+    parent: messaging
+    description: 包括消息顺序性、严格顺序保证、延时消息及投递原理；不包括事务消息（见 distributed-transaction）
+    aliases:
+      - 顺序消息
+      - 延时消息
+      - 延迟队列
+  - id: message-backlog
+    name: 消息积压
+    parent: messaging
+    description: 包括积压原因与处理；不包括消费速率控制的一般原理（见 flow-control）
+    aliases:
+      - 消费延迟
+      - Lag
+  - id: rpc
+    name: RPC
+    parent: messaging
+    description: 包括 RPC 概念、常见框架、RPC 与 MQ 的区别与选择；不包括序列化细节（见 serialization）
+    aliases:
+      - 远程调用
+      - Dubbo
+      - gRPC
+      - Feign
+  - id: llm-fundamentals
+    name: 大模型原理
+    parent: null
+    description: 包括 Token 与生成、Transformer、训练与推理优化、幻觉；不包括 Agent 与 RAG 应用（见 ai-application）
+    aliases:
+      - LLM
+      - 大模型
+      - 大语言模型
+  - id: token-generation
+    name: Token 与生成采样
+    parent: llm-fundamentals
+    description: 包括 Token 与分词、上下文窗口、自回归生成、Temperature、Top-k/Top-p、重复惩罚、约束解码；不包括上下文工程（见 context-engineering）
+    aliases:
+      - Token
+      - 分词
+      - BPE
+      - 上下文窗口
+      - 自回归
+      - Temperature
+      - Top-k
+      - Top-p
+      - 采样
+      - 解码
+  - id: transformer
+    name: Transformer 与模型架构
+    parent: llm-fundamentals
+    description: 包括 Transformer、自注意力、多头注意力、位置编码、FFN、层归一化、多模态模型；不包括训练方法（见 model-training）
+    aliases:
+      - Attention
+      - 自注意力
+      - 多头注意力
+      - 位置编码
+      - 多模态
+  - id: model-training
+    name: 训练、对齐与推理优化
+    parent: llm-fundamentals
+    description: 包括预训练、微调、强化学习、SFT、RLHF、DPO/PPO，以及量化、蒸馏、推理加速；不包括模型结构（见 transformer）
+    aliases:
+      - 预训练
+      - 微调
+      - SFT
+      - RLHF
+      - DPO
+      - PPO
+      - 对齐
+      - 量化
+      - 蒸馏
+      - 推理加速
+  - id: hallucination
+    name: 幻觉
+    parent: llm-fundamentals
+    description: 包括幻觉的含义与缓解方法、答案忠实度；不包括检索评估整体（见 retrieval-evaluation）
+    aliases:
+      - 忠实度
+  - id: ai-application
+    name: 大模型应用
+    parent: null
+    description: 包括提示与结构化输出、工具调用与 MCP、Agent、上下文工程、RAG 与检索；不包括模型原理（见 llm-fundamentals）
+    aliases:
+      - AI 应用
+      - LLM 应用
+  - id: prompt-engineering
+    name: 提示与结构化输出
+    parent: ai-application
+    description: 包括 Prompt 要素、思维链、Skill、JSON 输出、JSON Mode/Schema、Structured Outputs；不包括上下文工程（见 context-engineering）
+    aliases:
+      - Prompt
+      - 提示词
+      - 思维链
+      - CoT
+      - Skill
+      - 结构化输出
+      - JSON Mode
+      - JSON Schema
+  - id: tool-calling
+    name: 工具调用与 MCP
+    parent: ai-application
+    description: 包括 Function Calling 链路、工具描述与返回质量、出错处理、MCP 协议与 Server、各层分工；不包括 Agent 循环（见 agent-loop）
+    aliases:
+      - Function Calling
+      - 工具调用
+      - Tool Use
+      - MCP
+      - Model Context Protocol
+      - MCP Server
+  - id: agent-loop
+    name: Agent 与工作流
+    parent: ai-application
+    description: 包括 Agent 概念、观察、推理-行动-观察循环、ReAct、计划与执行、AI 工作流、停止条件与人工接管；不包括记忆（见 agent-memory）
+    aliases:
+      - Agent
+      - 智能体
+      - ReAct
+      - Plan-and-Execute
+      - 工作流
+      - Workflow
+  - id: agent-memory
+    name: Agent 记忆
+    parent: ai-application
+    description: 包括事实/经验记忆、工作/长期记忆、运行状态持久化；不包括 RAG 检索（见 rag-pipeline）
+    aliases:
+      - 记忆
+      - Agent Memory
+      - 长期记忆
+      - 工作记忆
+      - 状态持久化
+  - id: context-engineering
+    name: 上下文与执行工程
+    parent: ai-application
+    description: 包括上下文工程、Harness Engineering、提示/上下文/执行工程分工、纠偏观测与恢复；不包括 Prompt 写法（见 prompt-engineering）
+    aliases:
+      - 上下文工程
+      - Context Engineering
+      - Harness Engineering
+      - 执行工程
+  - id: rag-pipeline
+    name: RAG 流程与切分
+    parent: ai-application
+    description: 包括 RAG 概念、完整问答步骤、文档清洗、文本切分策略与块大小；不包括向量检索（见 vector-search）
+    aliases:
+      - RAG
+      - 检索增强生成
+      - Chunking
+      - 文本切分
+      - 分块
+  - id: vector-search
+    name: 向量检索
+    parent: ai-application
+    description: 包括 Embedding、余弦相似度、向量检索、HNSW/IVF、向量数据库能力；不包括关键词与混合检索（见 retrieval-strategy）
+    aliases:
+      - Embedding
+      - 向量
+      - 余弦相似度
+      - HNSW
+      - IVF
+      - 向量数据库
+      - ANN
+  - id: retrieval-strategy
+    name: 检索策略与重排
+    parent: ai-application
+    description: 包括关键词检索、混合检索、RRF、知识图谱与 GraphRAG、查询改写、Rerank 与 Cross-Encoder；不包括向量索引（见 vector-search）
+    aliases:
+      - 关键词检索
+      - BM25
+      - 混合检索
+      - RRF
+      - GraphRAG
+      - 知识图谱
+      - 查询改写
+      - Rerank
+      - Cross-Encoder
+  - id: retrieval-evaluation
+    name: 检索与 RAG 评估
+    parent: ai-application
+    description: 包括召回率、命中率、MRR、忠实度、答案相关性及端到端/组件级评估；不包括幻觉成因（见 hallucination）
+    aliases:
+      - 召回率
+      - Recall
+      - Hit Rate
+      - MRR
+      - Faithfulness
+      - Answer Relevancy
+      - RAG 评估
 
 collections: []
 
