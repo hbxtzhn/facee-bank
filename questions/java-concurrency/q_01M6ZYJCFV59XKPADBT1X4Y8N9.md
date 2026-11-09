@@ -9,6 +9,8 @@ tags: [thread-basics]
 prerequisites: [q_01M6ZYJBYWHKJBZNEY2QQ461ZA]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：Thread（interrupt、isInterrupted、interrupted）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" }
 ---
 
 ## 一句话
@@ -74,7 +76,7 @@ System.out.println(t.isInterrupted()); // 只读标志，不会清除
 
 ## 追问
 ### [f1] 线程已经结束，对它调用 interrupt() 会怎样？
-不会抛异常，通常也没有任何效果。`isInterrupted()` 对已结束的线程返回 false。
+不会抛异常。规范说这不一定有任何效果；JDK 参考实现仍会记下这次中断，`isInterrupted()` 可能返回 true。
 
 ### [f2] 捕获 InterruptedException 后应该怎么处理？
 能结束任务就直接退出；做不到的话调用 `Thread.currentThread().interrupt()` 恢复标志，让上层知道。不要空 catch 吞掉。

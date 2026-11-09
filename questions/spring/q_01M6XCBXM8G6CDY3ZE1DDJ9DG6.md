@@ -8,6 +8,9 @@ category: spring
 tags: [pagination, interceptor]
 prerequisites: [q_01M6XCBXCBRGX36RJVRGVR98ES]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "PageHelper 源码：PageInterceptor.java", url: "https://raw.githubusercontent.com/pagehelper/Mybatis-PageHelper/master/src/main/java/com/github/pagehelper/PageInterceptor.java" }
+  - { title: "PageHelper 文档：HowToUse", url: "https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md" }
 estimatedMinutes: 4
 ---
 

@@ -8,6 +8,9 @@ category: redis
 tags: [rdb-aof, virtual-memory]
 prerequisites: [q_01M6XCCZGCKXXDHDXDG74RXCVD]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 文档：Redis persistence（Snapshotting 与写时复制）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
+  - { title: "Redis 文档：Redis administration（透明大页、最多 2 倍内存）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/admin/" }
 estimatedMinutes: 3
 ---
 

@@ -8,6 +8,8 @@ category: java-concurrency
 tags: [memory-model]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "JSR-133 FAQ：What is reordering / sources of reordering", url: "https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html" }
 ---
 
 ## 一句话
@@ -30,7 +32,7 @@ estimatedMinutes: 3
 - **缓存、写缓冲区**：CPU 内部的小块存储，先把数据存在这里，之后再写入内存。
 
 ### 编译器重排：生成指令时调整
-编译器（Java 里是 javac 和 JIT 即时编译器）在不改变单线程语义的前提下，可以重新安排语句的先后。例如两条互不依赖的赋值，编译器为了更好地利用寄存器，可能把它们对调。
+编译器（Java 里主要是 JIT 即时编译器）在不改变单线程语义的前提下，可以重新安排语句的先后。例如两条互不依赖的赋值，编译器为了更好地利用寄存器，可能把它们对调。
 
 ### 指令级并行重排：CPU 同时跑多条指令
 现代 CPU 不是一条一条严格排队执行，而是把多条指令重叠着跑。如果两条指令没有数据依赖，CPU 可以改变它们实际执行的顺序，哪条先完成就先用哪条的结果。

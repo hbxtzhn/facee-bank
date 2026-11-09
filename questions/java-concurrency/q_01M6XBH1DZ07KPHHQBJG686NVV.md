@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBH0ZSAA659DGMH7CVFMM5]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Java SE 21 API：ReentrantLock", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html" }
+  - { title: "OpenJDK jdk21u 源码：ReentrantLock.java（Sync、NonfairSync、FairSync）", url: "https://github.com/openjdk/jdk21u/blob/master/src/java.base/share/classes/java/util/concurrent/locks/ReentrantLock.java" }
 ---
 
 ## 一句话

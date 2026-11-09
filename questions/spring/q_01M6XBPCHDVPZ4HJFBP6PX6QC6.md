@@ -9,6 +9,10 @@ tags: [transaction-management, isolation-mvcc]
 prerequisites: [q_01M6XCCT8E7EYYHFMN310PDB3W]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Spring Framework 参考文档：Transaction Propagation（REQUIRED 加入外层事务时忽略本地隔离级别）", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html" }
+  - { title: "MySQL 8.4 手册：InnoDB Transaction Isolation Levels", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
+  - { title: "Oracle Database 19c Concepts：Data Concurrency and Consistency（隔离级别）", url: "https://docs.oracle.com/en/database/oracle/oracle-database/19/cncpt/data-concurrency-and-consistency.html" }
 ---
 
 ## 一句话
@@ -44,7 +48,7 @@ Spring 的 isolation 只是向数据库“申请”一个隔离级别，真正�
 开启事务时，如果设置了非默认的隔离级别，Spring 在拿到连接后，通过 JDBC 把这个连接的隔离级别设为指定值；事务结束后，会把连接恢复成原来的级别，避免影响到连接池里别的使用者。
 
 ### 几个容易忽略的限制
-1. **数据库支持情况**：不同数据库支持的级别不同，比如 Oracle 主要支持读已提交和串行化，不是四种都有。写了数据库不支持的级别，会报错或被降级，需要查阅对应数据库文档。
+1. **数据库支持情况**：不同数据库支持的级别不同，比如 Oracle 主要支持读已提交和串行化，不是四种都有。写了数据库不支持的级别，结果取决于数据库和驱动，需要查阅对应数据库文档。
 2. **只在新事务开始时生效**：方法加入外层已有事务（默认 REQUIRED）时，隔离级别沿用外层事务的，内层写了别的值通常不起作用。
 3. **和数据库实现有关**：同样叫可重复读，不同数据库在幻读等细节上的表现可能不同。
 

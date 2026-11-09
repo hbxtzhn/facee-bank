@@ -9,6 +9,10 @@ tags: [mybatis-internals, dynamic-proxy]
 prerequisites: [q_01M6XCBZY1WK6GVWPKRHFZH7S3]
 appliesTo: ["MyBatis >= 3.5"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：MapperProxy.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperProxy.java" }
+  - { title: "MyBatis 源码：MapperMethod.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperMethod.java" }
+  - { title: "MyBatis 源码：MapperProxyFactory.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperProxyFactory.java" }
 estimatedMinutes: 5
 ---
 

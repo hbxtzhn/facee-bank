@@ -9,6 +9,8 @@ tags: [class-loading]
 prerequisites: [q_01M6XBGETV46EJNC6JY9R5X884, q_01M6XBGFKRNVJX1180XX4DZNDH]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.lang.ClassLoader", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassLoader.html" }
 ---
 
 ## 一句话

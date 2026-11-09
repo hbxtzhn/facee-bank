@@ -12,7 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { listQuestionFiles, parseQuestion } from './lib.mjs';
 
-const BANNED = ['面试加分项', '加分项', '一定要记住', '灾难性', '如下图', '如图所示', '见下图'];
+const BANNED = ['面试加分项', '加分项', '一定要记住', '灾难性', '如下图', '如图所示', '见下图', '素材', '导图'];
 
 const HEDGE_RE = /通常|仍可能|可能|一般来说|往往|不一定|未必|大多|某些情况|在一定程度上|但不代表|并不意味着|但不等于|不等于/g;
 const LONG_SENTENCE = 70;

@@ -9,6 +9,9 @@ tags: [mybatis-cache, cache-pattern]
 prerequisites: [q_01M6XCBSNWRWKD6XSZ1X4ZS2CS]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（Using a Custom Cache）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
+  - { title: "MyBatis-Ehcache 文档：Usage（cache 标签的 type）", url: "https://mybatis.org/ehcache-cache/" }
 ---
 
 ## 一句话
@@ -18,7 +21,7 @@ estimatedMinutes: 3
 - [kp1|3] `<cache type="...">` 的 `type` 指定自定义的缓存实现类
 - [kp2|3] 自定义缓存类必须实现 MyBatis 的 `Cache` 接口
 - [kp3|2] 常见做法是引入 mybatis-ehcache 之类的适配包
-- [kp4] 缓存读写模式由 MyBatis 的缓存装饰器统一处理
+- [kp4] 事务暂存等由 MyBatis 的缓存装饰器处理
 
 ## 详解
 ### 先搞懂：默认缓存放在 JVM 内存里
@@ -47,7 +50,7 @@ MyBatis 只依赖 `Cache` 接口，不关心里面怎么存。`type` 里写什�
 可以。实现 `Cache` 接口的几个方法，核心是 `putObject`、`getObject`、`removeObject`、`clear`，再用 `type` 指向它。比如存到 Redis 里，让多台服务器共享。
 
 ### 进阶：读写和并发（基础薄弱可先跳过）
-MyBatis 会在你的实现外面包上若干装饰器，用来处理事务暂存、序列化、日志等，自定义实现只需要关注存取本身。需要的话，实现类还可以接收 `<property>` 配置的参数。
+MyBatis 会在你的实现外面包上若干装饰器，用来处理事务暂存、日志等，自定义实现只需要关注存取本身。注意 `eviction`、`size` 等 `<cache>` 属性对自定义缓存不生效，要按实现自己的方式配置。需要的话，实现类还可以接收 `<property>` 配置的参数。
 
 ## 易错点
 - 只加了 `type`，却没引入对应的依赖；启动时找不到类

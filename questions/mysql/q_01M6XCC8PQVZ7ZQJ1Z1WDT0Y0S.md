@@ -8,6 +8,9 @@ category: mysql
 tags: [database-log, replication]
 prerequisites: [q_01M6XCC86NH3XC896A6W9QDAP7, q_01M6XCC8EV6YCRMCP3358H90ST]
 appliesTo: ["MySQL >= 5.7，InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Redo Log", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html" }
+  - { title: "MySQL 8.4 手册：The Binary Log", url: "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

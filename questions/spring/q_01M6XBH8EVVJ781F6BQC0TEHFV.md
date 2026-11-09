@@ -10,6 +10,10 @@ prerequisites: [q_01M6XBH6HXW7SNAMD7FB870PBC, q_01M6XBH86GH1KK78ZH866Y0TVW]
 appliesTo: ["Spring Boot >= 2.6（默认禁止循环引用）"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Dependency Injection（Circular dependencies）", url: "https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html" }
+  - { title: "Spring Boot 2.6 Release Notes：Circular References Prohibited by Default", url: "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.6-Release-Notes" }
+  - { title: "Spring Framework Javadoc：@Lazy（注入点上的懒解析代理）", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Lazy.html" }
 ---
 
 ## 一句话

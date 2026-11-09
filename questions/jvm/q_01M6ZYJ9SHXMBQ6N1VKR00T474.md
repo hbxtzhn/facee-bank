@@ -7,6 +7,9 @@ importance: 3
 category: jvm
 tags: [performance-diagnosis, thread-basics]
 prerequisites: [q_01M6XBGJ7GR1Y8N82N1SBW0YNR]
+references:
+  - { title: "JDK 21 故障排查指南：Diagnostic Tools（jstack 与 jcmd Thread.print）", url: "https://docs.oracle.com/en/java/javase/21/troubleshoot/diagnostic-tools.html" }
+  - { title: "JDK 21 jcmd 手册：Thread.print", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/jcmd.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

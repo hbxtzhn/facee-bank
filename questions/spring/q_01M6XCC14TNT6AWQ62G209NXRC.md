@@ -7,6 +7,9 @@ importance: 1
 category: spring
 tags: [sql-mapping, reflection]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：Configuration（objectFactory、plugins、jdbcTypeForNull）", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 源码：ObjectFactory.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/reflection/factory/ObjectFactory.java" }
 estimatedMinutes: 3
 ---
 

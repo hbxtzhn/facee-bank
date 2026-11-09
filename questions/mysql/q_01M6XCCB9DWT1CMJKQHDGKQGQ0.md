@@ -7,6 +7,8 @@ importance: 2
 category: mysql
 tags: [index-design]
 prerequisites: [q_01M6XCCA15EH4N41RZG222R1R5, q_01M6XCCB1DEA2XV3GYDK3HKTHC]
+references:
+  - { title: "MySQL 8.4 手册：How MySQL Uses Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

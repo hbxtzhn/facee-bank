@@ -8,10 +8,13 @@ category: java-concurrency
 tags: [memory-model]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Java 语言规范 SE 21：17.4.5 Happens-before Order、17.5 final Field Semantics", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html" }
+  - { title: "JSR-133 FAQ", url: "https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html" }
 ---
 
 ## 一句话
-可见性问题是指一个线程改了共享变量，别的线程却还在读旧值。原因是每个线程有自己的本地内存，修改不一定及时写回主内存，别人也不一定重新去读。
+可见性问题是指一个线程改了共享变量，别的线程却还在读旧值。原因是每个线程有自己的本地内存：修改先停在本地，没写回主内存前别人看不到，别人也可能一直读旧副本。
 
 ## 要点
 - [kp1|3] 可见性：一个线程修改共享变量后，其他线程能及时看到

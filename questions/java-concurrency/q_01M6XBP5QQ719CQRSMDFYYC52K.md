@@ -9,6 +9,9 @@ tags: [thread-local]
 prerequisites: [q_01M6XBGRT4YN1FJSGZCZKGM6WB]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.lang.ThreadLocal", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html" }
+  - { title: "OpenJDK jdk21u 源码：java/lang/ThreadLocal.java（ThreadLocalMap、Entry 弱引用 key）", url: "https://github.com/openjdk/jdk21u/blob/master/src/java.base/share/classes/java/lang/ThreadLocal.java" }
 ---
 
 ## 一句话
@@ -52,7 +55,7 @@ ThreadLocalMap 里的 Entry，key 是对 ThreadLocal 的**弱引用**，value �
 结论：用完在 `finally` 里调用 `remove()`，这是最稳妥的习惯。
 
 ### 进阶：哈希冲突（基础薄弱可先跳过）
-ThreadLocalMap 没有用 HashMap 的链表，而是自己实现的数组，用线性探测（开放寻址）处理冲突：位置被占了就往后找下一个空位。这也是它设计得比较简单的原因：一个线程里的 ThreadLocal 数量通常不多。
+ThreadLocalMap 没有用 HashMap 的链表，而是自己实现的数组。它用线性探测（开放寻址）处理冲突：位置被占了，就往后找下一个空位。这样设计得比较简单，因为一个线程里的 ThreadLocal 数量通常不多。
 
 ## 示例
 ```java

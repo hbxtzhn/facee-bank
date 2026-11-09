@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBGRT4YN1FJSGZCZKGM6WB]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：ThreadLocal（remove 与生命周期）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html" }
+  - { title: "OpenJDK 21 源码：java/lang/ThreadLocal.java（ThreadLocalMap、Entry）", url: "https://github.com/openjdk/jdk/blob/jdk-21+35/src/java.base/share/classes/java/lang/ThreadLocal.java" }
 ---
 
 ## 一句话

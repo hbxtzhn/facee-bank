@@ -8,6 +8,9 @@ category: spring
 tags: [mvc]
 prerequisites: [q_01M6XBH51ARHWJV4MY6ECCXRB4, q_01M6XBPB8QF1PEP6H2M9RHY0V7]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：DispatcherServlet Processing", url: "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/sequence.html" }
+  - { title: "Spring Framework 参考文档：DispatcherServlet Special Bean Types", url: "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/special-bean-types.html" }
 estimatedMinutes: 4
 ---
 

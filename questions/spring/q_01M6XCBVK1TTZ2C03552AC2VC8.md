@@ -8,6 +8,8 @@ category: spring
 tags: [interceptor, design-pattern]
 prerequisites: [q_01M6XCBV31HGNY87H3VSGYPSHW]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：Plugin.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/plugin/Plugin.java" }
 estimatedMinutes: 3
 ---
 

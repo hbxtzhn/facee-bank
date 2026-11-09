@@ -8,6 +8,8 @@ category: redis
 tags: [rdb-aof, process]
 prerequisites: [q_01M6XCD0Q3ZE619GDN2DV7NSX8, q_01M6XCD0ZB37G4R8HAKH506V14]
 appliesTo: ["Redis >= 7.0 的 multi part AOF 部分"]
+references:
+  - { title: "Redis 文档：Redis persistence（RDB / AOF / Log rewriting / How durable is the append only file）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

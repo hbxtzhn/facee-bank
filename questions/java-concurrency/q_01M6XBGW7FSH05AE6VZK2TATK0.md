@@ -8,6 +8,9 @@ category: java-concurrency
 tags: [thread-pool]
 prerequisites: [q_01M6XBGVPJRP2SGYKS8NZ4YZBN, q_01M6XBGVZ04NZFKTDXHPF7BAWF]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 API：ThreadPoolExecutor（Core and maximum pool sizes / Queuing / Rejected tasks / Keep-alive times）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html" }
+  - { title: "OpenJDK jdk-21-ga 源码：ThreadPoolExecutor.java（runState 注释、execute、getTask）", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-21-ga/src/java.base/share/classes/java/util/concurrent/ThreadPoolExecutor.java" }
 estimatedMinutes: 3
 ---
 

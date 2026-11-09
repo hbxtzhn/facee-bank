@@ -9,6 +9,9 @@ tags: [atomic-operation, optimistic-pessimistic-lock]
 prerequisites: [q_01M6XBH24PS1VMJ25KY5CA4GP1]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：AtomicStampedReference", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/AtomicStampedReference.html" }
+  - { title: "Java SE 21 API：AtomicMarkableReference", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/AtomicMarkableReference.html" }
 ---
 
 ## 一句话

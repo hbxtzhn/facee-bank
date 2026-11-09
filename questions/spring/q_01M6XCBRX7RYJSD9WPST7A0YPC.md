@@ -9,6 +9,9 @@ tags: [association-mapping]
 prerequisites: [q_01M6XCBRN0N32SHJMNVYYM7BA7]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（association 的 fetchType 与嵌套查询）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
+  - { title: "MyBatis 3 文档：配置（settings：lazyLoadingEnabled）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 ---
 
 ## 一句话

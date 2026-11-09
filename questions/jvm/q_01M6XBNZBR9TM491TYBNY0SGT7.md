@@ -8,6 +8,10 @@ category: jvm
 tags: [gc-algorithm, memory-area]
 prerequisites: [q_01M6XBG945J00KRDD6XQX1PSVP]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 17 垃圾回收调优指南：Garbage Collector Implementation（Young 回收触发与 Survivor 晋升）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-collector-implementation.html" }
+  - { title: "JDK 17 垃圾回收调优指南：Factors Affecting Garbage Collection Performance（新生代大小与回收频率）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/factors-affecting-garbage-collection-performance.html" }
+  - { title: "OpenJDK 17u 源码：psScavenge.cpp 的 should_attempt_scavenge", url: "https://github.com/openjdk/jdk17u/blob/master/src/hotspot/share/gc/parallel/psScavenge.cpp" }
 estimatedMinutes: 2
 ---
 
@@ -34,7 +38,7 @@ estimatedMinutes: 2
 ### 触发过程
 1. 程序 `new` 对象，JVM 在 Eden 区里给它分配空间。
 2. Eden 剩余空间放不下这个新对象，JVM 触发 Minor GC。
-3. 回收时，把 Eden 和正在使用的 Survivor 区里还活着的对象复制出去，放到另一块 Survivor 区，年龄够大的对象放进老年代。
+3. 回收时，把 Eden 和正在使用的 Survivor 区里还活着的对象复制到另一块 Survivor 区。年龄够大的对象放进老年代。
 4. Eden 整体清空后，新对象继续在 Eden 里分配。
 
 ### 触发频率由什么决定

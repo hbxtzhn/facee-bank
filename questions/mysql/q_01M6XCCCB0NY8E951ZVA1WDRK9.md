@@ -8,6 +8,9 @@ category: mysql
 tags: [index-structure, file-storage]
 prerequisites: [q_01M6XCC9S7WEGHV1FGC9A85DK4, q_01M6XCCA9767XWRF7WFHET2FS0, q_01M6XCCAH66CYJT3A7ZCYKVC90]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Comparison of B-Tree and Hash Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/index-btree-hash.html" }
+  - { title: "MySQL 8.4 手册：InnoDB Adaptive Hash Index", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-adaptive-hash.html" }
 estimatedMinutes: 3
 ---
 

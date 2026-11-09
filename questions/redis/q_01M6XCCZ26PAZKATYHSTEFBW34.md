@@ -8,6 +8,9 @@ category: redis
 tags: [redis-data-types]
 prerequisites: [q_01M6XCCYS06A008H4CN7G41YY5]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 源码 server.h：zskiplist / zskiplistNode 定义", url: "https://raw.githubusercontent.com/redis/redis/unstable/src/server.h" }
+  - { title: "Redis 源码 t_zset.c：跳表实现说明与 zslRandomLevel", url: "https://raw.githubusercontent.com/redis/redis/unstable/src/t_zset.c" }
 estimatedMinutes: 4
 ---
 

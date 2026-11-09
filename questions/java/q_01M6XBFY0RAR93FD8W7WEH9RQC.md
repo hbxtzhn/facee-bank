@@ -9,6 +9,9 @@ tags: [oop, bytecode-execution]
 prerequisites: [q_01M6WWFR19J8V8HXD8C4DPNED4, q_01M6WWFRKE43EXW2YKWNAZ4598]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java 语言规范 SE 21：8.4.9 Overloading", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.4.9" }
+  - { title: "Java 语言规范 SE 21：8.4.8.3 Requirements in Overriding and Hiding", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.4.8.3" }
 ---
 
 ## 一句话
@@ -25,7 +28,7 @@ estimatedMinutes: 3
 ### 先搞懂：「加菜单」和「换做法」
 做项目时，你写工具类：`log(String)`、`log(String, int)`，一个名字多种参数，这是**重载**，相当于菜单上多了几种点法，由你点菜时说的内容决定上哪个。
 
-另一种情况：父类定了「支付」，子类微信支付自己重写了「支付」的做法，这是**重写**，相当于同一道菜，后厨换了做法，具体用谁家的做法，要看实际上桌的是哪家厨师。
+另一种情况：父类定了「支付」，子类微信支付自己重写了「支付」的做法，这是**重写**。相当于同一道菜，后厨换了做法。具体用谁家的做法，要看实际上桌的是哪家厨师。
 
 后文要用的术语：
 - **方法签名**：方法名加参数列表。

@@ -9,6 +9,10 @@ tags: [gc-collector]
 prerequisites: [q_01M6XBG7X1TEAHATS5SRTKW1D7]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 GC 调优指南：Available Collectors", url: "https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" }
+  - { title: "JEP 291：Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/291" }
+  - { title: "JEP 363：Remove the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/363" }
 estimatedMinutes: 2
 ---
 
@@ -48,7 +52,7 @@ estimatedMinutes: 2
 - **Parallel**：把 Serial 的回收工作交给多个线程做，缩短总的回收时间，更看重吞吐量。
 - **CMS**：老年代用标记-清除，初始标记和重新标记需要暂停，并发标记和并发清除时应用继续运行。因为产生碎片、占用较多 CPU，在 Java 9 被标记为废弃，后来在 Java 14 中被移除。
 - **G1**：把堆分成许多等大小的区域，优先回收垃圾最多的区域，可通过参数指定期望的停顿时间。
-- **ZGC**：通过并发标记、并发整理等技术，把停顿控制得非常短。较新的 JDK 还提供了分代模式，具体可用性取决于版本。
+- **ZGC**：通过并发标记、并发整理等技术，把停顿控制得非常短。JDK 21 起提供分代模式（JEP 439，需 `-XX:+ZGenerational`），JDK 23 起分代模式成为默认（JEP 474）。
 
 ## 易错点
 - 以为 CMS 仍然是可用的主流选择；它在新版本 JDK 中已被移除

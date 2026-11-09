@@ -8,6 +8,8 @@ category: mysql
 tags: [database-log, distributed-transaction]
 prerequisites: [q_01M6XCC8EV6YCRMCP3358H90ST, q_01M6ZYJKEHVRZX1GW646T1F4FK]
 appliesTo: ["MySQL >= 5.7，InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：The Binary Log（InnoDB 两阶段提交与崩溃恢复）", url: "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

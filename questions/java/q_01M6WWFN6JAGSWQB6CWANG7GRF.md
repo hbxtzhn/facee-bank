@@ -8,6 +8,8 @@ category: java
 tags: [type-system]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Java 语言规范 SE 21：4.2 Primitive Types and Values", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-4.html" }
 ---
 
 ## 一句话

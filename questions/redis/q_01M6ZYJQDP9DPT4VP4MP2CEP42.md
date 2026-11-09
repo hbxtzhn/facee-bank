@@ -9,6 +9,10 @@ tags: [thread-model, io-multiplexing, redis-data-types]
 prerequisites: [q_01M6XCCX58KP54RRD12SZBW15X, q_01M6ZYK55ES9GXB8K9VNBJ5F71]
 appliesTo: ["Redis >= 6.0 的多线程 I/O 部分"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 文档：Redis benchmark（单线程执行命令、瓶颈常在网络、epoll）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/optimization/benchmarks/" }
+  - { title: "Redis 7.2 redis.conf：THREADED I/O（io-threads 默认关闭）", url: "https://raw.githubusercontent.com/redis/redis/7.2/redis.conf" }
+  - { title: "Redis 文档：Redis persistence（持久化由 fork 子进程完成）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
 estimatedMinutes: 3
 ---
 

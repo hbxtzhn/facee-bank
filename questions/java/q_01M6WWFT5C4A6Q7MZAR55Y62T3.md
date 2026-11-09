@@ -10,6 +10,9 @@ prerequisites: [q_01M6WWFS81JATQ8XN7SADVDMQR, q_01M6WWFSNX7B3320340RSAHY1W]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java 语言规范 SE 21：9.3 Field Declarations（接口字段）与 9.4 Method Declarations（default 方法）", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-9.html" }
+  - { title: "Java 语言规范 SE 21：8.1.1.1 abstract Classes", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.1.1.1" }
 ---
 
 ## 一句话

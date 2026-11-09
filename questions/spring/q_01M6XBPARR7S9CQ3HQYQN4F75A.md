@@ -8,6 +8,10 @@ category: spring
 tags: [dynamic-proxy, bytecode-execution]
 prerequisites: [q_01M6XBP9ZWJJVYTDKK8GKBAAVQ]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms（CGLIB 限制、Objenesis）", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
+  - { title: "Spring Framework API：cglib Enhancer", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cglib/proxy/Enhancer.html" }
+  - { title: "Spring Framework API：cglib MethodProxy.invokeSuper", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cglib/proxy/MethodProxy.html" }
 estimatedMinutes: 3
 ---
 
@@ -17,7 +21,7 @@ CGLIB 在运行时用字节码技术生成目标类的子类，覆盖其中非 f
 ## 要点
 - [kp1|3] CGLIB 通过继承目标类生成子类作为代理
 - [kp2|3] 子类覆盖非 final 方法，把调用交给 `MethodInterceptor`
-- [kp3|2] 底层用 ASM 操作字节码，在运行时生成子类的 class
+- [kp3|2] 底层操作字节码，在运行时生成子类的 class
 - [kp4|2] final 类和 final、private 方法无法被增强
 - [kp5] 在 `intercept` 里用 `invokeSuper` 调用原方法
 
@@ -28,7 +32,6 @@ CGLIB 在运行时用字节码技术生成目标类的子类，覆盖其中非 f
 后文术语：
 - **子类**：继承目标类，拥有同样的方法，可以覆盖。
 - **字节码**：JVM 执行的 class 文件内容，可以在运行时生成。
-- **ASM**：一个操作字节码的底层库，CGLIB 靠它生成类。
 
 ### 使用步骤
 1. 创建 `Enhancer`，设置父类为目标类。

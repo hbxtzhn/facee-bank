@@ -8,6 +8,9 @@ category: java
 tags: [type-system, thread-safety]
 prerequisites: [q_01M6ZYJ4H3WKVHBAJZS21RYRAV, q_01M6ZYJ4SQDDZBAX1ZARG4B765]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 21 API：java.lang.StringBuffer", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/StringBuffer.html" }
+  - { title: "Java SE 21 API：java.lang.StringBuilder", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/StringBuilder.html" }
 estimatedMinutes: 3
 ---
 

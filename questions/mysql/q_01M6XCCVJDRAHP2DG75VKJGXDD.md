@@ -8,6 +8,9 @@ category: mysql
 tags: [lock-modes, isolation-mvcc]
 prerequisites: [q_01M6XCCR045TE6Z7AB40ZYFS9H, q_01M6XCCVA50JGXX9MQB4TZYCSJ]
 appliesTo: ["MySQL InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Locking（17.7.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html" }
+  - { title: "MySQL 8.4 手册：Transaction Isolation Levels（17.7.2.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

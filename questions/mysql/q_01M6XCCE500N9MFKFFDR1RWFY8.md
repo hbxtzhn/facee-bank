@@ -9,6 +9,9 @@ tags: [index-design, query-execution]
 prerequisites: [q_01M6XCC75ZFAENX4G76CYPG536, q_01M6XCC7E14K9WXXGVWT9T24GD, q_01M6XCCDMCBWPR2CJKH38F68RB]
 appliesTo: ["MySQL >= 5.6"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Index Condition Pushdown Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/index-condition-pushdown-optimization.html" }
+  - { title: "MySQL 8.4 手册：EXPLAIN Output Format（Extra 列）", url: "https://dev.mysql.com/doc/refman/8.4/en/explain-output.html" }
 estimatedMinutes: 3
 ---
 
@@ -18,7 +21,7 @@ estimatedMinutes: 3
 ## 要点
 - [kp1|3] MySQL 分 Server 层和存储引擎层，没有 ICP 时条件都在 Server 层判断
 - [kp2|3] 有 ICP 时，索引列上的条件在存储引擎里提前判断，不满足的行不回表
-- [kp3|2] ICP 只对二级索引有用，对聚簇索引没有意义
+- [kp3|2] InnoDB 里 ICP 只对二级索引有用，对聚簇索引没有意义
 - [kp4] `EXPLAIN` 的 `Extra` 出现 `Using index condition` 表示用了 ICP
 
 ## 详解
@@ -48,7 +51,7 @@ estimatedMinutes: 3
 不该回表的行没有回表，省了很多读。
 
 ### 适用范围
-- 只对二级索引有效；
+- 在 InnoDB 里只对二级索引有效；
 - 条件涉及的列必须在这个索引里；
 - 默认开启，可以用 `optimizer_switch` 里的 `index_condition_pushdown` 开关控制。
 

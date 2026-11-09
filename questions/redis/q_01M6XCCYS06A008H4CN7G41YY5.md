@@ -8,6 +8,9 @@ category: redis
 tags: [redis-data-types, index-structure]
 prerequisites: [q_01M6XCCY743N5ZB5A0BCRV65SX, q_01M6XCCYFJRW90EH10C2QQQTXM]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 文档：Sorted sets（跳表加哈希表）", url: "https://redis.io/docs/latest/develop/data-types/sorted-sets/" }
+  - { title: "Redis 源码 t_zset.c：跳表实现说明与 zslRandomLevel", url: "https://raw.githubusercontent.com/redis/redis/unstable/src/t_zset.c" }
 estimatedMinutes: 4
 ---
 

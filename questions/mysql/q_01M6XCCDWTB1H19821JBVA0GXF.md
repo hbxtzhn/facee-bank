@@ -9,6 +9,9 @@ tags: [index-design]
 prerequisites: [q_01M6XCCDMCBWPR2CJKH38F68RB]
 appliesTo: ["跳跃扫描部分：MySQL >= 8.0.13"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Multiple-Column Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html" }
+  - { title: "MySQL 8.4 手册：Range Optimization（Skip Scan）", url: "https://dev.mysql.com/doc/refman/8.4/en/range-optimization.html" }
 estimatedMinutes: 3
 ---
 
@@ -53,7 +56,7 @@ estimatedMinutes: 3
 - 判断是否用上，最可靠是看 `EXPLAIN` 的 `key_len`，它能反映用了几列。
 
 ### 进阶：跳跃扫描（基础薄弱可先跳过）
-MySQL 8.0.13 起，在最左列取值很少的情况下，优化器有时会采用跳跃扫描，让缺了最左列的查询也能用上索引。这是优化器的选择，不是保证，设计索引时不要依赖它。
+MySQL 8.0.13 起，优化器有时会采用跳跃扫描，对最左列的每个不同取值分别扫描一段范围，让缺了最左列的查询也能用上索引。它有使用条件（如查询只用到这个索引里的列），是否采用由优化器按代价决定，不是保证，设计索引时不要依赖它。
 
 ## 示例
 ```sql

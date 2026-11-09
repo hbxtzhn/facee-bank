@@ -9,6 +9,9 @@ tags: [bean-lifecycle]
 prerequisites: [q_01M6XBH5R4PF3S781XSRZRP188]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Spring Framework 参考文档：Customizing the Nature of a Bean（初始化与销毁回调的顺序、Aware）", url: "https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html" }
+  - { title: "Spring Framework Javadoc：BeanFactory（Bean 生命周期方法的完整顺序）", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html" }
 ---
 
 ## 一句话

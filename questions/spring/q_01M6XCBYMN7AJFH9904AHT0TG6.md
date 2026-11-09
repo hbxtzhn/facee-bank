@@ -7,6 +7,9 @@ importance: 1
 category: spring
 tags: [mybatis-internals]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：BatchExecutor.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/executor/BatchExecutor.java" }
+  - { title: "MyBatis 3 文档：Java API（SqlSession、ExecutorType、Mapper 注解）", url: "https://mybatis.org/mybatis-3/java-api.html" }
 estimatedMinutes: 3
 ---
 

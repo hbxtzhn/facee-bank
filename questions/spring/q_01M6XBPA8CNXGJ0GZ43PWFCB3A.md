@@ -10,6 +10,10 @@ prerequisites: [q_01M6XBP9ZWJJVYTDKK8GKBAAVQ]
 appliesTo: ["Spring Boot >= 2.0（默认使用 CGLIB）"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms（JDK 与 CGLIB 的选择、proxyTargetClass、CGLIB 限制）", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
+  - { title: "Spring Boot 参考文档：Aspect-Oriented Programming（默认使用 CGLIB 代理）", url: "https://docs.spring.io/spring-boot/reference/features/aop.html" }
+  - { title: "Spring Boot 2.0 Migration Guide：Default Proxying Strategy", url: "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide" }
 ---
 
 ## 一句话
@@ -46,7 +50,7 @@ JDK 代理像是“照着合同（接口）找个能签同样合同的人”：�
 Spring Framework 本身的规则是：目标类实现了接口，用 JDK 代理；没有接口，用 CGLIB。设置 `proxyTargetClass=true` 可以强制用 CGLIB。Spring Boot 2.0 起把这个值默认设为 true，所以 Boot 项目默认用 CGLIB。
 
 ### 进阶：CGLIB 的限制
-CGLIB 要覆盖方法，所以 final 方法和 private 方法无法被拦截。较新的 Spring 借助 Objenesis 创建代理实例，目标类不再强制要有无参构造器。
+CGLIB 要覆盖方法，所以 final 方法和 private 方法无法被拦截。Spring 借助 Objenesis 创建 CGLIB 代理实例，目标类的构造器不会被调用两次。
 
 ## 易错点
 - 以为 JDK 代理也能把对象转成目标实现类；它只实现了接口，转换会报错

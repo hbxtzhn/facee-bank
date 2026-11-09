@@ -8,6 +8,9 @@ category: java
 tags: [reflection, class-loading]
 prerequisites: [q_01M6XBG49186RD6CSF88AV1WET, q_01M6XBGETV46EJNC6JY9R5X884]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 21 API：java.lang.Class（类说明与 getDeclaredMethods、forName）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" }
+  - { title: "JVMS SE 17 §2.5.4 Method Area、§2.5.5 Run-Time Constant Pool", url: "https://docs.oracle.com/javase/specs/jvms/se17/html/jvms-2.html" }
 estimatedMinutes: 3
 ---
 
@@ -33,7 +36,7 @@ Java 里，编译后的 .class 文件就像说明书的原稿。程序运行起�
 - **Class 对象**：类的信息在堆里的“门面”，反射从它开始。
 
 ### 第一步：类加载把信息放进内存
-Java 程序分两个阶段：编译和运行。编译得到字节码文件（.class）；运行时，JVM 在需要某个类时加载它：读取字节码，把类的结构信息（类名、父类、字段、方法、构造器等）存到方法区，并生成一个对应的 Class 对象。
+Java 程序分两个阶段：编译和运行。编译得到字节码文件（.class）；运行时，JVM 在需要某个类时加载它。它读取字节码，把类的结构信息（类名、父类、字段、方法、构造器等）存到方法区，并生成一个对应的 Class 对象。
 
 ### 第二步：通过 Class 对象读取信息
 我们写的 `Class.forName("...")`、`User.class` 拿到的就是这个 Class 对象。调用 `getDeclaredMethods()` 等方法，其实就是让它把方法区里保存的结构信息整理后返回。
@@ -47,7 +50,7 @@ Java 程序分两个阶段：编译和运行。编译得到字节码文件（.cl
 直接调用在编译时就确定了调用目标；反射在运行时才去查找，还要做访问权限检查、参数装箱等额外工作。具体慢多少取决于 JDK 版本和场景，不要笼统下结论，关键路径上通常缓存查找结果。
 
 ### 进阶：Class 对象和类加载器（基础薄弱可先跳过）
-Class 对象的唯一性是相对于类加载器而言的：同一个 .class 文件被两个不同的类加载器加载，会得到两个不同的 Class 对象，它们互相不兼容。这也是某些热部署、容器隔离场景出现类型转换失败的原因。
+Class 对象的唯一性是相对于类加载器而言的。同一个 .class 文件被两个不同的类加载器加载，会得到两个不同的 Class 对象，它们互相不兼容。这也是某些热部署、容器隔离场景出现类型转换失败的原因。
 
 ## 示例
 ```java

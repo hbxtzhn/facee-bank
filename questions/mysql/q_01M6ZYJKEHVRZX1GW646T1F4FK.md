@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [database-log, query-execution]
 appliesTo: ["MySQL >= 5.7，InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Redo Log", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html" }
+  - { title: "MySQL 8.4 手册：The Binary Log（含 InnoDB 两阶段提交与崩溃恢复）", url: "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

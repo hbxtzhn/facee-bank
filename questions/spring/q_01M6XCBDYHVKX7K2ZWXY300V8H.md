@@ -8,6 +8,8 @@ category: spring
 tags: [mvc, design-pattern]
 prerequisites: [q_01M6XBH59XNJ9FCTA43MEZGTFR, q_01M6ZYJFSEHF4YSEXPRNPCQ620]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：DispatcherServlet Special Bean Types（HandlerMapping、HandlerAdapter）", url: "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/special-bean-types.html" }
 estimatedMinutes: 3
 ---
 

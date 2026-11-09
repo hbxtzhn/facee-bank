@@ -7,6 +7,10 @@ importance: 2
 category: spring
 tags: [mybatis-internals]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：BaseStatementHandler.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/executor/statement/BaseStatementHandler.java" }
+  - { title: "MyBatis 源码：RoutingStatementHandler.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/executor/statement/RoutingStatementHandler.java" }
+  - { title: "MyBatis 3 文档：Configuration（objectFactory、plugins、jdbcTypeForNull）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 estimatedMinutes: 3
 ---
 

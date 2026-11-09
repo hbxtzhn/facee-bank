@@ -8,6 +8,8 @@ category: spring
 tags: [interceptor]
 prerequisites: [q_01M6XCBVV81R8AQS2VMXFM4JS6]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 手册：Configuration（Plugins、settings）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 estimatedMinutes: 3
 ---
 

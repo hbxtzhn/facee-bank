@@ -8,6 +8,8 @@ category: spring
 tags: [sql-mapping]
 prerequisites: [q_01M6XCBK2B3MZCHD8CR72SGV1H]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：配置 - typeHandlers（BaseTypeHandler 与自定义示例）", url: "https://mybatis.org/mybatis-3/configuration.html#typeHandlers" }
 estimatedMinutes: 3
 ---
 

@@ -7,6 +7,9 @@ importance: 1
 category: spring
 tags: [mybatis-internals, design-pattern]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：MapperMethod.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperMethod.java" }
+  - { title: "MyBatis 源码：MapperProxy.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperProxy.java" }
 estimatedMinutes: 3
 ---
 

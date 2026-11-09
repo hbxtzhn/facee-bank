@@ -9,6 +9,10 @@ tags: [synchronized, memory-model]
 prerequisites: [q_01M6XBGYPJXM20MV9Q8KEXDR5P]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "JLS SE 21 §17.4.4 Synchronization Order（解锁 synchronizes-with 后续加锁）", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.4.4" }
+  - { title: "JLS SE 21 §17.1 Synchronization（监视器可被同一线程多次加锁）", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.1" }
+  - { title: "JVMS SE 21 §6.5 monitorenter / monitorexit", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-6.html#jvms-6.5.monitorenter" }
 ---
 
 ## 一句话

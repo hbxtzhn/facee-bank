@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [optimistic-pessimistic-lock, lock-modes]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Locking Reads", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html" }
+  - { title: "MySQL 8.4 手册：Locks Set by Different SQL Statements in InnoDB", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locks-set.html" }
 estimatedMinutes: 3
 ---
 

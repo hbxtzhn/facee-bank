@@ -7,6 +7,10 @@ importance: 2
 category: java-concurrency
 tags: [thread-basics]
 prerequisites: [q_01M6ZYJAAS30NGD76E0EK1JMKZ]
+references:
+  - { title: "Java SE 21 API：java.util.concurrent.Callable", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Callable.html" }
+  - { title: "Java SE 21 API：java.util.concurrent.FutureTask", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/FutureTask.html" }
+  - { title: "Java SE 21 API：java.lang.Thread", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

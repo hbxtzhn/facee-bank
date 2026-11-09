@@ -9,6 +9,9 @@ tags: [synchronized, aqs]
 prerequisites: [q_01M6XBGYPJXM20MV9Q8KEXDR5P]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：ReentrantLock", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html" }
+  - { title: "JVMS SE 21 §2.11.10 Synchronization", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html#jvms-2.11.10" }
 ---
 
 ## 一句话
@@ -53,7 +56,7 @@ estimatedMinutes: 4
 - **实现层面**：synchronized 底层依赖对象头和监视器；ReentrantLock 依赖 AQS 的状态变量和等待队列。
 
 ### 进阶：性能怎么比（基础薄弱可先跳过）
-早期 synchronized 比 ReentrantLock 慢得多，后来 JVM 对 synchronized 做了大量优化（锁升级、自旋等），两者的差距不再是选择依据。具体哪个快，取决于 JDK 版本和竞争情况，应该看压测，不要凭印象。
+早期 synchronized 比 ReentrantLock 慢得多。后来 JVM 对 synchronized 做了大量优化（锁升级、自旋等），两者的差距不再是选择依据。具体哪个快，取决于 JDK 版本和竞争情况。应该看压测，不要凭印象。
 
 ## 示例
 ```java

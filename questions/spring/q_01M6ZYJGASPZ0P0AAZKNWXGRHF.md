@@ -8,6 +8,9 @@ category: spring
 tags: [transaction-management, dynamic-proxy]
 appliesTo: ["Spring Framework 6.0 起支持基于类代理的 protected 和包可见方法"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Using @Transactional（Method visibility）", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" }
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms（CGLIB 限制）", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
 estimatedMinutes: 3
 ---
 

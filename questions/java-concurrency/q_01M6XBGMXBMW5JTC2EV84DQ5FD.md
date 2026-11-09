@@ -7,6 +7,9 @@ importance: 2
 category: java-concurrency
 tags: [thread-basics, thread-model]
 appliesTo: ["虚拟线程部分：Java >= 21"]
+references:
+  - { title: "Java SE 21 API：java.lang.Thread", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" }
+  - { title: "JEP 444：Virtual Threads", url: "https://openjdk.org/jeps/444" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

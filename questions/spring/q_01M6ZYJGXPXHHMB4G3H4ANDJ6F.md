@@ -7,6 +7,9 @@ importance: 3
 category: spring
 tags: [transaction-management, dynamic-proxy]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms（Self-invocation）", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
+  - { title: "Spring Framework 参考文档：Using @Transactional", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" }
 estimatedMinutes: 3
 ---
 

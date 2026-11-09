@@ -8,6 +8,10 @@ category: jvm
 tags: [performance-diagnosis, gc-algorithm]
 prerequisites: [q_01M6XBG8KPCG2V9K1SXQ2F3KPH]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 jcmd 手册：GC.heap_dump", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/jcmd.html" }
+  - { title: "JDK 21 jmap 手册：-dump 选项", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/jmap.html" }
+  - { title: "Java SE 8 java 命令参考：-XX:+HeapDumpOnOutOfMemoryError", url: "https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html" }
 estimatedMinutes: 4
 ---
 
@@ -43,7 +47,7 @@ Full GC 是整个堆的大清理，停顿长。频繁发生，说明老年代这
 - **长生命周期对象过多**：程序频繁生成短时间内存活的对象，但 Survivor 区装不下，或存活时间超过阈值，提前进入老年代。解决：调整新生代、Survivor 大小或晋升年龄，同时优化代码减少这类对象。
 
 ### 第三步：dump 堆定位
-- 在服务器上用 `jmap -dump:live,format=b,file=heap.hprof <pid>` 或 `jcmd <pid> GC.heap_dump` 导出堆。注意 `live` 会先触发一次 Full GC，线上要谨慎。
+- 在服务器上用 `jmap -dump:live,format=b,file=heap.hprof <pid>` 或 `jcmd <pid> GC.heap_dump` 导出堆。注意 `jcmd` 的 `GC.heap_dump` 默认会先请求一次 Full GC（加 `-all` 才不触发），导出代价高，线上要谨慎。
 - 用 MAT 之类的分析工具打开，按占用大小排序，看哪些类的实例最多、占内存最大，并沿引用链找出是谁持有它们。
 - 提前配置 `-XX:+HeapDumpOnOutOfMemoryError`，这样一旦发生 OOM 会自动保存堆。
 

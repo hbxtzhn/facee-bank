@@ -7,6 +7,8 @@ importance: 2
 category: java
 tags: [serialization]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 21 API：java.io.Serializable", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" }
 estimatedMinutes: 2
 ---
 
@@ -33,7 +35,7 @@ estimatedMinutes: 2
 内存里的对象只在当前进程里有意义。想让它存活得比进程更久（存盘），或者去另一台机器（网络调用），就得变成通用的字节形式。反过来，读出来时再还原成对象，程序才能继续用。
 
 ### 常见的序列化方式
-- **Java 原生序列化**：用 ObjectOutputStream 和 ObjectInputStream，类要实现 Serializable，只适用于 Java 程序之间。
+- **Java 原生序列化**：用 ObjectOutputStream 和 ObjectInputStream 读写。类要实现 Serializable。只适用于 Java 程序之间。
 - **JSON**：文本格式，可读性好，跨语言，Web 接口最常用，Java 里常用 Jackson 处理。
 - **Protocol Buffers 等二进制格式**：体积小、速度快，需要事先定义数据结构，常用于 RPC。
 

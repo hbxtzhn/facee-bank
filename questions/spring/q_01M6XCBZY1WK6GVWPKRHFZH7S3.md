@@ -8,6 +8,10 @@ category: spring
 tags: [mybatis-internals, dynamic-proxy]
 prerequisites: [q_01M6XCBGRWDPSDMVC1HYFX55X8]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：MapperRegistry.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperRegistry.java" }
+  - { title: "MyBatis 源码：MapperProxyFactory.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/binding/MapperProxyFactory.java" }
+  - { title: "MyBatis-Spring 文档：Injecting Mappers（MapperFactoryBean、@MapperScan）", url: "https://mybatis.org/spring/mappers.html" }
 estimatedMinutes: 4
 ---
 

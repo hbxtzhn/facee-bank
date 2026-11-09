@@ -8,6 +8,8 @@ category: jvm
 tags: [memory-area, class-loading]
 prerequisites: [q_01M6XBG73XA3XKKHT2865XQC8N]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java 虚拟机规范 SE 21 §6.5：new 指令", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-6.html#jvms-6.5.new" }
 estimatedMinutes: 3
 ---
 

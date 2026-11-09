@@ -8,6 +8,9 @@ category: spring
 tags: [mybatis-cache]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（cache 元素与默认值、事务性）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
+  - { title: "MyBatis 3 文档：配置（settings：cacheEnabled）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 ---
 
 ## 一句话

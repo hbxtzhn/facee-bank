@@ -9,6 +9,10 @@ tags: [class-loading]
 prerequisites: [q_01M6XBGFKRNVJX1180XX4DZNDH]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.lang.ClassLoader", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassLoader.html" }
+  - { title: "Apache Tomcat 10.1 文档：Class Loader How-To", url: "https://tomcat.apache.org/tomcat-10.1-doc/class-loader-howto.html" }
+  - { title: "Java SE 21 API：java.util.ServiceLoader", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ServiceLoader.html" }
 ---
 
 ## 一句话
@@ -36,7 +40,7 @@ estimatedMinutes: 4
 `loadClass()` 里写死了"先委派"的顺序。如果你重写它，改成先自己找、再问父加载器，就改变了顺序，等于打破了双亲委派。
 
 ### Tomcat 为什么要这样做
-Tomcat 里每个 Web 应用有自己的类加载器，加载类时优先从自己的目录（应用的类和依赖）找，找不到再交给上级，这样不同的应用可以使用同一个库的不同版本，互不影响。JDK 的核心类仍然交给上级加载，不允许应用替换。
+Tomcat 里每个 Web 应用有自己的类加载器。加载类时，它优先从自己的目录（应用的类和依赖）找，找不到再交给上级。这样不同的应用可以使用同一个库的不同版本，互不影响。JDK 的核心类仍然交给上级加载，不允许应用替换。
 
 ### 进阶：另一种打破方式（基础薄弱可先跳过）
 JDBC 的接口在核心类库里，由启动类加载器加载，但具体实现在厂商的 jar 里，需要应用类加载器去加载。启动类加载器没法向下找，于是通过**线程上下文类加载器**让上层代码也能用到下层的加载器。

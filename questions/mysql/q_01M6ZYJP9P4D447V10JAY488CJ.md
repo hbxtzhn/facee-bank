@@ -8,6 +8,9 @@ category: mysql
 tags: [sql-optimization]
 prerequisites: [q_01M6XCCMEG0EFAYYT7CJA55CKP]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Optimizing Subqueries（semijoin、materialization、EXISTS 策略）", url: "https://dev.mysql.com/doc/refman/8.4/en/subquery-optimization.html" }
+  - { title: "MySQL 8.4 手册：Optimizing Derived Tables, View References, and CTEs", url: "https://dev.mysql.com/doc/refman/8.4/en/derived-table-optimization.html" }
 estimatedMinutes: 3
 ---
 

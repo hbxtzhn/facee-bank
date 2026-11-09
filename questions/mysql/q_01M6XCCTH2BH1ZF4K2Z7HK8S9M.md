@@ -8,6 +8,9 @@ category: mysql
 tags: [isolation-mvcc, lock-modes]
 prerequisites: [q_01M6XCCSHSV6BBK72JGGX9R1NB, q_01M6XCCT8E7EYYHFMN310PDB3W]
 appliesTo: ["MySQL InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：Transaction Isolation Levels（17.7.2.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
+  - { title: "MySQL 8.4 手册：Consistent Nonlocking Reads（17.7.2.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---
@@ -39,7 +42,7 @@ estimatedMinutes: 4
 - **当前读**：`SELECT ... FOR UPDATE`、`UPDATE` 等，读最新数据并加锁。
 
 ### 读未提交：基本没有保护
-普通读直接读行上最新的内容，不管它所在事务提交没有。所以会读到别人还没提交的数据，也就是脏读。
+普通读不加锁，可能读到别的事务还没提交的版本。所以会读到别人还没提交的数据，也就是脏读。
 
 ### 读已提交：每次查询都换一份新视图
 每次执行查询，InnoDB 都重新生成一个读视图。别人刚提交的改动，在你下一次查询时就能看到。
@@ -50,7 +53,7 @@ estimatedMinutes: 4
 事务里第一次执行普通查询时生成读视图，之后所有查询都复用它。别人后来提交的改动，对你来说都是不可见的，所以反复读同一行结果一致。
 
 ### 串行化：靠锁让事务排队
-串行化下，普通查询也会被加上共享锁。读写互相阻塞，事务近似一个接一个执行。它最安全，但并发能力最差。
+串行化下，关闭自动提交时，普通查询会被隐式改成加共享锁的读。读写互相阻塞，事务近似一个接一个执行。它最安全，但并发能力最差。
 
 ### 当前读怎么办：靠锁
 可重复读下，快照读用读视图保证一致。但当前读要读最新数据，没法用旧快照，只能加行锁。

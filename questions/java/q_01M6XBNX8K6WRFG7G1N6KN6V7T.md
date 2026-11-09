@@ -9,6 +9,10 @@ tags: [io-multiplexing, socket]
 prerequisites: [q_01M6XCFWPGHQWTXE0J8FY9ZRNP]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.nio.channels.Selector", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/channels/Selector.html" }
+  - { title: "Java SE 21 API：java.nio.channels.SelectableChannel（register 与非阻塞模式）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/channels/SelectableChannel.html" }
+  - { title: "OpenJDK 源码：sun/nio/ch/DefaultSelectorProvider.java（Linux 默认 EPollSelectorProvider）", url: "https://github.com/openjdk/jdk/blob/master/src/java.base/linux/classes/sun/nio/ch/DefaultSelectorProvider.java" }
 ---
 
 ## 一句话
@@ -54,7 +58,7 @@ NIO 的做法是只设一个前台：每位访客到了先登记，并留话说�
 BIO 里线程阻塞在某一条连接的读上，别的连接来了数据也没法管。NIO 里线程阻塞在 select 上，只要有任何一个连接就绪就会被唤醒。线程数不再跟连接数成正比，适合连接多、但每条连接大部分时间空闲的场景。
 
 ### 进阶：底层怎么知道谁就绪（基础薄弱可先跳过）
-Selector 的实现依赖操作系统。Linux 上通常用 epoll：连接对应的文件描述符（操作系统用来标识一个打开的连接或文件的整数编号）会登记在内核里，内核发现有数据到达就记下，select 时直接取出就绪的那批，不需要每次把全部连接重新扫一遍。其他系统会用 kqueue、select 等机制，实现不同。实际项目里常用 Netty 封装这套流程，省去自己处理这些细节。
+Selector 的实现依赖操作系统。Linux 上通常用 epoll。连接对应的文件描述符（操作系统用来标识一个打开的连接或文件的整数编号）会登记在内核里。内核发现有数据到达就记下，select 时直接取出就绪的那批，不需要每次把全部连接重新扫一遍。其他系统会用 kqueue、select 等机制，实现不同。实际项目里常用 Netty 封装这套流程，省去自己处理这些细节。
 
 ## 示例
 ```java

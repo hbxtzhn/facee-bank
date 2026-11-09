@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBH69B62C0G3H54M5E4X7D]
 appliesTo: ["Spring Framework >= 4.3"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Spring Framework 参考文档：Dependency Injection（构造器注入与 setter 注入、循环依赖）", url: "https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html" }
+  - { title: "Spring Framework 4.3 参考文档：Annotation-based container configuration（@Autowired，单构造器可省略）", url: "https://docs.spring.io/spring-framework/docs/4.3.x/spring-framework-reference/html/beans.html" }
 ---
 
 ## 一句话

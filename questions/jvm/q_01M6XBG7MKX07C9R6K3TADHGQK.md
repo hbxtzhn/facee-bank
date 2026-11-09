@@ -8,6 +8,9 @@ category: jvm
 tags: [bytecode-execution]
 prerequisites: [q_01M6XBG73XA3XKKHT2865XQC8N, q_01M6XBG7C8KPSDAX0XYG3M9X25]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 21 HotSpot 虚拟机技术概述：解释器、热点检测与自适应编译", url: "https://docs.oracle.com/en/java/javase/21/vm/java-virtual-machine-technology-overview.html" }
+  - { title: "OpenJDK 17u 源码：compilationPolicy.hpp 分层编译说明（C1、C2、OSR）", url: "https://github.com/openjdk/jdk17u/blob/master/src/hotspot/share/compiler/compilationPolicy.hpp" }
 estimatedMinutes: 3
 ---
 

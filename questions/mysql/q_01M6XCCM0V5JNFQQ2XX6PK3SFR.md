@@ -8,6 +8,9 @@ category: mysql
 tags: [index-design]
 prerequisites: [q_01M6XCCB9DWT1CMJKQHDGKQGQ0, q_01M6XCCDMCBWPR2CJKH38F68RB, q_01M6XCCDWTB1H19821JBVA0GXF]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Multiple-Column Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/multiple-column-indexes.html" }
+  - { title: "MySQL 8.4 手册：ORDER BY Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/order-by-optimization.html" }
 estimatedMinutes: 4
 ---
 

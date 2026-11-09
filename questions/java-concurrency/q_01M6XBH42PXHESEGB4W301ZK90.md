@@ -9,6 +9,9 @@ tags: [deadlock, aqs]
 prerequisites: [q_01M6XBH3T5CA7PAS445KJ6V3K5]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java 教程：Deadlock", url: "https://docs.oracle.com/javase/tutorial/essential/concurrency/deadlock.html" }
+  - { title: "Java SE 21 API：ReentrantLock.tryLock(long, TimeUnit)", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html#tryLock(long,java.util.concurrent.TimeUnit)" }
 ---
 
 ## 一句话

@@ -8,6 +8,9 @@ category: mysql
 tags: [sql-optimization, index-design]
 prerequisites: [q_01M6XCCNN56CMPW0WPWNNZGSEW]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：ORDER BY Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/order-by-optimization.html" }
+  - { title: "MySQL 8.4 手册：CREATE INDEX Statement（降序索引）", url: "https://dev.mysql.com/doc/refman/8.4/en/create-index.html" }
 estimatedMinutes: 3
 ---
 

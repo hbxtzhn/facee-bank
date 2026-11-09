@@ -7,6 +7,8 @@ importance: 3
 category: spring
 tags: [transaction-management, exception]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Rolling Back a Declarative Transaction", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html" }
 estimatedMinutes: 3
 ---
 

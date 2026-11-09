@@ -8,6 +8,9 @@ category: mysql
 tags: [index-design]
 prerequisites: [q_01M6XCCK7WD6RKSBP8NZY9YBMP]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：CREATE INDEX Statement（Prefix Indexes）", url: "https://dev.mysql.com/doc/refman/8.4/en/create-index.html" }
+  - { title: "MySQL 8.4 手册：Column Indexes（前缀索引）", url: "https://dev.mysql.com/doc/refman/8.4/en/column-indexes.html" }
 estimatedMinutes: 3
 ---
 
@@ -55,7 +58,7 @@ FROM user;
 同样是 `email`，如果所有邮箱都是同一家公司，后缀一样，前缀部分才有区别；如果前缀几乎都以相同的字符开头，就要取得更长。长度没有通用的标准值，要看自己表里的数据分布。
 
 ### 局限和维护
-- 前缀索引不能作为覆盖索引，查询仍要回表取完整值；
+- 前缀索引只存了前缀，没法单靠索引给出完整值，查询仍要回表核对；
 - 业务数据变化后，原来的区分度可能下降，要定期复查。
 
 ## 示例
@@ -68,7 +71,7 @@ EXPLAIN SELECT id FROM user WHERE email = 'tom@example.com';
 ```
 
 ## 易错点
-- 凭感觉随便取一个长度；没统计区分度，可能取得太短导致索引失效
+- 凭感觉随便取一个长度；没统计区分度，可能取得太短，索引筛选不出多少行
 - 一味追求省空间，把前缀取得很短；筛选效果差，反而更慢
 - 以为取定长度后永远有效；数据分布变了，需要重新评估
 

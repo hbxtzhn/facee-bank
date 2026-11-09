@@ -7,6 +7,9 @@ importance: 3
 category: spring
 tags: [transaction-management, exception]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Rolling Back a Declarative Transaction", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html" }
+  - { title: "Spring Framework 参考文档：Using @Transactional（Settings）", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" }
 estimatedMinutes: 3
 ---
 
@@ -26,7 +29,7 @@ Java 的异常分两类：
 - **运行时异常**：不强制处理，比如空指针、数组越界、非法参数，一般表示程序出错了；
 - **检查异常**：编译器强制你处理（要么 catch，要么在方法上声明 throws），比如读文件时的 `IOException`，一般表示可预期的外部问题。
 
-可以这么理解 Spring 的默认设定：运行时异常是“严重事故”，必须撤销重来；检查异常是“可预期的业务情况”，调用方可能有自己的处理办法，所以默认不回滚。这个默认规则沿用自 EJB 的惯例。
+可以这么理解 Spring 的默认设定：运行时异常是“严重事故”，必须撤销重来；检查异常是“可预期的业务情况”，调用方可能有自己的处理办法，所以默认不回滚。
 
 后文用到的术语：
 - **rollbackFor**：指定哪些异常类型也要回滚。

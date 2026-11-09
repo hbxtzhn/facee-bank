@@ -9,6 +9,9 @@ tags: [optimistic-pessimistic-lock]
 prerequisites: [q_01M6XBH30ENEMEQ84SNRXHQ3M0, q_01M6XBH38F1VMGD9XFXYVX20T8]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：java.util.concurrent.atomic 包说明（compareAndSet 等无锁更新）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" }
+  - { title: "Java SE 21 API：LongAdder（高竞争下与 AtomicLong 的对比）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/LongAdder.html" }
 ---
 
 ## 一句话

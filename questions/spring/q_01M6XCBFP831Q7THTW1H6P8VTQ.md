@@ -9,6 +9,9 @@ tags: [orm]
 prerequisites: [q_01M6XBPE22165T2XWWCENFW4KD]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Introduction", url: "https://mybatis.org/mybatis-3/index.html" }
+  - { title: "Hibernate ORM 6.6 Introduction：Entities and associations", url: "https://docs.hibernate.org/orm/6.6/introduction/html_single/Hibernate_Introduction.html" }
 ---
 
 ## 一句话

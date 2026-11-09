@@ -7,6 +7,8 @@ importance: 2
 category: spring
 tags: [sql-mapping]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：Java API（Mapper 方法的多参数与 @Param）", url: "https://mybatis.org/mybatis-3/java-api.html" }
 estimatedMinutes: 3
 ---
 

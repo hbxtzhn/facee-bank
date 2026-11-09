@@ -8,6 +8,10 @@ category: jvm
 tags: [gc-algorithm, memory-area]
 prerequisites: [q_01M6XBG945J00KRDD6XQX1PSVP]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 17 垃圾回收调优指南：Garbage Collector Implementation（老年代填满触发整堆回收）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-collector-implementation.html" }
+  - { title: "OpenJDK 17u 源码：psScavenge.cpp（晋升估算不足时退化为 Full GC）", url: "https://github.com/openjdk/jdk17u/blob/master/src/hotspot/share/gc/parallel/psScavenge.cpp" }
+  - { title: "JDK 17 java 命令文档：-XX:+DisableExplicitGC", url: "https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html" }
 estimatedMinutes: 3
 ---
 

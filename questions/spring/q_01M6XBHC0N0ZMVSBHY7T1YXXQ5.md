@@ -8,6 +8,9 @@ category: spring
 tags: [transaction-management, aop]
 prerequisites: [q_01M6XBH92BND8EYH9T6RE07YES]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Understanding the Spring Framework's Declarative Transaction Implementation", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html" }
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
 estimatedMinutes: 3
 ---
 
@@ -42,7 +45,7 @@ Spring 发现某个 Bean 的方法有 `@Transactional`，就为这个 Bean 创�
 整套流程对业务代码是透明的：业务方法里只写业务，事务的“前后动作”由代理在外面包住。
 
 ### 为什么同一事务要共用连接
-事务是数据库连接上的概念：同一个连接上的多条 SQL 才能一起提交或回滚。Spring 在开启事务时，把连接绑定到当前线程。之后 MyBatis、JdbcTemplate 等在同一线程里取连接，拿到的就是这个绑定的连接，所以多个 SQL 属于同一个事务。
+事务是数据库连接上的概念：同一个连接上的多条 SQL 才能一起提交或回滚。Spring 在开启事务时，把事务资源（包括连接）绑定到当前线程。之后 MyBatis、JdbcTemplate 等在同一线程里取连接，拿到的就是这个绑定的连接，所以多个 SQL 属于同一个事务。
 
 这也说明：事务和线程绑定，在方法里新开线程操作数据库，用的就不是原来的事务。
 
@@ -68,7 +71,7 @@ public class OrderService {
 
 ## 追问
 ### [f1] Spring 是用 JDK 动态代理还是 CGLIB 实现的？
-两种都可能：目标类实现了接口时可以用 JDK 动态代理，没有接口时用 CGLIB。Spring Boot 默认倾向使用 CGLIB 代理类。
+两种都可能：目标类实现了接口时可以用 JDK 动态代理，没有接口时用 CGLIB。Spring Boot 可能按配置默认启用基于类的（CGLIB）代理。
 
 ### [f2] 为什么同类内部调用事务会失效？
 内部用 `this` 调用，绕过了代理对象，代理里的事务拦截逻辑不会执行。

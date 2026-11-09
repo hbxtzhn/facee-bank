@@ -8,6 +8,9 @@ category: java
 tags: [bytecode-execution]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Java 虚拟机规范 SE 21：1.2 The Java Virtual Machine", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-1.html" }
+  - { title: "Java 虚拟机规范 SE 21：4.1 The ClassFile Structure（版本号与支持范围）", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html" }
 ---
 
 ## 一句话
@@ -23,7 +26,7 @@ Java 源代码先编译成与平台无关的字节码，各个操作系统上各
 ### 先搞懂：为什么同一份程序能在不同系统上跑
 你写了一个后端服务，在 Windows 笔记本上开发，打成 jar 包，丢到 Linux 服务器上直接就能跑，不用改代码，也不用重新编译。
 
-可以用「同声传译」来类比：你写好一份中间稿（字节码），Windows 有一位懂 Windows 的译员，Linux 有一位懂 Linux 的译员。同一份中间稿，各自译成当地的话。你只需要写一次稿子。
+可以用「同声传译」来类比：你写好一份中间稿（字节码）。Windows 有一位懂 Windows 的译员，Linux 有一位懂 Linux 的译员。同一份中间稿，各自译成当地的话。你只需要写一次稿子。
 
 后文会用到的几个词：
 - **字节码**：编译后的 .class 文件里的内容，一种和具体 CPU、操作系统无关的中间指令。

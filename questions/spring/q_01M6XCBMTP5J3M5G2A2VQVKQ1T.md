@@ -7,6 +7,9 @@ importance: 1
 category: spring
 tags: [configuration]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：配置 - settings", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 源码：XMLConfigBuilder.settingsAsProperties", url: "https://github.com/mybatis/mybatis-3/blob/master/src/main/java/org/apache/ibatis/builder/xml/XMLConfigBuilder.java" }
 estimatedMinutes: 2
 ---
 

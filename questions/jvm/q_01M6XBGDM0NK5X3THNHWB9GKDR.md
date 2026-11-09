@@ -9,6 +9,10 @@ tags: [gc-collector]
 appliesTo: ["CMS：Java <= 13（Java 14 起移除）", "G1 默认收集器：Java >= 9"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Oracle JDK 21 垃圾收集调优指南：Garbage-First (G1) Garbage Collector", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
+  - { title: "Oracle JDK 8 垃圾收集调优指南：Concurrent Mark Sweep (CMS) Collector", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html" }
+  - { title: "JEP 363: Remove the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/363" }
 ---
 
 ## 一句话

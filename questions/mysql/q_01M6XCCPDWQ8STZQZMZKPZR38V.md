@@ -8,6 +8,8 @@ category: mysql
 tags: [sql-optimization]
 prerequisites: [q_01M6XCCP5FEBGXX2VT1NDF5ZV2]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Derived Condition Pushdown Optimization（含 UNION）", url: "https://dev.mysql.com/doc/refman/8.4/en/derived-condition-pushdown-optimization.html" }
 estimatedMinutes: 3
 ---
 

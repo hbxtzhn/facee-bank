@@ -8,6 +8,10 @@ category: java
 tags: [rpc, serialization]
 prerequisites: [q_01M6XBG4ZGJRN21YTMGE6MKFTW]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "gRPC 文档：Introduction to gRPC（Protocol Buffers、.proto、多语言）", url: "https://grpc.io/docs/what-is-grpc/introduction/" }
+  - { title: "gRPC 协议文档：PROTOCOL-HTTP2（gRPC 承载于 HTTP/2）", url: "https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md" }
+  - { title: "Apache Dubbo 文档：Overview（协议、序列化、服务治理）", url: "https://dubbo.apache.org/en/overview/what/overview/" }
 estimatedMinutes: 4
 ---
 

@@ -8,6 +8,9 @@ category: jvm
 tags: [gc-algorithm]
 prerequisites: [q_01M6XBG7X1TEAHATS5SRTKW1D7]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 17 API：java.lang.ref 包说明（强、软、弱、虚可达性）", url: "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ref/package-summary.html" }
+  - { title: "Java SE 17 API：Object.finalize() 弃用说明", url: "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" }
 estimatedMinutes: 3
 ---
 

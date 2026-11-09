@@ -8,6 +8,9 @@ category: jvm
 tags: [memory-area, gc-algorithm]
 prerequisites: [q_01M6XBNZVKTVDA567PT9MX6AZC]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：Sizing the Generations", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/sizing.html" }
+  - { title: "Java SE 8 HotSpot GC 调优指南：Generations", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/generations.html" }
 estimatedMinutes: 3
 ---
 

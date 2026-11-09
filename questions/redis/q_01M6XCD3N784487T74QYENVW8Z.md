@@ -7,6 +7,9 @@ importance: 2
 category: redis
 tags: [bloom-filter, hash-table]
 prerequisites: [q_01M6ZYJS2QKRBBZ4Q5VQ4MTVDY]
+references:
+  - { title: "Redis 文档：Bloom filter", url: "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/" }
+  - { title: "Guava API：BloomFilter（create 与 mightContain）", url: "https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/hash/BloomFilter.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

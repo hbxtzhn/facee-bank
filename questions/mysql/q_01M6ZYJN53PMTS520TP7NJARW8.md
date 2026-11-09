@@ -8,6 +8,8 @@ category: mysql
 tags: [index-design]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MySQL 8.4 手册：Range Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/range-optimization.html" }
 ---
 
 ## 一句话

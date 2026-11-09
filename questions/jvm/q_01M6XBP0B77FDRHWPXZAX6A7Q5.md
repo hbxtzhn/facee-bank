@@ -7,9 +7,13 @@ importance: 2
 category: jvm
 tags: [gc-collector]
 prerequisites: [q_01M6XBG9CJ1NN7Z7NZ5BX0CP90, q_01M6XBGD643VQTH1N2G6ZAJVV1]
-appliesTo: ["Java >= 9 默认 G1；G1 本身自 Java 7 起可用"]
+appliesTo: ["Java >= 9 默认 G1"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Oracle JDK 21 垃圾收集调优指南：Garbage-First (G1) Garbage Collector", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
+  - { title: "JDK 21 java 命令手册：Advanced Garbage Collection Options（G1HeapRegionSize、MaxGCPauseMillis、InitiatingHeapOccupancyPercent）", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html" }
+  - { title: "JEP 248: Make G1 the Default Garbage Collector", url: "https://openjdk.org/jeps/248" }
 ---
 
 ## 一句话
@@ -26,7 +30,7 @@ G1 先在后台并发标记，找出各 Region 里的存活情况，再做混合
 ### 先搞懂：先摸底，再挑最划算的地方清理
 假设你要清理一个大仓库，时间有限。聪明的做法是：先巡视一遍，记下每个格子里有多少废品；然后每次只清理废品最多的几个格子，花的时间少，腾出的地方多。
 
-G1 就是这么做的。它把堆分成很多 Region，先摸清每个 Region 的垃圾量，再优先清理"回收价值最高"的 Region，所以叫 Garbage First。
+G1 就是这么做的。它把堆分成很多 Region，先摸清每个 Region 的垃圾量。然后优先清理"回收价值最高"的 Region，所以叫 Garbage First。
 
 后文用到的术语：
 - **并发标记**：GC 线程和业务线程同时运行，标出存活对象。
@@ -37,7 +41,7 @@ G1 就是这么做的。它把堆分成很多 Region，先摸清每个 Region �
 新对象先放在 Eden Region。Eden 满了，G1 会暂停业务线程，把存活对象复制到 Survivor 或老年代 Region，原来的 Region 整块腾空。这一步是 STW，但因为只处理新生代 Region，通常较短。
 
 ### 并发标记：摸清每个 Region 的垃圾
-当老年代占用的堆比例达到设定的阈值时，G1 启动一轮并发标记。其中大部分时间都和业务线程并发运行，不会暂停业务线程；只有开头和结尾的少数步骤需要短暂暂停。
+当老年代的占用比例达到设定的阈值时，G1 启动一轮并发标记。其中大部分时间都和业务线程并发运行，不会暂停业务线程；只有开头和结尾的少数步骤需要短暂暂停。
 
 标记结束后，G1 就知道每个老年代 Region 里存活对象有多少、垃圾有多少。
 

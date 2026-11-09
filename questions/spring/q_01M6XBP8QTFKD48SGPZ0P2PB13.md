@@ -9,6 +9,8 @@ tags: [thread-safety, bean-lifecycle]
 prerequisites: [q_01M6XBH7KJJCH34YCJTAS4MCP2]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Bean Scopes（singleton 与 prototype，有状态 Bean 用 prototype）", url: "https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html" }
 ---
 
 ## 一句话
@@ -43,7 +45,7 @@ Spring 默认的单例 Bean 被所有请求线程共用；只要它有会变化�
 A 的业务就用错了数据。这不是 Spring 的问题，而是多个线程共享了一个可变的成员变量，这一点和普通 Java 多线程问题完全一样。
 
 ### 为什么平时项目里没出事
-Controller、Service、Dao 这些类通常只保存依赖（别的单例 Bean），自己没有会变化的数据，所有数据都在方法的局部变量或参数里。这种无状态的单例，多个线程同时调用方法也不会互相干扰。
+Controller、Service、Dao 这些类通常只保存依赖（别的单例 Bean）。它们自己没有会变化的数据。所有数据都在方法的局部变量或参数里。这种无状态的单例，多个线程同时调用方法也不会互相干扰。
 
 ### 怎么避免
 1. **用局部变量**：把数据放在方法内部，每个线程各有一份；

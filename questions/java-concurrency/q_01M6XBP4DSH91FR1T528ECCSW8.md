@@ -8,6 +8,8 @@ category: java-concurrency
 tags: [thread-pool]
 prerequisites: [q_01M6XBGXJP5YP1E50JVBZ9FWG3]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 API：ThreadPoolExecutor（Core and maximum pool sizes / Queuing / Rejected tasks / Keep-alive times）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html" }
 estimatedMinutes: 3
 ---
 

@@ -9,6 +9,9 @@ tags: [transaction-management]
 prerequisites: [q_01M6XBHE0KYTEY69J81EKNB030]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Spring Framework 参考文档：Transaction Propagation", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html" }
+  - { title: "Spring Framework Javadoc：Propagation", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Propagation.html" }
 ---
 
 ## 一句话

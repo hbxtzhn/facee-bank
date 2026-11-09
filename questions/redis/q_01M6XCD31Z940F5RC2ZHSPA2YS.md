@@ -7,6 +7,9 @@ importance: 2
 category: redis
 tags: [cache-failure, expiration]
 prerequisites: [q_01M6XCD2RHGMY3FK9G0RWC0P8K]
+references:
+  - { title: "Redis 文档：SET 命令（NX / EX 选项与加锁 Patterns）", url: "https://redis.io/docs/latest/commands/set/" }
+  - { title: "Redis 文档：Bloom filter", url: "https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

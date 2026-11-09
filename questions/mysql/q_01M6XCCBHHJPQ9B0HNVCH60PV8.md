@@ -7,6 +7,10 @@ importance: 2
 category: mysql
 tags: [index-design, index-structure]
 prerequisites: [q_01M6XCCB1DEA2XV3GYDK3HKTHC]
+references:
+  - { title: "MySQL 8.4 手册：Physical Structure of an InnoDB Index", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-physical-structure.html" }
+  - { title: "MySQL 8.4 手册：Clustered and Secondary Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html" }
+  - { title: "MySQL 8.4 手册：Miscellaneous Functions（UUID_TO_BIN）", url: "https://dev.mysql.com/doc/refman/8.4/en/miscellaneous-functions.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

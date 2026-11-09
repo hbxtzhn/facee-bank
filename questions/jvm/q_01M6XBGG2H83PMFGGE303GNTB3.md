@@ -8,6 +8,9 @@ category: jvm
 tags: [class-loading]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：java.lang.ClassLoader", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassLoader.html" }
+  - { title: "JVMS 21 第 5 章：Loading, Linking, and Initializing", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-5.html" }
 ---
 
 ## 一句话

@@ -9,6 +9,10 @@ tags: [transaction-management, aop]
 prerequisites: [q_01M6XBHD5MJC4VZFMFPVN4VMKC]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Programmatic Transaction Management", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html" }
+  - { title: "Spring Framework 参考文档：Choosing Between Programmatic and Declarative Transaction Management", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/tx-decl-vs-prog.html" }
+  - { title: "Spring Framework 参考文档：Using @Transactional", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" }
 ---
 
 ## 一句话
@@ -18,7 +22,7 @@ estimatedMinutes: 3
 - [kp1|3] 编程式：用 TransactionTemplate 或 PlatformTransactionManager 手写事务边界
 - [kp2|3] 声明式：用 @Transactional，基于 AOP 代理，业务代码里没有事务逻辑
 - [kp3|2] 编程式可以只包住方法中的一小段代码；声明式的粒度通常是整个方法
-- [kp4] 声明式会受代理限制（自调用、非 public 等），编程式不受影响
+- [kp4] 声明式会受代理限制（自调用、private 方法等），编程式不受影响
 
 ## 详解
 ### 先搞懂：自己开车和叫代驾

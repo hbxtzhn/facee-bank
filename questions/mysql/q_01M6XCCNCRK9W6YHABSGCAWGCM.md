@@ -8,6 +8,9 @@ category: mysql
 tags: [sql-optimization]
 prerequisites: [q_01M6ZYJNPC7ZE4W4RTV7SM2DHB]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Nested-Loop Join Algorithms", url: "https://dev.mysql.com/doc/refman/8.4/en/nested-loop-joins.html" }
+  - { title: "MySQL 8.4 手册：Controlling Query Plan Evaluation", url: "https://dev.mysql.com/doc/refman/8.4/en/controlling-query-plan-evaluation.html" }
 estimatedMinutes: 3
 ---
 

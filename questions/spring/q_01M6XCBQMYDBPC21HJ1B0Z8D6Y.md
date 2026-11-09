@@ -8,6 +8,8 @@ category: spring
 tags: [association-mapping]
 prerequisites: [q_01M6XCBQ46R9NFPEB69ZYS5SKG]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：Mapper XML - Advanced Result Maps（association / collection）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 estimatedMinutes: 3
 ---
 

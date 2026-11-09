@@ -8,6 +8,10 @@ category: mysql
 tags: [transaction-basics, database-log]
 prerequisites: [q_01M6XCCSHSV6BBK72JGGX9R1NB, q_01M6XCCSTBAF4NGTHX1EVDREWG]
 appliesTo: ["MySQL InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：Redo Log", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log.html" }
+  - { title: "MySQL 8.4 手册：Undo Logs", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-undo-logs.html" }
+  - { title: "MySQL 8.4 手册：InnoDB Recovery", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-recovery.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---
@@ -61,8 +65,7 @@ InnoDB 修改数据时，先改内存里的数据页，再把改动记入 redo l
 数据库保证了前三个特性，再加上主键、唯一、外键等约束，一致性才有基础。但「转账总额不变」这种业务规则，要由你的代码写对。
 
 ### 进阶：redo 和 undo 的关系（基础薄弱可先跳过）
-- 对 undo log 的修改本身也会记入 redo log，所以宕机恢复时，undo 也能恢复出来。
-- 恢复时先用 redo 重做，再对没提交的事务用 undo 回滚。
+- 宕机恢复时先应用 redo log，再回滚没提交的事务。
 - 与 redo log 不同，binlog 是 MySQL 服务层的日志，主要用于主从复制和数据恢复。
 
 ## 易错点

@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBP6R1FTDJKQBM5SBM89EA]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：AbstractQueuedSynchronizer（hasQueuedPredecessors 与公平性）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html" }
+  - { title: "OpenJDK jdk21u 源码：ReentrantLock.java（FairSync.tryAcquire）", url: "https://github.com/openjdk/jdk21u/blob/master/src/java.base/share/classes/java/util/concurrent/locks/ReentrantLock.java" }
 ---
 
 ## 一句话

@@ -7,6 +7,9 @@ importance: 2
 category: spring
 tags: [mybatis-internals, sql-mapping]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：DefaultParameterHandler.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/scripting/defaults/DefaultParameterHandler.java" }
+  - { title: "MyBatis 3 文档：Configuration（objectFactory、plugins、jdbcTypeForNull）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 estimatedMinutes: 3
 ---
 

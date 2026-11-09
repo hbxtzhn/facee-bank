@@ -8,6 +8,9 @@ category: mysql
 tags: [clustered-index, index-design]
 prerequisites: [q_01M6XCCAS9HXP87X9TZ76ZQZG9]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：EXPLAIN Output Format（Extra 列）", url: "https://dev.mysql.com/doc/refman/8.4/en/explain-output.html" }
+  - { title: "MySQL 8.4 手册：Clustered and Secondary Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html" }
 estimatedMinutes: 3
 ---
 

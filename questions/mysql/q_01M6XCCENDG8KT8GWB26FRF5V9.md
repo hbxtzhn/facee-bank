@@ -8,6 +8,9 @@ category: mysql
 tags: [replication, database-log]
 prerequisites: [q_01M6XCC8EV6YCRMCP3358H90ST, q_01M6XCCED63KYW4RKV3MYAZYCH]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Replication Threads", url: "https://dev.mysql.com/doc/refman/8.4/en/replication-threads.html" }
+  - { title: "MySQL 8.4 手册：Semisynchronous Replication", url: "https://dev.mysql.com/doc/refman/8.4/en/replication-semisync.html" }
 estimatedMinutes: 3
 ---
 

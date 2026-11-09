@@ -9,6 +9,9 @@ tags: [pagination, index-design]
 prerequisites: [q_01M6XCCJ9EJRQFSC0V08MV688Y]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MySQL 8.4 手册：Row Constructor Expression Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/row-constructor-optimization.html" }
+  - { title: "MySQL 8.4 手册：LIMIT Query Optimization", url: "https://dev.mysql.com/doc/refman/8.4/en/limit-optimization.html" }
 ---
 
 ## 一句话

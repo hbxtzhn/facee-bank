@@ -9,6 +9,9 @@ tags: [transaction-management, bean-lifecycle]
 prerequisites: [q_01M6XBHD5MJC4VZFMFPVN4VMKC]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Spring Framework 参考文档：Container Extension Points（BeanPostProcessor）", url: "https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html" }
+  - { title: "Spring Framework 参考文档：Using @Transactional（代理模式与自调用）", url: "https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html" }
 ---
 
 ## 一句话

@@ -8,6 +8,9 @@ category: spring
 tags: [orm]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Hibernate ORM 6.6 Introduction：Dialect、HQL 可移植性与原生 SQL", url: "https://docs.hibernate.org/orm/6.6/introduction/html_single/Hibernate_Introduction.html" }
+  - { title: "MyBatis 3 文档：Introduction", url: "https://mybatis.org/mybatis-3/index.html" }
 ---
 
 ## 一句话

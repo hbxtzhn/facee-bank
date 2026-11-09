@@ -9,6 +9,9 @@ tags: [thread-basics, synchronized]
 prerequisites: [q_01M6XBGQKEDGQ0JDPW9RZHXVT2]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：Object.wait", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" }
+  - { title: "Java SE 21 API：Thread.sleep", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" }
 ---
 
 ## 一句话

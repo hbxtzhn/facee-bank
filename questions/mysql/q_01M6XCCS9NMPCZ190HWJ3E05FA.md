@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [deadlock]
 prerequisites: [q_01M6XCCPYKTRM16GFCJCWH4PJ2, q_01M6XCCS1G6X0HHKE230XEBNE0]
+references:
+  - { title: "MySQL 8.4 手册：How to Minimize and Handle Deadlocks（17.7.5.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks-handling.html" }
+  - { title: "MySQL 8.4 手册：Deadlocks in InnoDB（17.7.5）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-deadlocks.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

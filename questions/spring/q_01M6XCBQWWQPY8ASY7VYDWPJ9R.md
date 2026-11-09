@@ -7,6 +7,9 @@ importance: 2
 category: spring
 tags: [association-mapping]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：配置 - settings（lazyLoadingEnabled）", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 3 文档：Mapper XML - fetchType 与嵌套 Select", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 estimatedMinutes: 2
 ---
 

@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [database-log, replication]
 appliesTo: ["binlog 默认开关：MySQL 5.7 及以前关闭，8.0 起开启"]
+references:
+  - { title: "MySQL 8.0 手册：The Binary Log", url: "https://dev.mysql.com/doc/refman/8.0/en/binary-log.html" }
+  - { title: "MySQL 8.4 手册：The Binary Log", url: "https://dev.mysql.com/doc/refman/8.4/en/binary-log.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
 ---

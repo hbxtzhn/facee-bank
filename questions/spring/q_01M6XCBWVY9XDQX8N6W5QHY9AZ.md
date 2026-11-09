@@ -7,6 +7,9 @@ importance: 2
 category: spring
 tags: [pagination]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：RowBounds.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/session/RowBounds.java" }
+  - { title: "MyBatis 源码：DefaultResultSetHandler.java（skipRows、shouldProcessMoreRows）", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/executor/resultset/DefaultResultSetHandler.java" }
 estimatedMinutes: 3
 ---
 

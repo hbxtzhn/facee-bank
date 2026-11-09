@@ -10,14 +10,17 @@ prerequisites: [q_01M6XBGYZ9H53CEJS5DEE28RX7]
 appliesTo: ["HotSpot"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "JVMS SE 21 §2.11.10 Synchronization（监视器与同步的规定）", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html#jvms-2.11.10" }
+  - { title: "OpenJDK jdk21u 源码：hotspot/share/runtime/synchronizer.cpp（enter 的 CAS 快速路径、失败后 inflate、wait 触发 inflate）", url: "https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/runtime/synchronizer.cpp" }
 ---
 
 ## 一句话
-轻量级锁靠 CAS 加自旋抢锁；自旋一段时间还抢不到，说明真有竞争，就升级成重量级锁，让等待的线程阻塞。
+轻量级锁靠 CAS 抢锁；CAS 抢不到，说明真有竞争，就升级成重量级锁（监视器），让等待的线程阻塞。
 
 ## 要点
 - [kp1|3] 轻量级锁适合多个线程交替使用、没有真正同时抢的情况
-- [kp2|3] 抢不到的线程先自旋；自旋失败，锁膨胀为重量级锁
+- [kp2|3] 轻量级加锁的 CAS 失败，锁膨胀为重量级锁；拿不到锁的线程可能先短暂自旋再阻塞
 - [kp3|2] 重量级锁基于操作系统互斥机制，拿不到锁的线程被阻塞挂起
 - [kp4] 调用 wait() 也会让锁直接膨胀为重量级锁
 - [kp5] 自旋次数由 JVM 自适应调整，不是固定值
@@ -41,10 +44,10 @@ estimatedMinutes: 3
 ### 轻量级锁：CAS 加自旋
 线程进入同步块时，先在自己的栈里留一份「锁记录」，把对象头的 Mark Word 备份进去，再用 CAS 把对象头改成指向这份锁记录的指针。CAS 成功就拿到了锁，不用惊动操作系统。
 
-如果 CAS 失败，说明别的线程正占着锁。这时线程不马上睡觉，而是自旋，在原地反复再试几次。绝大多数持有锁的时间都很短，所以通常稍等一下就能拿到。
+如果 CAS 失败，说明别的线程正占着锁（或者线程自己已经持有，属于重入）。HotSpot 在 CAS 失败后走慢路径，把锁膨胀成监视器。拿不到锁的线程可能先自旋一小会儿再睡觉，因为绝大多数持有锁的时间都很短，稍等一下往往就能拿到。
 
 ### 什么时候升级为重量级锁
-- **自旋之后仍然拿不到锁**：说明持有者占用时间比较长，或者有多个线程在抢。继续空转只会白白消耗 CPU，于是锁膨胀为重量级锁。
+- **轻量级加锁的 CAS 失败**：说明别的线程正占着锁，有竞争。于是锁膨胀为重量级锁，拿不到锁的线程最终会阻塞，不会一直空转消耗 CPU。
 - **有其他线程已经在等待**：竞争确实存在，轻量级锁这套「交替使用」的假设不成立了。
 - **调用了 `wait()`**：等待队列放在重量级锁的监视器里，所以直接膨胀。
 

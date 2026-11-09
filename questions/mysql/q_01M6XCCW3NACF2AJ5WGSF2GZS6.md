@@ -8,6 +8,9 @@ category: mysql
 tags: [isolation-mvcc, database-log]
 prerequisites: [q_01M6XCCSTBAF4NGTHX1EVDREWG, q_01M6XCCVTVRT0R8Z56R8VVY947]
 appliesTo: ["MySQL InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Multi-Versioning（17.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html" }
+  - { title: "MySQL 8.4 手册：Consistent Nonlocking Reads（17.7.2.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

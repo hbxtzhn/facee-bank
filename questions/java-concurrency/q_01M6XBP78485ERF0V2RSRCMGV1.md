@@ -9,6 +9,8 @@ tags: [atomic-operation]
 prerequisites: [q_01M6XBH24PS1VMJ25KY5CA4GP1]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：java.util.concurrent.atomic 包说明（单个变量的原子类）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" }
 ---
 
 ## 一句话

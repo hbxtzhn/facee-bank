@@ -9,6 +9,9 @@ tags: [class-loading]
 prerequisites: [q_01M6XBG73XA3XKKHT2865XQC8N]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "JVMS 21 第 5 章：Loading, Linking, and Initializing", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-5.html" }
+  - { title: "JVMS 21 第 4 章：4.7.2 The ConstantValue Attribute", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html" }
 ---
 
 ## 一句话
@@ -39,12 +42,12 @@ estimatedMinutes: 4
 做三件事：根据类的全限定名找到字节流；把字节流转成 JVM 内部的类数据结构；在内存中生成一个 `Class` 对象，作为访问这个类的入口。
 
 ### 验证：确保字节码安全
-检查字节码是否符合规范，避免恶意或错误的字节码破坏 JVM。包括文件格式是否正确、数据是否合法、方法体的指令是否安全、引用是否能解析等。
+检查字节码是否符合规范，避免恶意或错误的字节码破坏 JVM。包括文件格式是否正确、数据是否合法、方法体的指令是否安全等。
 
 ### 准备：为静态变量分配内存，赋默认值
 这一步只给静态变量分配内存，并赋**默认值**：int 是 0，boolean 是 false，引用是 null。代码里写的值（如 `static int a = 5`）在这一步还没赋，要到初始化阶段才赋。
 
-有一个例外：被 `static final` 修饰、值是编译期常量的变量，在准备阶段就直接是代码里写的值。
+有一个例外：被 `static final` 修饰、值是编译期常量的变量，字节码里带有常量值，在类初始化开始时、执行静态代码块之前就已经是代码里写的值。
 
 ### 解析：符号引用变直接引用
 字节码里引用别的类、方法时，用的是名字。解析阶段把这些名字换成内存里的具体位置，之后调用才知道去哪找。

@@ -7,6 +7,10 @@ importance: 2
 category: jvm
 tags: [performance-diagnosis]
 prerequisites: [q_01M6XBGGGEJ7230WN07ESPBDX7, q_01M6ZYJ7HH8HVKMT9W4H158GWE]
+references:
+  - { title: "Java SE 21 故障排查指南：Troubleshoot Memory Leaks", url: "https://docs.oracle.com/en/java/javase/21/troubleshoot/troubleshooting-memory-leaks.html" }
+  - { title: "JDK 21 java 命令手册：-XX:+HeapDumpOnOutOfMemoryError", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html" }
+  - { title: "JDK 21 jcmd 手册：GC.heap_dump", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/jcmd.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

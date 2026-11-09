@@ -9,6 +9,8 @@ tags: [dynamic-proxy, reflection]
 prerequisites: [q_01M6XBP9ZWJJVYTDKK8GKBAAVQ]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Java SE 21 API：java.lang.reflect.Proxy", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Proxy.html" }
 ---
 
 ## 一句话

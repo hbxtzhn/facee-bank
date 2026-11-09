@@ -7,6 +7,8 @@ importance: 3
 category: spring
 tags: [sql-mapping]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：Mapper XML - String Substitution", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 estimatedMinutes: 3
 ---
 

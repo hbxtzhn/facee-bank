@@ -9,6 +9,9 @@ tags: [gc-collector]
 prerequisites: [q_01M6XBGBVTQS9VEYNPH4VSS82C]
 appliesTo: ["Java 8 默认收集器；Java 9 起默认改为 G1"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：The Parallel Collector", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/parallel.html" }
+  - { title: "Java SE 8 java 命令参考：-XX:ParallelGCThreads、-XX:MaxGCPauseMillis", url: "https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html" }
 estimatedMinutes: 2
 ---
 

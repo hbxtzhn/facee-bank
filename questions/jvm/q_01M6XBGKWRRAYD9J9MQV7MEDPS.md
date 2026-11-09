@@ -7,6 +7,8 @@ importance: 2
 category: jvm
 tags: [memory-area]
 prerequisites: [q_01M6XBGKCAKJ13T2AW1YVGFSC3, q_01M6XBGKMFKPYR0RM1Z0HP4VVX]
+references:
+  - { title: "Java 虚拟机规范 SE 21：2.5 Run-Time Data Areas", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

@@ -8,6 +8,10 @@ category: spring
 tags: [mybatis-internals]
 prerequisites: [q_01M6XCBJ1YNEQMS9SQBE4YZFD7]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：DefaultSqlSession.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/session/defaults/DefaultSqlSession.java" }
+  - { title: "MyBatis 源码：Configuration.java（newExecutor）", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/session/Configuration.java" }
+  - { title: "MyBatis-Spring 文档：Using an SqlSession（SqlSessionTemplate）", url: "https://mybatis.org/spring/sqlsession.html" }
 estimatedMinutes: 3
 ---
 

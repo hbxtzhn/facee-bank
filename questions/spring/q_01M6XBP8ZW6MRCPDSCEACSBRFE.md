@@ -9,6 +9,9 @@ tags: [thread-safety, thread-local]
 prerequisites: [q_01M6XBP8QTFKD48SGPZ0P2PB13]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Bean Scopes（singleton、prototype 及其注入单例的行为）", url: "https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html" }
+  - { title: "Java SE 21 API：java.lang.ThreadLocal", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html" }
 ---
 
 ## 一句话
@@ -23,7 +26,7 @@ Spring 默认的单例 Bean 全应用只有一个实例，本身不保证线程�
 
 ## 详解
 ### 先搞懂：为什么单例会出问题
-想象公司只有一台共用打印机（单例）。如果打印机里还存着“上一个人的文档”（成员变量），两个人同时来用，文档就串了。Controller、Service 在 Spring 里默认都是单例，同一时刻会被很多请求线程同时调用，所以只要它们里面存了会变的数据，就可能出问题。
+想象公司只有一台共用打印机（单例）。如果打印机里还存着“上一个人的文档”（成员变量），两个人同时来用，文档就串了。Controller、Service 在 Spring 里默认都是单例。同一时刻会被很多请求线程同时调用。所以只要它们里面存了会变的数据，就可能出问题。
 
 后文用到的术语：
 - **单例（singleton）**：容器里这个 Bean 只有一个对象，所有线程共用。

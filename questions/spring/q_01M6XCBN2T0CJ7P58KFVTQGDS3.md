@@ -7,6 +7,8 @@ importance: 2
 category: spring
 tags: [sql-mapping, configuration]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：配置 - settings（mapUnderscoreToCamelCase）", url: "https://mybatis.org/mybatis-3/configuration.html" }
 estimatedMinutes: 2
 ---
 

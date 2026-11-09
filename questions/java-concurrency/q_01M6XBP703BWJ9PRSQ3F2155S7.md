@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBH24PS1VMJ25KY5CA4GP1]
 appliesTo: ["LongAdder：Java >= 8", "Thread.onSpinWait：Java >= 9"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：LongAdder", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/LongAdder.html" }
+  - { title: "Java SE 21 API：Thread.onSpinWait", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#onSpinWait()" }
 ---
 
 ## 一句话
@@ -35,7 +38,7 @@ estimatedMinutes: 3
 - **阻塞（挂起）**：线程暂停，让出 CPU，等被唤醒再继续。
 
 ### 问题出在哪
-自旋适合「很快就能成功」的情形。如果某个线程长时间持有资源，或者很多线程争同一个变量，那么失败的线程每次都是空转：它们在 CPU 上占着位置，既没有进展，也让真正需要 CPU 的线程拿不到时间。
+自旋适合「很快就能成功」的情形。如果某个线程长时间持有资源，或者很多线程争同一个变量，失败的线程每次都是空转。它们占着 CPU，没有进展。真正需要 CPU 的线程反而拿不到时间。
 
 ### 办法一：限制自旋次数
 自旋到一定次数还不成功，就不再空转：

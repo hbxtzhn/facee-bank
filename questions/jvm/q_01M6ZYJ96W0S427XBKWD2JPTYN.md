@@ -6,6 +6,9 @@ difficulty: medium
 importance: 2
 category: jvm
 tags: [performance-diagnosis, gc-collector]
+references:
+  - { title: "JDK 21 java 命令手册：堆、新生代、元空间与垃圾收集器选项", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html" }
+  - { title: "JEP 248：Make G1 the Default Garbage Collector", url: "https://openjdk.org/jeps/248" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---
@@ -52,7 +55,7 @@ JVM 内存像一套房子：堆是客厅，栈是每个人自己的小桌，元�
 |---|---|---|
 | `-XX:+UseSerialGC` | Serial | 单线程，适合小内存、单核环境 |
 | `-XX:+UseParallelGC` | Parallel | 追求吞吐量 |
-| `-XX:+UseG1GC` | G1 | 兼顾吞吐和停顿，JDK 9 起为默认 |
+| `-XX:+UseG1GC` | G1 | 兼顾吞吐和停顿，JDK 9 起在服务器配置下为默认 |
 | `-XX:+UseZGC` | ZGC | 追求极低停顿 |
 
 结论：没有明确问题时，先用默认收集器和合理的堆大小；有 GC 日志或监控证明瓶颈，再有针对性地调参数。

@@ -7,6 +7,9 @@ importance: 1
 category: mysql
 tags: [lock-modes]
 prerequisites: [q_01M6XCCQFC1Y5W7TWX6YCNHXRE, q_01M6XCCR045TE6Z7AB40ZYFS9H]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Locking（17.7.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html" }
+  - { title: "MySQL 8.4 手册：Locks Set by Different SQL Statements in InnoDB（17.7.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locks-set.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---
@@ -40,7 +43,6 @@ estimatedMinutes: 3
 ### 兼容规则
 - 插入意向锁和插入意向锁：位置不同时兼容，不用互相等待。
 - 插入意向锁和别人已持有的间隙锁、临键锁：冲突，插入会被阻塞。
-- 别人想加间隙锁时，如果有事务在同一间隙已持有插入意向锁，间隙锁请求也要等待。
 
 ### 为什么重要：解释一类阻塞和死锁
 前面几题讲过，可重复读下范围查询会加间隙锁或临键锁。这时别的事务想往这个范围里插入，就会因为插入意向锁和间隙锁冲突而被阻塞。

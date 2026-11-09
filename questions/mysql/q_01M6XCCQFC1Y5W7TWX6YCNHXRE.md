@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [lock-modes, index-structure]
 prerequisites: [q_01M6XCCPPA1XZG4NRRPPZNJZ6T]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Locking（17.7.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html" }
+  - { title: "MySQL 8.4 手册：Locks Set by Different SQL Statements in InnoDB（17.7.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locks-set.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
 ---

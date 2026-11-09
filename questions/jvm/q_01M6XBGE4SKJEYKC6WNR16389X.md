@@ -10,6 +10,10 @@ prerequisites: [q_01M6XBGBVTQS9VEYNPH4VSS82C, q_01M6XBGC3YTS5TRR2AWMWBQWQ6]
 appliesTo: ["ZGC 生产可用：Java >= 15", "CMS：Java <= 13"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Oracle JDK 21 垃圾收集调优指南：Available Collectors", url: "https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" }
+  - { title: "JEP 377: ZGC: A Scalable Low-Latency Garbage Collector (Production)", url: "https://openjdk.org/jeps/377" }
+  - { title: "JEP 363: Remove the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/363" }
 ---
 
 ## 一句话

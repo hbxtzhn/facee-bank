@@ -10,6 +10,10 @@ prerequisites: [q_01M6XBGETV46EJNC6JY9R5X884]
 appliesTo: ["Java 8 为扩展类加载器；Java 9 起改为平台类加载器"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：java.lang.ClassLoader", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassLoader.html" }
+  - { title: "JEP 261: Module System（Class loaders 一节：平台类加载器）", url: "https://openjdk.org/jeps/261" }
+  - { title: "Oracle JDK 8 文档：Extension Mechanism Architecture", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/extensions/spec.html" }
 ---
 
 ## 一句话

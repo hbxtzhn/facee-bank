@@ -9,6 +9,9 @@ tags: [bean-lifecycle]
 prerequisites: [q_01M6XBH8EVVJ781F6BQC0TEHFV]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Spring Framework 源码：DefaultSingletonBeanRegistry（三级缓存字段、getSingleton、addSingleton）", url: "https://github.com/spring-projects/spring-framework/blob/main/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java" }
+  - { title: "Spring Framework 源码：AbstractAutowireCapableBeanFactory（doCreateBean 中的提前曝光）", url: "https://github.com/spring-projects/spring-framework/blob/main/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java" }
 ---
 
 ## 一句话
@@ -42,7 +45,7 @@ Spring 创建单例时，对象刚实例化就把“生产它的工厂”放进�
 1. 创建 A：先实例化 A（属性为空），把 A 的 ObjectFactory 放进三级缓存。
 2. 给 A 注入属性，发现要 B，B 还不存在，转去创建 B。
 3. 创建 B：实例化 B，同样把 B 的工厂放进三级缓存。
-4. 给 B 注入属性，发现要 A，去缓存找：一级没有，二级没有，在三级找到 A 的工厂，调用得到 A 的早期引用，放进二级缓存，并从三级移除。
+4. 给 B 注入属性，发现要 A，去缓存找：一级没有，二级没有，在三级找到 A 的工厂。调用工厂得到 A 的早期引用，放进二级缓存，并从三级移除。
 5. B 拿到 A 的半成品，完成注入和初始化，放进一级缓存。
 6. 回到 A，注入 B（已完成），A 完成初始化，放进一级缓存，二级缓存里的 A 随之清理。
 

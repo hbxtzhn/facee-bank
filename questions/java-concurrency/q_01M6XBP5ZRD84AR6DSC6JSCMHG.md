@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBGYPJXM20MV9Q8KEXDR5P]
 appliesTo: ["HotSpot"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "JVMS SE 21 §2.11.10 Synchronization", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html#jvms-2.11.10" }
+  - { title: "JVMS SE 21 §6.5 monitorenter / monitorexit", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-6.html#jvms-6.5.monitorenter" }
 ---
 
 ## 一句话
@@ -58,7 +61,7 @@ estimatedMinutes: 5
 ### 进阶：监视器在哪里（基础薄弱可先跳过）
 HotSpot 里，监视器是一个叫 ObjectMonitor 的 C++ 结构。里面大致有：持有者线程、重入计数、等待获取锁的线程队列、调用了 `wait()` 的线程队列。对象头的 Mark Word 在重量级锁状态下指向它。
 
-不过 JVM 不会每次都创建监视器：没有竞争时用偏向锁或轻量级锁，竞争严重才膨胀成真正的监视器，也就是所谓的锁升级。
+不过 JVM 不会每次都创建监视器：没有竞争时用轻量级锁（较老版本默认还有偏向锁），有竞争才膨胀成真正的监视器，也就是所谓的锁升级。
 
 ## 示例
 ```java

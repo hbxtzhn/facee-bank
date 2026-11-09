@@ -9,6 +9,9 @@ tags: [gc-collector]
 prerequisites: [q_01M6XBGBVTQS9VEYNPH4VSS82C, q_01M6XBGC3YTS5TRR2AWMWBQWQ6]
 appliesTo: ["Java <= 13（CMS 在 Java 9 起被标记为废弃，Java 14 移除）"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：Concurrent Mark Sweep (CMS) Collector", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html" }
+  - { title: "JEP 363：Remove the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/363" }
 estimatedMinutes: 4
 ---
 
@@ -37,10 +40,10 @@ CMS（Concurrent Mark Sweep）想解决的是：回收老年代时，不要让�
 - **标记-清除**：先标出活对象，再把没标记的对象清掉，不移动对象。
 
 ### 初始标记：只标最近的，停得很短
-暂停业务线程，只标记 GC Roots 直接能引用到的对象。这一步不往下追，所以非常快，停顿很短。
+暂停业务线程，只标记 GC Roots 直接能引用到的对象（也包括新生代等堆内其他位置直接引用的对象）。这一步不往下追，所以非常快，停顿很短。
 
 ### 并发标记：顺着引用链找所有活对象
-从初始标记标出的对象出发，沿着引用往下遍历，标记所有可达对象。这一步工作量最大，但 GC 线程和业务线程同时跑，**不会暂停业务线程**（导图素材里写成 STW 是不对的）。
+从初始标记标出的对象出发，沿着引用往下遍历，标记所有可达对象。这一步工作量最大，但 GC 线程和业务线程同时跑，**不会暂停业务线程**。
 
 ### 重新标记：修正并发期间的变化
 并发标记时业务线程还在改引用：有的对象新建了，有的引用变了，之前的标记可能不准。重新标记就暂停业务线程，把这部分变化补标完。因为只处理变化的部分，停顿通常也比较短，但会比初始标记长一些。

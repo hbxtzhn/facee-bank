@@ -8,6 +8,10 @@ category: spring
 tags: [ioc-di]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：Overview", url: "https://docs.spring.io/spring-framework/reference/overview.html" }
+  - { title: "Spring Framework 参考文档：Introduction to the Spring IoC Container and Beans", url: "https://docs.spring.io/spring-framework/reference/core/beans/introduction.html" }
+  - { title: "Spring Framework API：ApplicationContext", url: "https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContext.html" }
 ---
 
 ## 一句话
@@ -22,9 +26,9 @@ Spring 由核心容器、AOP、数据访问、Web、测试等模块组成，其�
 
 ## 详解
 ### 先搞懂：Spring 像一个工具箱
-做项目时，我们用 Spring 管理对象、连数据库、开接口、做事务。这些功能不是一整块，而是按职责拆成了多个模块，用哪个引入哪个。
+做项目时，我们用 Spring 管理对象、连数据库、开接口、做事务。这些功能不是一整块，而是按职责拆成多个模块。用哪个，引入哪个。
 
-可以把 Spring 想成一个工具箱：最底层有一个放所有工具的「基座」（核心容器），上面分格子放着各类专用工具（AOP、数据访问、Web 等）。
+可以把 Spring 想成一个工具箱：最底层是放所有工具的「基座」（核心容器）。基座上分格子放着各类专用工具（AOP、数据访问、Web 等）。
 
 后文用到的词：
 - **IoC 容器**：负责创建对象、管理对象之间依赖关系的东西。
@@ -34,7 +38,7 @@ Spring 由核心容器、AOP、数据访问、Web、测试等模块组成，其�
 ### 核心容器：所有功能的基座
 - **spring-core**：基础工具类，是其他模块的底层依赖；
 - **spring-beans**：Bean 的定义、创建和装配，提供 IoC 容器的基础实现（BeanFactory）；
-- **spring-context**：在前两者基础上提供应用上下文 ApplicationContext，加上国际化、事件发布、资源加载等企业级功能，是我们平时使用 Spring 的入口；
+- **spring-context**：在前两者基础上提供应用上下文 ApplicationContext。它加上了国际化、事件发布、资源加载等企业级功能，是我们平时使用 Spring 的入口；
 - **spring-expression**：Spring 表达式语言（SpEL），可以在运行时读取和操作对象属性。
 
 ### AOP：把横切逻辑抽出来

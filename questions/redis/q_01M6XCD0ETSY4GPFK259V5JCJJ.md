@@ -8,6 +8,9 @@ category: redis
 tags: [rdb-aof, process]
 prerequisites: [q_01M6XCCZS9XZ69NDV5RERDGZYH]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 文档：SAVE", url: "https://redis.io/docs/latest/commands/save/" }
+  - { title: "Redis 文档：BGSAVE", url: "https://redis.io/docs/latest/commands/bgsave/" }
 estimatedMinutes: 2
 ---
 

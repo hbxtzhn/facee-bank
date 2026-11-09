@@ -10,6 +10,10 @@ prerequisites: [q_01M6XBPD1K4DD4GVY53R1EZAA3, q_01M6XBPD9MKWKCQMHJZQ3JMVHC, q_01
 appliesTo: ["Spring Boot >= 2.7"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Spring Boot 参考文档：Creating Your Own Auto-configuration", url: "https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html" }
+  - { title: "Spring Boot 参考文档：Auto-configuration", url: "https://docs.spring.io/spring-boot/reference/using/auto-configuration.html" }
+  - { title: "Spring Boot 3.0 Migration Guide（spring.factories 注册方式已移除）", url: "https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide" }
 ---
 
 ## 一句话

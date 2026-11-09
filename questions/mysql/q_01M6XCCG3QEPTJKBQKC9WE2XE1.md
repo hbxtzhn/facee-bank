@@ -9,6 +9,9 @@ tags: [sharding]
 prerequisites: [q_01M6XCCEXNHM3RFGC6YQMG0CE4]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Vitess 文档：Vindexes（hash 与 lookup 类型）", url: "https://vitess.io/docs/reference/features/vindexes/" }
+  - { title: "MySQL 8.4 手册：Partitioning Types（RANGE 与 HASH）", url: "https://dev.mysql.com/doc/refman/8.4/en/partitioning-types.html" }
 ---
 
 ## 一句话

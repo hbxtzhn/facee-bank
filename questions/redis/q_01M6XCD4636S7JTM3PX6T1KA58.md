@@ -7,6 +7,8 @@ importance: 3
 category: redis
 tags: [cache-failure, distributed-lock]
 prerequisites: [q_01M6XCD3XFRZHY4YEE5VSN04R3]
+references:
+  - { title: "Redis 文档：SET 命令（NX / EX 选项与加锁 Patterns）", url: "https://redis.io/docs/latest/commands/set/" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

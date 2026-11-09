@@ -8,6 +8,8 @@ category: spring
 tags: [aop]
 prerequisites: [q_01M6XBH92BND8EYH9T6RE07YES]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Spring Framework 参考文档：Declaring Advice（Around advice、@annotation 绑定）", url: "https://docs.spring.io/spring-framework/reference/core/aop/ataspectj/advice.html" }
 estimatedMinutes: 4
 ---
 

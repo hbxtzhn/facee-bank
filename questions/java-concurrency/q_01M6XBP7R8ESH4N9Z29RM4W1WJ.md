@@ -10,6 +10,8 @@ prerequisites: [q_01M6XBP5QQ719CQRSMDFYYC52K]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "OpenJDK 21 源码：java/lang/ThreadLocal.java（ThreadLocalMap、nextIndex）", url: "https://github.com/openjdk/jdk/blob/jdk-21+35/src/java.base/share/classes/java/lang/ThreadLocal.java" }
 ---
 
 ## 一句话
@@ -53,7 +55,7 @@ ThreadLocalMap 用开放定址法解决哈希冲突：下标被别的 key 占了
 ThreadLocalMap 一般存的数据不多，一个线程里的 ThreadLocal 变量通常也就几个。这种数据量小的场景，用数组加线性探测结构简单、没有额外的链表节点，对缓存也友好。HashMap 的拉链法更适合数据量大且需要处理大量冲突的通用场景。
 
 ### 进阶：探测式清理（基础薄弱可先跳过）
-由于 key 是弱引用，探测过程中常会遇到 key 为 null 的失效 Entry。JDK 在 `set`、`get`、`remove` 等操作中会顺带清理这些槽位，并把后面被挤过去的元素重新放回合适的位置，减少无用数据，但这种清理是顺带的，并不保证清理干净。
+由于 key 是弱引用，探测过程中常会遇到 key 为 null 的失效 Entry。JDK 在 `set`、`get`、`remove` 等操作中会顺带清理这些槽位。后面被挤过去的元素也会被重新放回合适的位置。这样能减少无用数据，但清理是顺带的，并不保证清理干净。
 
 ## 示例
 ```java

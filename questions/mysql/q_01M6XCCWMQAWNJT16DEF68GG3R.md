@@ -9,6 +9,9 @@ tags: [isolation-mvcc]
 prerequisites: [q_01M6XCCVTVRT0R8Z56R8VVY947, q_01M6XCCWCCW8JTV4FVVZXY5JF5]
 appliesTo: ["MySQL InnoDB"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Multi-Versioning（行的事务 ID 与回滚指针、undo 重建旧版本）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-multi-versioning.html" }
+  - { title: "MySQL 8.4 手册：Consistent Nonlocking Reads", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html" }
 estimatedMinutes: 5
 ---
 

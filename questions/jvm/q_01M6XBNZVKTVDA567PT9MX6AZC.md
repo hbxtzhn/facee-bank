@@ -7,6 +7,9 @@ importance: 2
 category: jvm
 tags: [memory-area, gc-algorithm]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：Sizing the Generations", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/sizing.html" }
+  - { title: "JDK 21 GC 调优指南：Garbage-First 收集器", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
 estimatedMinutes: 2
 ---
 
@@ -42,7 +45,8 @@ Java 堆分成新生代和老年代；新生代又分一个 Eden 区和两个 Su
 4. 年龄达到阈值，晋升到老年代。
 
 ### 比例
-新生代内部 Eden 与两个 Survivor 的比例，在常见的配置下是 8:1:1，新生代与老年代的默认比例也有一套默认值，但具体数值依收集器和参数而异，需要时用 JVM 参数调整，不要死记。
+新生代内部 Eden 与两个 Survivor 的比例，默认是 8:1:1（`-XX:SurvivorRatio=8`）。新生代与老年代的默认比例是 1:2（`-XX:NewRatio=2`）。
+这些默认值针对 Serial、Parallel 这类分代收集器，G1 等收集器会动态调整各区大小。具体数值依收集器和参数而异，需要时用 JVM 参数调整，不要死记。
 
 ## 易错点
 - 以为两个 Survivor 区同时存放对象；同一时刻只有一个在用，另一个是空的

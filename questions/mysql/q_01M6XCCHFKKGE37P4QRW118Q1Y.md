@@ -9,6 +9,10 @@ tags: [sql-optimization]
 prerequisites: [q_01M6XCC86NH3XC896A6W9QDAP7, q_01M6XCCH64M0MSBJHQYKHYVS1A]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "MySQL 8.4 手册：The Slow Query Log", url: "https://dev.mysql.com/doc/refman/8.4/en/slow-query-log.html" }
+  - { title: "MySQL 8.4 手册：mysqldumpslow", url: "https://dev.mysql.com/doc/refman/8.4/en/mysqldumpslow.html" }
+  - { title: "MySQL 8.4 手册：EXPLAIN Output Format", url: "https://dev.mysql.com/doc/refman/8.4/en/explain-output.html" }
 ---
 
 ## 一句话

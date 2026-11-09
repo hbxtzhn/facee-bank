@@ -9,6 +9,9 @@ tags: [isolation-mvcc]
 prerequisites: [q_01M6XCCT8E7EYYHFMN310PDB3W, q_01M6XCCV1JZHEPW18YP6YB2ETH, q_01M6XCCVTVRT0R8Z56R8VVY947]
 appliesTo: ["MySQL InnoDB"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Consistent Nonlocking Reads（快照时机与 DML）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html" }
+  - { title: "MySQL 8.4 手册：Transaction Isolation Levels（REPEATABLE READ / READ COMMITTED）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
 estimatedMinutes: 3
 ---
 

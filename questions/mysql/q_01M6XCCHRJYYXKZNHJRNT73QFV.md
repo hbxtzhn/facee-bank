@@ -8,6 +8,8 @@ category: mysql
 tags: [sql-optimization]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Configuration 之 plugins", url: "https://mybatis.org/mybatis-3/configuration.html" }
 ---
 
 ## 一句话

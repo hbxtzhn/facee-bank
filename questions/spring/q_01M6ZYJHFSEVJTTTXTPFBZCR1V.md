@@ -9,6 +9,8 @@ tags: [mybatis-cache, replacement-policy]
 prerequisites: [q_01M6XCBSNWRWKD6XSZ1X4ZS2CS]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（cache 元素的 eviction、flushInterval、size、readOnly）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 ---
 
 ## 一句话
@@ -22,7 +24,7 @@ flushInterval 是定时清空的间隔，size 是缓存对象数量上限。read
 
 ## 详解
 ### 先搞懂：给公告栏定规矩
-二级缓存像一块公告栏，需要定几条规矩：栏能贴多少张（size），满了撕哪张（eviction），多久整体清一次（flushInterval），别人能不能在上面乱涂乱画（readOnly）。
+二级缓存像一块公告栏，需要定几条规矩。栏能贴多少张（size）。满了撕哪张（eviction）。多久整体清一次（flushInterval）。别人能不能在上面乱涂乱画（readOnly）。
 
 ### 四个属性分别是什么
 - **eviction**：缓存满了要腾位置时，淘汰哪个。常见取值有 `LRU`（最近最少使用）、`FIFO`（先进先出）、`SOFT`（软引用）、`WEAK`（弱引用）。默认是 `LRU`。

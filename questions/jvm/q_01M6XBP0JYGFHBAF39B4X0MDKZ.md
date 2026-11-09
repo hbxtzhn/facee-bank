@@ -9,6 +9,9 @@ tags: [memory-area, bytecode-execution]
 prerequisites: [q_01M6XBG7C8KPSDAX0XYG3M9X25, q_01M6XBGEDG1D442TEBT506XS3M]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Oracle JDK 8 文档：Java HotSpot VM Performance Enhancements（Escape Analysis）", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/performance-enhancements-7.html" }
+  - { title: "JDK 21 java 命令手册：-XX:+DoEscapeAnalysis", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html" }
 ---
 
 ## 一句话

@@ -9,6 +9,10 @@ tags: [synchronized]
 prerequisites: [q_01M6XBGYZ9H53CEJS5DEE28RX7]
 appliesTo: ["JDK 15 之前默认启用"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JEP 374：Deprecate and Disable Biased Locking", url: "https://openjdk.org/jeps/374" }
+  - { title: "OpenJDK jdk-14-ga 源码：biasedLocking.hpp / biasedLocking.cpp", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/biasedLocking.cpp" }
+  - { title: "OpenJDK jdk-14-ga 源码：synchronizer.cpp（FastHashCode、wait、notify）", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/synchronizer.cpp" }
 estimatedMinutes: 3
 ---
 
@@ -44,10 +48,10 @@ estimatedMinutes: 3
 
 ### 撤销：什么时候会被收回
 - **其他线程来竞争**：检查偏向的线程是否还在同步块里。如果已经退出，对象可以回到无锁状态，或重新偏向给新线程；如果还在里面，就升级为轻量级锁，由持有者继续拿着。
-- **调用 identity hashCode**：Mark Word 里没有位置同时放线程 ID 和哈希码，所以对一个偏向状态的对象第一次调用 `System.identityHashCode()`（或未重写的 `hashCode()`），偏向会被撤销。
+- **调用 identity hashCode**：偏向状态下，对象头里不保存 identity hash。所以对偏向状态的对象第一次调用 `System.identityHashCode()`（或未重写的 `hashCode()`），偏向会被撤销。
 - **调用 `wait()` / `notify()`**：这些操作依赖监视器，也会让偏向被撤销。
 
-撤销偏向的代价不小：通常要等到安全点才能确认持有者的状态，竞争多的程序里反复撤销，偏向锁反而成了负担。HotSpot 还有按类批量重偏向、批量撤销的机制，来减轻这种代价。
+撤销偏向的代价不小：往往要让线程暂停（安全点或握手）才能确认持有者的状态，竞争多的程序里反复撤销，偏向锁反而成了负担。HotSpot 还有按类批量重偏向、批量撤销的机制，来减轻这种代价。
 
 ### 进阶：为什么现在默认关了（基础薄弱可先跳过）
 JDK 15 通过 JEP 374 弃用并默认禁用了偏向锁。现代 JDK 中无竞争加锁本来就便宜，偏向锁带来的好处变小，而它让 JVM 实现更复杂、撤销又有代价。所以面试里讲原理没问题，但要主动说明它在新版本里默认不启用。

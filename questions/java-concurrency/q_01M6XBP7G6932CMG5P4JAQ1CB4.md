@@ -10,6 +10,9 @@ prerequisites: [q_01M6XBP5QQ719CQRSMDFYYC52K]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "OpenJDK 21 源码：java/lang/ThreadLocal.java（ThreadLocalMap、Entry）", url: "https://github.com/openjdk/jdk/blob/jdk-21+35/src/java.base/share/classes/java/lang/ThreadLocal.java" }
+  - { title: "Java SE 21 API：ThreadLocal", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html" }
 ---
 
 ## 一句话
@@ -53,7 +56,7 @@ Entry 的定义很特别：它继承了 `WeakReference<ThreadLocal<?>>`，key �
 - 如果 Entry 对 key 是强引用：线程只要还活着（比如线程池里的线程），Map 就一直引用着这个 ThreadLocal。它永远不能回收；
 - 用弱引用：外面没有强引用后，垃圾回收时这个 ThreadLocal 对象就能被回收，Entry 的 key 变成 null。
 
-这样至少 key 不会泄漏。但要注意：key 变成 null 后，value 仍然被 Entry 强引用着，所以并不能完全避免泄漏，这就要靠 `remove()` 主动清理（详见另一道题）。
+这样至少 key 不会泄漏。但要注意：key 变成 null 后，value 仍然被 Entry 强引用着。所以并不能完全避免泄漏。这就要靠 `remove()` 主动清理（详见另一道题）。
 
 ### 进阶：哈希与容量（基础薄弱可先跳过）
 - 每个 ThreadLocal 创建时会拿到一个哈希码，每次在上一个基础上加一个固定的魔数（0x61c88647），使哈希值分布比较均匀。

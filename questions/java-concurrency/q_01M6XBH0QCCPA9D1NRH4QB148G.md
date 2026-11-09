@@ -9,6 +9,9 @@ tags: [aqs, atomic-operation]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Java SE 21 API：AbstractQueuedSynchronizer", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/AbstractQueuedSynchronizer.html" }
+  - { title: "OpenJDK jdk21u 源码：AbstractQueuedSynchronizer.java（CLH 变体、prev/next、unpark）", url: "https://github.com/openjdk/jdk21u/blob/master/src/java.base/share/classes/java/util/concurrent/locks/AbstractQueuedSynchronizer.java" }
 ---
 
 ## 一句话

@@ -8,6 +8,10 @@ category: mysql
 tags: [index-design]
 prerequisites: [q_01M6XCC9S7WEGHV1FGC9A85DK4]
 appliesTo: ["函数索引部分：MySQL >= 8.0.13"]
+references:
+  - { title: "MySQL 8.4 手册：How MySQL Uses Indexes（不同类型比较）", url: "https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html" }
+  - { title: "MySQL 8.4 手册：Type Conversion in Expression Evaluation", url: "https://dev.mysql.com/doc/refman/8.4/en/type-conversion.html" }
+  - { title: "MySQL 8.0.13 发行说明：functional index key parts", url: "https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-13.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

@@ -9,6 +9,9 @@ tags: [object-methods, serialization]
 prerequisites: [q_01M6XBFYHZ765RFXYWFKENG92J, q_01M6XBFYT5YCECW2685R8WYMPM]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.lang.Object#clone（浅拷贝与 Cloneable 约定）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" }
+  - { title: "Java SE 21 API：java.io.Serializable（NotSerializableException、反序列化安全）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" }
 ---
 
 ## 一句话

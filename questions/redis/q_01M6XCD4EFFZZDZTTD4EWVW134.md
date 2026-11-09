@@ -7,6 +7,8 @@ importance: 2
 category: redis
 tags: [cache-failure, expiration]
 prerequisites: [q_01M6XCD3XFRZHY4YEE5VSN04R3]
+references:
+  - { title: "Redis 文档：EXPIRE 命令（到期后 key 自动删除）", url: "https://redis.io/docs/latest/commands/expire/" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

@@ -8,6 +8,9 @@ category: spring
 tags: [sql-mapping]
 prerequisites: [q_01M6XCBKTSPK3D1K36XH3JKZPV]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：动态 SQL - bind", url: "https://mybatis.org/mybatis-3/dynamic-sql.html" }
+  - { title: "MyBatis 3 文档：Mapper XML - String Substitution", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 estimatedMinutes: 3
 ---
 

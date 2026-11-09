@@ -8,6 +8,9 @@ category: jvm
 tags: [memory-area, gc-algorithm]
 prerequisites: [q_01M6XBNZVKTVDA567PT9MX6AZC]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "OpenJDK 21 源码 gc_globals.hpp：PretenureSizeThreshold", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-21%2B35/src/hotspot/share/gc/shared/gc_globals.hpp" }
+  - { title: "JDK 21 GC 调优指南：Garbage-First 收集器（Humongous Objects）", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
 estimatedMinutes: 3
 ---
 

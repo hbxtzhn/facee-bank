@@ -8,6 +8,8 @@ category: java-concurrency
 tags: [memory-model]
 prerequisites: [q_01M6XBGTZGQFK0YR3W1G79JE9T]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JLS 17.4.4 / 17.4.5：Synchronization Order 与 Happens-before Order", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html" }
 estimatedMinutes: 3
 ---
 

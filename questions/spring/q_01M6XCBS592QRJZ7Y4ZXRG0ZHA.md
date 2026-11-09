@@ -8,6 +8,10 @@ category: spring
 tags: [mybatis-cache, mybatis-internals]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "MyBatis 3 文档：配置（settings：localCacheScope）", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 3 源码：BaseExecutor（一级缓存的创建、缓存键与清空）", url: "https://github.com/mybatis/mybatis-3/blob/master/src/main/java/org/apache/ibatis/executor/BaseExecutor.java" }
+  - { title: "MyBatis-Spring 文档：Using an SqlSession（SqlSessionTemplate 与事务）", url: "https://mybatis.org/spring/sqlsession.html" }
 ---
 
 ## 一句话

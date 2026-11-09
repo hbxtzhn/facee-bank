@@ -8,6 +8,10 @@ category: mysql
 tags: [index-design]
 appliesTo: ["函数索引部分：MySQL >= 8.0.13"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：CREATE INDEX Statement（Functional Key Parts）", url: "https://dev.mysql.com/doc/refman/8.4/en/create-index.html" }
+  - { title: "MySQL 8.0.13 发行说明：Optimizer Notes（函数索引键）", url: "https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-13.html" }
+  - { title: "MySQL 8.4 手册：Range Optimization（键列与常量比较）", url: "https://dev.mysql.com/doc/refman/8.4/en/range-optimization.html" }
 estimatedMinutes: 3
 ---
 

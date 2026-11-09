@@ -6,6 +6,8 @@ difficulty: medium
 importance: 2
 category: mysql
 tags: [clustered-index, index-structure]
+references:
+  - { title: "MySQL 8.4 手册：Clustered and Secondary Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

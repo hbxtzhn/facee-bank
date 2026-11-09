@@ -8,6 +8,10 @@ category: spring
 tags: [configuration]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Spring Boot 参考文档：Overview", url: "https://docs.spring.io/spring-boot/index.html" }
+  - { title: "Spring Boot 参考文档：Using the @SpringBootApplication Annotation", url: "https://docs.spring.io/spring-boot/reference/using/using-the-springbootapplication-annotation.html" }
+  - { title: "Spring Boot 参考文档：Embedded Web Servers（How-to）", url: "https://docs.spring.io/spring-boot/how-to/webserver.html" }
 ---
 
 ## 一句话
@@ -16,7 +20,7 @@ Spring Boot 是 Spring 之上的快速开发框架：靠默认配置和自动配
 ## 要点
 - [kp1|3] 约定优于配置：提供合理默认值，需要时再覆盖
 - [kp2|3] 自动配置：根据引入的依赖和条件，自动把常用 Bean 配好
-- [kp3|2] 内嵌 Tomcat、Jetty、Undertow 等服务器，直接运行 jar，不用部署 WAR
+- [kp3|2] 内嵌 Tomcat、Jetty 等服务器，直接运行 jar，不用部署 WAR
 - [kp4] 起步依赖（starter）把一类功能需要的依赖打成一个包
 
 ## 详解
@@ -38,7 +42,8 @@ Spring Boot 好比精装修的房子：水电、厨卫都配好了，拎包入�
 5. **生产特性**：提供 Actuator，可以查看健康状态、指标等运维信息。
 
 ### 自动配置的大致原理
-启动类上的 `@SpringBootApplication` 组合了三个注解：`@SpringBootConfiguration`（标明是配置类）、`@EnableAutoConfiguration`（开启自动配置）、`@ComponentScan`（扫描组件）。其中 `@EnableAutoConfiguration` 会读取各个依赖里登记的自动配置类，并根据条件注解（如“类路径下有某个类才生效”“你没有自己定义这个 Bean 才生效”）决定是否创建对应的 Bean。
+启动类上的 `@SpringBootApplication` 组合了三个注解：`@SpringBootConfiguration`（标明是配置类）、`@EnableAutoConfiguration`（开启自动配置）、`@ComponentScan`（扫描组件）。其中 `@EnableAutoConfiguration` 会读取各个依赖里登记的自动配置类。
+然后根据条件注解决定是否创建对应的 Bean。条件如“类路径下有某个类才生效”“你没有自己定义这个 Bean 才生效”。
 
 ## 示例
 ```java
@@ -53,7 +58,7 @@ public class DemoApplication {
 ## 易错点
 - 以为 Spring Boot 是替代 Spring 的新框架；它建立在 Spring 之上，简化配置，底层仍是 Spring
 - 以为“自动配置”就是不用配置了；它只是提供默认值，业务相关的配置仍要自己写
-- 以为 Spring Boot 一定要用内嵌 Tomcat；也可以换成 Jetty、Undertow，或打成 WAR 部署到外部容器
+- 以为 Spring Boot 一定要用内嵌 Tomcat；也可以换成 Jetty，或打成 WAR 部署到外部容器
 
 ## 追问
 ### [f1] @SpringBootApplication 是由哪几个注解组成的？

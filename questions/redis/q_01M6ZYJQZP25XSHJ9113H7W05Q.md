@@ -8,6 +8,10 @@ category: redis
 tags: [rdb-aof, process]
 prerequisites: [q_01M6XCCZGCKXXDHDXDG74RXCVD, q_01M6XCCZS9XZ69NDV5RERDGZYH]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Redis 文档：Redis persistence（Snapshotting 与 fork）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
+  - { title: "Redis 文档：BGSAVE", url: "https://redis.io/docs/latest/commands/bgsave/" }
+  - { title: "Redis 文档：Redis administration（透明大页、最多 2 倍内存）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/admin/" }
 estimatedMinutes: 3
 ---
 

@@ -8,6 +8,10 @@ category: spring
 tags: [microservice, consensus]
 prerequisites: [q_01M6XBHABRAHKWVM804H2CPYRR, q_01M6XBPBGP3MDZM5R1301Z138C]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Netflix Eureka Wiki：首页（Eureka 2.0 停止、1.x 维护）", url: "https://github.com/Netflix/eureka/wiki" }
+  - { title: "Eureka Wiki：Server Self Preservation Mode", url: "https://github.com/Netflix/eureka/wiki/Server-Self-Preservation-Mode" }
+  - { title: "Nacos 文档：Instance Lifecycle（临时实例与持久实例）", url: "https://nacos.io/en/docs/latest/manual/user/naming/instance-lifecycle/" }
 estimatedMinutes: 4
 ---
 
@@ -48,7 +52,7 @@ Eureka 只做注册中心且偏重可用性（AP），Netflix 已不再推进其
 结论：新项目优先选 Nacos，一个组件同时解决注册和配置问题；如果已有 Spring Cloud Netflix 老系统在稳定运行，也不必急着迁移。
 
 ### 临时实例和持久实例
-Nacos 里实例默认是**临时实例**：靠客户端定时发心跳保活，超时没心跳就被剔除，数据同步走 AP 协议。**持久实例**则由服务端主动检查健康，实例不健康时只标记不删除，数据一致性走 CP 协议。需要保留服务信息、不希望被自动删除的场景可以用持久实例。
+Nacos 里实例默认是**临时实例**：靠客户端定时发心跳保活，超时没心跳就被剔除，数据同步走 AP 协议。**持久实例**则由服务端主动检查健康，不会因为心跳超时被自动剔除，数据一致性走 CP 协议。需要保留服务信息、不希望被自动删除的场景可以用持久实例。
 
 ### 选型时怎么想
 - 只需要简单注册发现、不关心配置中心，并且是老 Netflix 栈：Eureka 也能用。

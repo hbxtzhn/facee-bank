@@ -9,6 +9,8 @@ tags: [memory-model]
 prerequisites: [q_01M6XBGT0NVE9CGQS5B8H06FHB]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java 语言规范 SE 21：17.4.5 Happens-before Order", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html" }
 ---
 
 ## 一句话
@@ -53,7 +55,7 @@ happens-before 就是 Java 给多线程定的这种「交接承诺」。后文�
 - 传递性：写 `data` happens-before B 读 `data`，所以 B 一定能读到最新的 `data`。
 
 ### 进阶：没有规则会怎样（基础薄弱可先跳过）
-两个线程之间如果找不到任何一条 happens-before 链，对共享变量的读写就没有可见性保证，这叫数据竞争，结果取决于编译器、CPU 和调度，可能偶尔正确、偶尔出错。
+两个线程之间如果找不到任何一条 happens-before 链，对共享变量的读写就没有可见性保证。如果其中至少有一个写，这叫数据竞争。结果取决于编译器、CPU 和调度，可能偶尔正确、偶尔出错。
 
 ## 示例
 ```java

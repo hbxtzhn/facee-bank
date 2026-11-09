@@ -9,6 +9,10 @@ tags: [synchronized]
 prerequisites: [q_01M6XBGYPJXM20MV9Q8KEXDR5P]
 appliesTo: ["Java >= 8", "偏向锁部分：Java < 15 默认启用"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JEP 374：Deprecate and Disable Biased Locking", url: "https://openjdk.org/jeps/374" }
+  - { title: "OpenJDK jdk-14-ga 源码：biasedLocking.hpp（偏向锁机制说明）", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/biasedLocking.hpp" }
+  - { title: "OpenJDK jdk-14-ga 源码：synchronizer.cpp（wait 时撤销偏向并膨胀）", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/synchronizer.cpp" }
 estimatedMinutes: 5
 ---
 

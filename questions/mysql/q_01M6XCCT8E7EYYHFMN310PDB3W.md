@@ -8,6 +8,9 @@ category: mysql
 tags: [isolation-mvcc]
 prerequisites: [q_01M6XCCSHSV6BBK72JGGX9R1NB]
 appliesTo: ["MySQL InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：Transaction Isolation Levels（17.7.2.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
+  - { title: "MySQL 8.4 手册：Consistent Nonlocking Reads（17.7.2.3）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-consistent-read.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
 ---

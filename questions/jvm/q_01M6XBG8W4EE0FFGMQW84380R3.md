@@ -8,6 +8,8 @@ category: jvm
 tags: [gc-algorithm, memory-area]
 prerequisites: [q_01M6XBG7X1TEAHATS5SRTKW1D7, q_01M6XBG8KPCG2V9K1SXQ2F3KPH]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 17 垃圾回收调优指南：Garbage Collector Implementation（弱分代假说、Young/Old 回收）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-collector-implementation.html" }
 estimatedMinutes: 3
 ---
 

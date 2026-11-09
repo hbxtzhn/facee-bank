@@ -8,6 +8,8 @@ category: spring
 tags: [dynamic-sql, reflection]
 prerequisites: [q_01M6XCBNK1F0XM77F4682VE0WA]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：动态 SQL（OGNL 表达式、if、bind）", url: "https://mybatis.org/mybatis-3/dynamic-sql.html" }
 estimatedMinutes: 3
 ---
 

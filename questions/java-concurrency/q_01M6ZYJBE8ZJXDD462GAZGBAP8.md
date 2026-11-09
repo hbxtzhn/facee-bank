@@ -9,6 +9,10 @@ tags: [design-pattern, thread-safety]
 prerequisites: [q_01M6XBGP9EBY9TXR9PAZH7WJ3G]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java 语言规范 SE 21：12.4.2 Detailed Initialization Procedure", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-12.html" }
+  - { title: "Java 序列化规范：1.12 Serialization of Enum Constants", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/serialization/serial-arch.html" }
+  - { title: "JSR-133 FAQ：Double-checked locking", url: "https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html" }
 ---
 
 ## 一句话

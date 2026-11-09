@@ -10,6 +10,9 @@ prerequisites: [q_01M6ZYJBE8ZJXDD462GAZGBAP8, q_01M6XBGT0NVE9CGQS5B8H06FHB]
 appliesTo: ["Java >= 5"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "JSR-133 FAQ：Double-checked locking", url: "https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html" }
+  - { title: "Java 语言规范 SE 21：17.4.5 Happens-before Order", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html" }
 ---
 
 ## 一句话

@@ -9,6 +9,8 @@ tags: [sharding]
 prerequisites: [q_01M6XCCFVK1A4H94PPDG4K37QF]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Vitess 文档：Vindexes（Lookup Vindex 映射表）", url: "https://vitess.io/docs/reference/features/vindexes/" }
 ---
 
 ## 一句话

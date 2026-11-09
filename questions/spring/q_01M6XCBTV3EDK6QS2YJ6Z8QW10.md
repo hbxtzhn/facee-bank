@@ -9,6 +9,8 @@ tags: [mybatis-cache, cache-consistency]
 prerequisites: [q_01M6XCBSNWRWKD6XSZ1X4ZS2CS]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（cache 元素、flushCache、cache-ref）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 ---
 
 ## 一句话

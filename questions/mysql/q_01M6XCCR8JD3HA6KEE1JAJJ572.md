@@ -7,6 +7,9 @@ importance: 2
 category: mysql
 tags: [lock-modes, isolation-mvcc]
 prerequisites: [q_01M6XCCQFC1Y5W7TWX6YCNHXRE, q_01M6XCCQQM544GVT51N0JPTWQM, q_01M6XCCR045TE6Z7AB40ZYFS9H]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Locking（17.7.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html" }
+  - { title: "MySQL 8.4 手册：Transaction Isolation Levels（17.7.2.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---
@@ -50,7 +53,7 @@ SELECT * FROM orders WHERE id > 3 FOR UPDATE;
 ### 它什么时候会变小
 - **唯一索引等值查询命中一行**：不需要防止范围里出现新行，临键锁会退化成记录锁。
 - **唯一索引等值查询没命中**：退化成间隙锁。
-- **非唯一索引等值查询**：除了命中记录的临键锁，还会再对下一个间隙加锁。边界处的细节随版本略有差异，实际以 `performance_schema` 里的锁记录为准。
+- **非唯一索引等值查询**：不会退化成单纯的记录锁，会连同间隙一起锁。边界处的细节随版本略有差异，实际以 `performance_schema` 里的锁记录为准。
 
 ## 示例
 ```sql

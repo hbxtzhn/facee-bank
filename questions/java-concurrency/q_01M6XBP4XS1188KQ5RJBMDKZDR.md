@@ -8,6 +8,8 @@ category: java-concurrency
 tags: [thread-pool]
 appliesTo: ["Java >= 19（close 方法）"]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 API：ExecutorService（shutdown、shutdownNow、close 与示例）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutorService.html" }
 estimatedMinutes: 2
 ---
 

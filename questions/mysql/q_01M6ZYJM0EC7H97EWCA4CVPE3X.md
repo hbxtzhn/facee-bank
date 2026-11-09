@@ -8,18 +8,21 @@ category: mysql
 tags: [database-log, flush-to-disk]
 prerequisites: [q_01M6XCC9C3ZNX81PD178JMN9JH]
 appliesTo: ["MySQL >= 5.7，InnoDB"]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB 启动选项与系统变量 innodb_flush_log_at_trx_commit", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit" }
+  - { title: "MySQL 8.4 手册：Redo Log Buffer", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-redo-log-buffer.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---
 
 ## 一句话
-redo log 先写进内存中的 log buffer，再在事务提交、buffer 快满、后台定时和正常关闭等时机刷到磁盘；提交时是否刷盘由 `innodb_flush_log_at_trx_commit` 控制。
+redo log 先写进内存中的 log buffer，再在事务提交、buffer 不够用和后台定时等时机刷到磁盘；提交时是否刷盘由 `innodb_flush_log_at_trx_commit` 控制。
 
 ## 要点
 - [kp1|3] redo log 先写进内存的 log buffer，不是直接写磁盘
 - [kp2|3] 提交时是否刷盘由 `innodb_flush_log_at_trx_commit` 决定，默认 1 每次都刷
 - [kp3|2] log buffer 空间不足时，会把内容刷到磁盘
-- [kp4|2] 后台线程大约每秒刷一次，正常关闭 MySQL 时也会刷盘
+- [kp4|2] 后台线程大约每秒刷一次
 - [kp5] 取值 0、2 提交更快，但宕机时可能丢最近一段时间的事务
 
 ## 详解
@@ -35,10 +38,9 @@ redo log 先写进内存中的 log buffer，再在事务提交、buffer 快满�
 - **操作系统缓存**：写文件时，系统先放进自己的内存缓存，不一定马上到磁盘。
 
 ### 刷盘的几个时机
-1. **log buffer 空间不足**：缓冲区大小有限，写入太多快满时，会先刷一部分到磁盘。
+1. **log buffer 空间不足**：缓冲区大小有限，装不下大事务时，会提前把一部分写到磁盘。
 2. **事务提交**：这是最重要的时机，由参数控制，见下节。
 3. **后台线程定时**：有后台线程大约每秒把 log buffer 的内容刷盘一次。
-4. **正常关闭服务**：关闭 MySQL 前会把剩余的 redo log 都刷到磁盘。
 
 ### 提交时的三种策略：innodb_flush_log_at_trx_commit
 - **1（默认）**：每次提交，都把 redo log 写入磁盘并确保落实。最安全，已提交的事务宕机后不丢。

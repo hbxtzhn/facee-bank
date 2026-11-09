@@ -8,6 +8,10 @@ category: jvm
 tags: [memory-area, gc-algorithm]
 prerequisites: [q_01M6XBG8KPCG2V9K1SXQ2F3KPH, q_01M6XBNZVKTVDA567PT9MX6AZC]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 java 命令参考：-XX:MaxTenuringThreshold、-XX:TargetSurvivorRatio", url: "https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html" }
+  - { title: "Java SE 8 HotSpot GC 调优指南：Sizing the Generations", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/sizing.html" }
+  - { title: "OpenJDK 21 源码 gc_globals.hpp", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-21%2B35/src/hotspot/share/gc/shared/gc_globals.hpp" }
 estimatedMinutes: 3
 ---
 
@@ -37,12 +41,14 @@ estimatedMinutes: 3
 3. 之后每次 Minor GC，只要还活着，年龄继续加一。
 4. 年龄达到阈值，下一次回收时被复制到老年代。
 
-年龄信息放在对象头的几个二进制位里，空间有限，所以最大值只能是 15。常见默认阈值是 15，但具体收集器的默认值可能不同，可以通过 `-XX:MaxTenuringThreshold` 调整。
+年龄信息放在对象头的几个二进制位里，空间有限，所以最大值只能是 15。常见默认阈值是 15，但具体收集器的默认值可能不同（例如 CMS 默认是 6），可以通过 `-XX:MaxTenuringThreshold` 调整。
 
 ### 提前晋升的情况
 - **大对象直接进老年代**：对象太大时，在新生代来回复制代价高，会直接分配到老年代，不同收集器的具体做法不一样。
 - **Survivor 区装不下**：一次回收后存活对象太多，Survivor 区放不下，多出来的直接晋升。
-- **动态年龄判断**：如果 Survivor 区中某个年龄及以下的对象总大小超过 Survivor 空间的一半，那么年龄大于等于这个年龄的对象不需要等到阈值，直接晋升。这样可以避免 Survivor 被占满。
+- **动态年龄判断**：JVM 每次回收时会重新选一个阈值，目标是让 Survivor 区保持在约一半满（`-XX:TargetSurvivorRatio`，默认 50%）。
+  如果 Survivor 区中某个年龄及以下的对象总大小超过这个比例，年龄大于等于这个年龄的对象就不用等到最大阈值，直接晋升。
+  这样可以避免 Survivor 被占满。
 
 ### 为什么要这样设计
 让对象多熬几次，是为了把「运气不好刚好撞上回收」的短命对象留在新生代清掉，不污染老年代。但也不能一直熬，不然 Survivor 区会被长期存活的对象占满，反复复制又浪费时间，所以设一个阈值。

@@ -9,6 +9,8 @@ tags: [association-mapping]
 prerequisites: [q_01M6XCBQCHYQCSJGM5XAPRSM41]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Mapper XML 文件（Nested Results for Association、id 元素）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 ---
 
 ## 一句话

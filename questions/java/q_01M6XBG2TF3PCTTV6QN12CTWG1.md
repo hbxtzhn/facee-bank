@@ -9,6 +9,9 @@ tags: [io-multiplexing, io-stream]
 prerequisites: [q_01M6XCFWPGHQWTXE0J8FY9ZRNP]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java SE 21 API：java.nio.channels 包说明（Selector 多路复用、异步通道）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/channels/package-summary.html" }
+  - { title: "Java SE 21 API：java.nio.channels.AsynchronousChannelGroup（Since 1.7）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/channels/AsynchronousChannelGroup.html" }
 ---
 
 ## 一句话

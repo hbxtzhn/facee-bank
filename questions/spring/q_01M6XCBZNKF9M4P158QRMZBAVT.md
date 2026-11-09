@@ -7,11 +7,14 @@ importance: 2
 category: spring
 tags: [mybatis-internals]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：Configuration（objectFactory、plugins、jdbcTypeForNull）", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 3 文档：Java API（SqlSession、ExecutorType、Mapper 注解）", url: "https://mybatis.org/mybatis-3/java-api.html" }
 estimatedMinutes: 3
 ---
 
 ## 一句话
-MyBatis 分三层：API 接口层给开发者提供调用入口，数据处理层负责 SQL 解析、执行和结果映射，基础支撑层提供连接、事务、配置、缓存等底层能力。
+MyBatis 的功能架构常被划分为三层：API 接口层给开发者提供调用入口，数据处理层负责 SQL 解析、执行和结果映射，基础支撑层提供连接、事务、配置、缓存等底层能力。
 
 ## 要点
 - [kp1|3] API 接口层：`SqlSession` 等对外接口，接收调用请求

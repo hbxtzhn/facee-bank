@@ -10,6 +10,8 @@ prerequisites: [q_01M6XBGRT4YN1FJSGZCZKGM6WB]
 appliesTo: ["Java >= 8"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：InheritableThreadLocal", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InheritableThreadLocal.html" }
 ---
 
 ## 一句话
@@ -50,7 +52,7 @@ InheritableThreadLocal 好比：新员工入职时，把老员工抽屉里的资
 - 任务提交时，父线程的值不会重新传给工作线程；
 - 工作线程如果已经存在，拿到的可能是以前的旧值，甚至是别的请求遗留的数据。
 
-需要在线程池里传值时，通常会借助第三方工具（如阿里的 TransmittableThreadLocal），或者提交任务时手动把值取出来、传进任务里，在任务中自己 set。
+需要在线程池里传值时，通常会借助第三方工具（如阿里的 TransmittableThreadLocal）。也可以在提交任务时手动把值取出来、传进任务里，再在任务中自己 set。
 
 ## 示例
 ```java

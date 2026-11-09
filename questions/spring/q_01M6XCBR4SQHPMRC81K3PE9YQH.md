@@ -8,6 +8,9 @@ category: spring
 tags: [association-mapping, dynamic-proxy]
 prerequisites: [q_01M6XCBQWWQPY8ASY7VYDWPJ9R]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 3 文档：配置 - settings（proxyFactory 等）", url: "https://mybatis.org/mybatis-3/configuration.html" }
+  - { title: "MyBatis 源码：JavassistProxyFactory", url: "https://github.com/mybatis/mybatis-3/blob/master/src/main/java/org/apache/ibatis/executor/loader/javassist/JavassistProxyFactory.java" }
 estimatedMinutes: 3
 ---
 
@@ -44,7 +47,7 @@ MyBatis 给结果对象生成一个代理子类，你调用关联属性的 gette
 关联属性是你自己定义的普通字段，MyBatis 没法改你的类，也不想让你每个 getter 都手写查询逻辑。代理在运行时动态加一层，业务代码完全不用感知。
 
 ### 进阶：代理工具和触发方法（基础薄弱可先跳过）
-- `proxyFactory` 设置可选 CGLIB 或 JAVASSIST，较新版本默认是 JAVASSIST。
+- `proxyFactory` 设置可选 CGLIB 或 JAVASSIST，较新版本默认是 JAVASSIST，CGLIB 自 3.5.10 起已标记弃用。
 - 代理是子类，所以实体类不能是 `final`，要延迟加载的方法也不能是 `final`。
 - `lazyLoadTriggerMethods` 指定哪些方法会触发整体加载，默认是 `equals`、`clone`、`hashCode`、`toString`。
 - `aggressiveLazyLoading` 为 true 时，调用任何一个属性就加载所有延迟属性；新版本默认为 false。

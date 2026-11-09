@@ -8,6 +8,10 @@ category: java-concurrency
 tags: [thread-pool, collections]
 prerequisites: [q_01M6XBGX1MD0HRTZMCXDBB3PXV]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 API：LinkedBlockingQueue", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/LinkedBlockingQueue.html" }
+  - { title: "JDK 21 API：PriorityBlockingQueue", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/PriorityBlockingQueue.html" }
+  - { title: "JDK 21 API：ThreadPoolExecutor（Queuing 一节）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html" }
 estimatedMinutes: 3
 ---
 
@@ -37,7 +41,7 @@ estimatedMinutes: 3
 | LinkedBlockingQueue | 链表 | 可指定；不指定默认 Integer.MAX_VALUE | 先进先出 | 任务量可控；建议指定容量 |
 | PriorityBlockingQueue | 堆（数组） | 无界 | 按优先级 | 任务有轻重缓急 |
 | SynchronousQueue | 无存储 | 容量为 0 | 直接交接 | 任务多而短，配合很大的最大线程数 |
-| DelayQueue | 堆 | 无界 | 按到期时间 | 延迟执行的任务 |
+| DelayQueue | 文档未规定 | 无界 | 按到期时间 | 延迟执行的任务 |
 
 结论：线程池默认选带容量上限的 ArrayBlockingQueue 或指定了容量的 LinkedBlockingQueue；需要优先级才用 PriorityBlockingQueue，并留意它无界。
 

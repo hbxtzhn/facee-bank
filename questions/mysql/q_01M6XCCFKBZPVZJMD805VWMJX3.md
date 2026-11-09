@@ -8,6 +8,9 @@ category: mysql
 tags: [sharding]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Vitess 文档：Vindexes（Primary Vindex 的选择与限制）", url: "https://vitess.io/docs/reference/features/vindexes/" }
+  - { title: "Vitess 文档：Sharding", url: "https://vitess.io/docs/reference/features/sharding/" }
 ---
 
 ## 一句话

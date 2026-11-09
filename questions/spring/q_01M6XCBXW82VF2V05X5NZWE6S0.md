@@ -8,6 +8,9 @@ category: spring
 tags: [mybatis-internals, configuration]
 prerequisites: [q_01M6XCBHSPR8QTEPTFSNWX8QQT]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MyBatis 源码：SqlSessionFactoryBuilder.java", url: "https://raw.githubusercontent.com/mybatis/mybatis-3/master/src/main/java/org/apache/ibatis/session/SqlSessionFactoryBuilder.java" }
+  - { title: "MyBatis 3 手册：Getting started", url: "https://mybatis.org/mybatis-3/getting-started.html" }
 estimatedMinutes: 4
 ---
 

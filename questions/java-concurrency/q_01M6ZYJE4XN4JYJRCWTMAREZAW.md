@@ -9,6 +9,9 @@ tags: [memory-model, synchronized]
 prerequisites: [q_01M6XBGNRM8ZXT4BFXMFFB3T5V, q_01M6XBP39M3ZKGHE87ZQHE9Y0M]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 4
+references:
+  - { title: "Java 语言规范 SE 21：17.4.5 Happens-before Order、17.5 final Field Semantics、17.7 Non-Atomic Treatment of double and long", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html" }
+  - { title: "JSR-133 FAQ", url: "https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html" }
 ---
 
 ## 一句话
@@ -37,7 +40,7 @@ estimatedMinutes: 4
 - `synchronized` / `Lock`：同一时刻只有一个线程执行同步块，整段代码就不会被打断；
 - `AtomicInteger` 等原子类：用 CAS 保证单个变量的更新是原子的。
 
-单次读写基本类型变量，Java 本身已经基本保证，但 `i++` 这类「读—改—写」需要上面的手段。
+单次读写基本类型变量，Java 本身已经保证原子。非 volatile 的 long、double 除外。但 `i++` 这类「读—改—写」需要上面的手段。
 
 ### 可见性：改完能看到
 - `volatile`：写完立即刷回主内存，读时总读最新值；

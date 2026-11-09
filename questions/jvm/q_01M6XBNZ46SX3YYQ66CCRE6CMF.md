@@ -8,6 +8,9 @@ category: jvm
 tags: [gc-algorithm]
 prerequisites: [q_01M6XBG7X1TEAHATS5SRTKW1D7]
 source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 17 垃圾回收调优指南：Garbage Collector Implementation（分代、Eden 与 Survivor）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/garbage-collector-implementation.html" }
+  - { title: "JDK 17 垃圾回收调优指南：Introduction（压缩以获得连续空闲内存）", url: "https://docs.oracle.com/en/java/javase/17/gctuning/introduction-garbage-collection-tuning.html" }
 estimatedMinutes: 3
 ---
 

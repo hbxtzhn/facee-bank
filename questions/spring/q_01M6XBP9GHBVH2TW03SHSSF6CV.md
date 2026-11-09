@@ -9,6 +9,9 @@ tags: [bean-lifecycle, dynamic-proxy]
 prerequisites: [q_01M6XBH86GH1KK78ZH866Y0TVW]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 5
+references:
+  - { title: "Spring Framework 源码：AbstractAutoProxyCreator（getEarlyBeanReference、postProcessAfterInitialization）", url: "https://github.com/spring-projects/spring-framework/blob/main/spring-aop/src/main/java/org/springframework/aop/framework/autoproxy/AbstractAutoProxyCreator.java" }
+  - { title: "Spring Framework 源码：AbstractAutowireCapableBeanFactory（getEarlyBeanReference 与原始版本被注入的异常）", url: "https://github.com/spring-projects/spring-framework/blob/main/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java" }
 ---
 
 ## 一句话
@@ -48,7 +51,7 @@ estimatedMinutes: 5
 结论：不是说技术上绝对做不到，而是为了让只有真正发生循环依赖的 Bean 才提前生成代理，其余保持正常生命周期。
 
 ### 进阶：原始对象泄露时会怎样
-如果某个 Bean 的早期引用（原始对象）已经被别人拿走，而它在初始化阶段又被后置处理器包装成另一个对象（例如 `@Async` 生成的代理），Spring 会发现最终对象与早期引用不一致，抛出 `BeanCurrentlyInCreationException`，提示该 Bean 的原始版本已被注入到其他 Bean。
+如果某个 Bean 的早期引用（原始对象）已经被别人拿走，而它在初始化阶段又被后置处理器包装成另一个对象（例如 `@Async` 生成的代理），就会出问题。Spring 会发现最终对象与早期引用不一致。它会抛出 `BeanCurrentlyInCreationException`，提示该 Bean 的原始版本已被注入到其他 Bean。
 
 ## 易错点
 - 以为只有三级缓存才能解决循环依赖；关键是提前暴露，三级缓存是为了保持代理生成时机

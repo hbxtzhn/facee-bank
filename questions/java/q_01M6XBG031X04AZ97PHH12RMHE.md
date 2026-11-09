@@ -9,6 +9,8 @@ tags: [object-methods, hash-table]
 prerequisites: [q_01M6XBFZADH0AVDGPZ3532ZNPE, q_01M6XBFZJMZD7VG6THZ137E4WW, q_01M6XBFZTSPMHVQE5AN77AZK14]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Java SE 21 API：java.lang.Object#hashCode 与 #equals 的通用约定", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" }
 ---
 
 ## 一句话

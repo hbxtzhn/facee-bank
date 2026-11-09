@@ -6,6 +6,9 @@ difficulty: medium
 importance: 1
 category: redis
 tags: [flush-to-disk, file-storage]
+references:
+  - { title: "Java SE 21 API：FileDescriptor.sync()", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/FileDescriptor.html" }
+  - { title: "Redis 文档：Redis persistence（RDB / AOF / Log rewriting / How durable is the append only file）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

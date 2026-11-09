@@ -9,6 +9,9 @@ tags: [aop, dynamic-proxy]
 prerequisites: [q_01M6XBH9ANRF17HRQG1CR2B9DE]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Spring Framework 参考文档：AOP Concepts（Weaving 的定义）", url: "https://docs.spring.io/spring-framework/reference/core/aop/introduction-defn.html" }
+  - { title: "Spring Framework 参考文档：Proxying Mechanisms（运行时代理、内部调用）", url: "https://docs.spring.io/spring-framework/reference/core/aop/proxying.html" }
 ---
 
 ## 一句话

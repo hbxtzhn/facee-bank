@@ -9,6 +9,9 @@ tags: [mybatis-cache, cache-consistency]
 prerequisites: [q_01M6XCBS592QRJZ7Y4ZXRG0ZHA]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 源码：BaseExecutor（一级缓存的创建、缓存键与清空）", url: "https://github.com/mybatis/mybatis-3/blob/master/src/main/java/org/apache/ibatis/executor/BaseExecutor.java" }
+  - { title: "MyBatis 3 文档：Mapper XML 文件（select / insert 的 flushCache 默认值）", url: "https://mybatis.org/mybatis-3/sqlmap-xml.html" }
 ---
 
 ## 一句话

@@ -7,6 +7,8 @@ importance: 2
 category: mysql
 tags: [lock-modes]
 prerequisites: [q_01M6XCCPPA1XZG4NRRPPZNJZ6T, q_01M6XCCPYKTRM16GFCJCWH4PJ2]
+references:
+  - { title: "MySQL 8.4 手册：InnoDB Locking（17.7.1）", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

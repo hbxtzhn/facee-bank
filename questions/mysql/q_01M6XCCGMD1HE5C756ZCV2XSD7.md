@@ -9,6 +9,9 @@ tags: [sharding, hash-table]
 prerequisites: [q_01M6XCCFVK1A4H94PPDG4K37QF]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "MySQL 8.4 手册：Partitioning Types（HASH Partitioning）", url: "https://dev.mysql.com/doc/refman/8.4/en/partitioning-types.html" }
+  - { title: "MySQL 8.4 手册：Management of HASH and KEY Partitions", url: "https://dev.mysql.com/doc/refman/8.4/en/partitioning-management-hash-key.html" }
 ---
 
 ## 一句话

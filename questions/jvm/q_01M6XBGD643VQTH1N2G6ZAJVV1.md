@@ -7,13 +7,17 @@ importance: 2
 category: jvm
 tags: [gc-collector, memory-area]
 prerequisites: [q_01M6XBGBVTQS9VEYNPH4VSS82C]
-appliesTo: ["Java >= 9 默认 G1；G1 本身自 Java 7 起可用"]
+appliesTo: ["Java >= 9 默认 G1"]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
+references:
+  - { title: "Oracle JDK 21 垃圾收集调优指南：Garbage-First (G1) Garbage Collector", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
+  - { title: "JDK 21 java 命令手册：Advanced Garbage Collection Options（G1HeapRegionSize、MaxGCPauseMillis、InitiatingHeapOccupancyPercent）", url: "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html" }
+  - { title: "JEP 248: Make G1 the Default Garbage Collector", url: "https://openjdk.org/jeps/248" }
 ---
 
 ## 一句话
-G1 把整个堆切成许多大小相等的 Region，每个 Region 可以灵活充当 Eden、Survivor 或老年代；超过半个 Region 的大对象放进专门的 Humongous 区。
+G1 把整个堆切成许多大小相等的 Region，每个 Region 可以灵活充当 Eden、Survivor 或老年代；达到半个 Region 及以上的大对象放进专门的 Humongous 区。
 
 ## 要点
 - [kp1|3] 堆被划分为大小相等的 Region，不再是连续的新生代和老年代两大块

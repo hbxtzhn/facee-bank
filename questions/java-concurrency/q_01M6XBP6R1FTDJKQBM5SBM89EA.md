@@ -8,6 +8,8 @@ category: java-concurrency
 tags: [aqs]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Java SE 21 API：ReentrantLock（Fairness、tryLock）", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html" }
 ---
 
 ## 一句话
@@ -17,8 +19,8 @@ estimatedMinutes: 2
 - [kp1|3] 公平锁：严格按请求顺序，先等的线程先拿到锁
 - [kp2|3] 非公平锁：新来的线程可以不排队，直接尝试抢锁
 - [kp3|2] ReentrantLock 默认非公平，new ReentrantLock(true) 创建公平锁
-- [kp4|2] 非公平锁吞吐量通常更高，但可能让某些线程等很久
-- [kp5] synchronized 是非公平锁
+- [kp4|2] 非公平锁吞吐量通常更高，但有线程饥饿的风险
+- [kp5] synchronized 是非公平锁，无法改成公平
 
 ## 详解
 ### 先搞懂：排队买奶茶，能不能插队

@@ -7,6 +7,9 @@ importance: 2
 category: jvm
 tags: [performance-diagnosis]
 prerequisites: [q_01M6XBGGGEJ7230WN07ESPBDX7, q_01M6XBGGS35P0MM6X0YARGNB9S]
+references:
+  - { title: "Java SE 21 故障排查指南：Troubleshoot Memory Leaks", url: "https://docs.oracle.com/en/java/javase/21/troubleshoot/troubleshooting-memory-leaks.html" }
+  - { title: "Java 虚拟机规范 SE 21：2.5 Run-Time Data Areas", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---

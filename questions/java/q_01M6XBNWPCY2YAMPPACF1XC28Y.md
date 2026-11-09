@@ -9,6 +9,8 @@ tags: [exception]
 prerequisites: [q_01M6ZYJ32ZRHASWVX5Z89KBFGD]
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 2
+references:
+  - { title: "Java 语言规范 SE 21：11.1.1 The Kinds and Causes of Exceptions / 11.2 Compile-Time Checking of Exceptions", url: "https://docs.oracle.com/javase/specs/jls/se21/html/jls-11.html" }
 ---
 
 ## 一句话
@@ -18,7 +20,7 @@ estimatedMinutes: 2
 - [kp1|3] 编译时异常是 Exception 中除 RuntimeException 及其子类以外的部分
 - [kp2|3] 编译器强制处理：用 try-catch 捕获，或用 throws 声明抛出
 - [kp3|2] 常见的有 IOException、SQLException
-- [kp4|2] 通常代表外部环境可能出问题，如文件、网络、数据库
+- [kp4|2] 多半代表外部环境可能出问题，如文件、网络、数据库
 - [kp5] 不处理会编译失败，而不是运行时才报错
 
 ## 详解

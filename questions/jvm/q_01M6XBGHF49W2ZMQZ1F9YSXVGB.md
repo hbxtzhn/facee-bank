@@ -7,6 +7,9 @@ importance: 2
 category: jvm
 tags: [performance-diagnosis, thread-local]
 prerequisites: [q_01M6XBGDWFFA8CBHD1T08VB0RM, q_01M6XBGGS35P0MM6X0YARGNB9S]
+references:
+  - { title: "Java SE 21 故障排查指南：Troubleshoot Memory Leaks", url: "https://docs.oracle.com/en/java/javase/21/troubleshoot/troubleshooting-memory-leaks.html" }
+  - { title: "Java SE 21 API：java.lang.ThreadLocal", url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html" }
 source: { name: FaceE, license: CC-BY-4.0 }
 estimatedMinutes: 3
 ---
