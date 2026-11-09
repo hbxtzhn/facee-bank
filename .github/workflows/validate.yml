@@ -7,7 +7,7 @@ on:
 
 env:
   # 题库 CLI（bank-spec）所在的 App 仓库提交；升级 CLI 时改这里
-  BANK_SPEC_REF: f675fb5acc2be3f1f3a81ee111afc3a19c9a73ef
+  BANK_SPEC_REF: 57f42bf718e8bb62975e99706059949cbb957b47
   BANK_SPEC_CLI: .bank-spec/packages/bank-spec/cli.mjs
 
 jobs:
