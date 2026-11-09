@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 env:
-  BANK_SPEC_REF: f675fb5acc2be3f1f3a81ee111afc3a19c9a73ef
+  BANK_SPEC_REF: 57f42bf718e8bb62975e99706059949cbb957b47
   BANK_SPEC_CLI: .bank-spec/packages/bank-spec/cli.mjs
   # 规范 v2 的首个版本；只有这个版本允许 --first-release，其余版本必须基于上一版构建
   FIRST_VERSION: v2.0.0
@@ -39,8 +39,9 @@ jobs:
         run: |
           node --input-type=module -e "
             import fs from 'node:fs';
+            import path from 'node:path';
             import { createRequire } from 'node:module';
-            const YAML = createRequire(process.env.BANK_SPEC_CLI)('yaml');
+            const YAML = createRequire(path.resolve(process.env.BANK_SPEC_CLI))('yaml');
             const b = YAML.parse(fs.readFileSync('bank.yaml', 'utf8'));
             fs.appendFileSync(process.env.GITHUB_OUTPUT, 'version=' + b.bank.version + '\n');
             fs.appendFileSync(process.env.GITHUB_OUTPUT, 'manifest=' + b.bank.update.manifest + '\n');
