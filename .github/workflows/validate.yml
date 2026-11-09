@@ -1,0 +1,58 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main, "feat/**"]
+
+env:
+  # 题库 CLI（bank-spec）所在的 App 仓库提交；升级 CLI 时改这里
+  BANK_SPEC_REF: f675fb5acc2be3f1f3a81ee111afc3a19c9a73ef
+  BANK_SPEC_CLI: .bank-spec/packages/bank-spec/cli.mjs
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout bank-spec
+        uses: actions/checkout@v4
+        with:
+          repository: HBxtzhn/facee
+          ref: ${{ env.BANK_SPEC_REF }}
+          path: .bank-spec
+          sparse-checkout: packages/bank-spec
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # check.mjs 会编译运行题目里带输出注释的 Java 小实验
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install bank-spec
+        run: npm install --omit=dev --prefix .bank-spec/packages/bank-spec
+
+      - name: bank-spec validate
+        run: node "$BANK_SPEC_CLI" validate --bank .
+
+      - name: Content check
+        run: node scripts/check.mjs
+
+      - name: Tags and routes
+        run: |
+          node scripts/tags.mjs
+          node scripts/routes.mjs --plan plans/basic-v1.yaml
+
+      - name: Stats
+        if: always()
+        run: |
+          {
+            echo '```text'
+            node "$BANK_SPEC_CLI" stats --bank .
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
