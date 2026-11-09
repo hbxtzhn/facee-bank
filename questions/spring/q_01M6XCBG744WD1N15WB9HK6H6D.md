@@ -1,0 +1,53 @@
+---
+id: q_01M6XCBG744WD1N15WB9HK6H6D
+title: MyBatis 和 Hibernate 分别适合什么类型的项目？
+type: concept
+difficulty: medium
+importance: 2
+category: spring
+tags: [orm]
+source: { name: FaceE, license: CC-BY-4.0 }
+estimatedMinutes: 3
+references:
+  - { title: "MyBatis 3 文档：Introduction", url: "https://mybatis.org/mybatis-3/index.html" }
+  - { title: "Hibernate ORM 6.6 Introduction", url: "https://docs.hibernate.org/orm/6.6/introduction/html_single/Hibernate_Introduction.html" }
+---
+
+## 一句话
+需求变化频繁、要快速迭代的项目适合 MyBatis；需求稳定、规模中小的项目适合 Hibernate。
+
+## 要点
+- [kp1|3] MyBatis 适合需求多变、快速迭代的项目，如电商网站
+- [kp2|3] Hibernate 适合需求稳定的中小型项目，如办公自动化系统
+- [kp3|2] 选择依据是 SQL 要不要经常调整和精细控制
+- [kp4] 实际选型还要看团队熟悉程度
+
+## 详解
+### 先搞懂：需求一变，SQL 就得跟着变
+做项目时，电商的活动、报表、筛选条件天天改，每次都要调整查询。办公系统则以表单增删改查为主，几年不怎么变。这像装修：经常翻新的店铺，最好自己能随时改线路；固定的办公室，一次装好用多年就行。
+
+后文用到的词：
+
+- **快速迭代**：功能上线后频繁修改、频繁发布。
+- **中小型项目**：表不多、业务相对简单的项目。
+
+### 方案对比：怎么选
+| 方案 | 适合需求 | 适合规模 | 典型场景 |
+|---|---|---|---|
+| MyBatis | 变化频繁 | 不限，需精细调 SQL 时更合适 | 电商网站 |
+| Hibernate | 相对稳定 | 中小型 | 办公自动化系统 |
+
+结论：默认看需求变不变：常变、要调 SQL 就选 MyBatis；稳定、以单表增删改查为主就选 Hibernate。
+
+### 为什么这样选
+MyBatis 的 SQL 在映射文件里，要改查询只改 SQL，不会牵动对象关系的配置，响应变化快。同时手写 SQL 方便针对热点查询优化。
+
+Hibernate 靠对象关系自动生成 SQL，需求稳定时开发量小。但需求一变，要同时改对象关系配置，调整成本更高。
+
+## 易错点
+- 把这个对照当成硬规则；实际要看团队熟悉哪个
+- 以为 Hibernate 只能做小项目；这里说的是更适合，不是只能
+
+## 追问
+### [f1] 国内互联网项目为什么用 MyBatis 的更多？
+业务变化快、查询复杂、需要调 SQL，这些都更贴合 MyBatis 手写 SQL 的特点。

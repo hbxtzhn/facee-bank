@@ -1,0 +1,64 @@
+---
+id: q_01M6XBGBVTQS9VEYNPH4VSS82C
+title: JVM 有哪些常见的垃圾收集器？
+type: concept
+difficulty: easy
+importance: 2
+category: jvm
+tags: [gc-collector]
+prerequisites: [q_01M6XBG7X1TEAHATS5SRTKW1D7]
+appliesTo: ["Java >= 8"]
+source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JDK 21 GC 调优指南：Available Collectors", url: "https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" }
+  - { title: "JEP 291：Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/291" }
+  - { title: "JEP 363：Remove the Concurrent Mark Sweep (CMS) Garbage Collector", url: "https://openjdk.org/jeps/363" }
+estimatedMinutes: 2
+---
+
+## 一句话
+常见收集器有 Serial（单线程）、Parallel（多线程重吞吐）、CMS（并发低停顿，已被移除）、G1（兼顾吞吐和停顿，较新版本的默认）和 ZGC（追求极短停顿）。
+
+## 要点
+- [kp1|3] Serial 单线程回收，回收时暂停所有应用线程，适合小内存环境
+- [kp2|3] Parallel 是 Serial 的多线程版本，追求高吞吐
+- [kp3|2] CMS 以低停顿为目标，老年代并发回收，在新版本 JDK 中已被移除
+- [kp4|2] G1 把堆划成区域，可设停顿目标，从 Java 9 起是默认收集器
+- [kp5] ZGC 以极短停顿为目标，适合大堆
+
+## 详解
+### 先搞懂：不同店有不同的打扫方式
+饭店打扫卫生有几种做法：一个人关店打扫，最简单；全员关店一起打扫，快但停业；一边营业一边打扫，客人几乎无感，但总体更累、更复杂。垃圾收集器的不同，也主要在于：几个线程干活、要不要暂停应用、追求的是总处理量还是单次停顿短。
+
+后文用到的术语：
+
+- **吞吐量**：应用运行时间占总时间的比例，GC 占的时间越少，吞吐越高。
+- **停顿时间**：GC 暂停应用线程的时长。
+- **并发**：GC 线程和应用线程同时运行。
+
+### 方案对比：常见收集器
+| 收集器 | 线程 | 特点 | 适合 |
+|---|---|---|---|
+| Serial | 单线程，回收时暂停应用 | 简单，额外开销小 | 小堆、单核或客户端程序 |
+| Parallel | 多线程，回收时暂停应用 | 吞吐高 | 追求总处理量的后台计算 |
+| CMS | 老年代回收大部分时间与应用并发 | 停顿短，但有碎片，开销大 | 曾用于低延迟服务，已移除 |
+| G1 | 分区域，多线程，部分阶段并发 | 可设置停顿目标 | 大多数服务端应用 |
+| ZGC | 大部分工作并发 | 停顿极短，不随堆大小增加 | 大堆、对延迟敏感 |
+
+结论：新项目一般用 JDK 默认的 G1；只追求吞吐的批处理可以考虑 Parallel；大堆且对延迟要求高再考虑 ZGC。
+
+### 各自一句话说明
+- **Serial**：一个线程回收，回收时所有应用线程等着。新生代用复制，老年代用标记-整理。
+- **Parallel**：把 Serial 的回收工作交给多个线程做，缩短总的回收时间，更看重吞吐量。
+- **CMS**：老年代用标记-清除，初始标记和重新标记需要暂停，并发标记和并发清除时应用继续运行。因为产生碎片、占用较多 CPU，在 Java 9 被标记为废弃，后来在 Java 14 中被移除。
+- **G1**：把堆分成许多等大小的区域，优先回收垃圾最多的区域，可通过参数指定期望的停顿时间。
+- **ZGC**：通过并发标记、并发整理等技术，把停顿控制得非常短。JDK 21 起提供分代模式（JEP 439，需 `-XX:+ZGenerational`），JDK 23 起分代模式成为默认（JEP 474）。
+
+## 易错点
+- 以为 CMS 仍然是可用的主流选择；它在新版本 JDK 中已被移除
+- 以为停顿时间越短越好；停顿短往往要付出吞吐量代价
+- 以为所有版本默认收集器都一样；Java 8 默认是 Parallel，Java 9 起默认是 G1
+
+## 追问
+### [f1] 吞吐量优先和低延迟优先怎么选？
+批处理、离线计算更看重总处理量，选 Parallel；面向用户的在线服务更怕卡顿，选 G1，延迟要求更高时考虑 ZGC。

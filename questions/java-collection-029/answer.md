@@ -1,3 +1,0 @@
-- **线程安全实现方式**：JDK 1.7 采用 `Segment` 分段锁来保证安全， `Segment` 是继承自 `ReentrantLock`。JDK1.8 放弃了 `Segment` 分段锁的设计，采用 `Node + CAS + synchronized` 保证线程安全，锁粒度更细，`synchronized` 只锁定当前链表或红黑二叉树的首节点。
-- **Hash 碰撞解决方法** : JDK 1.7 采用拉链法，JDK1.8 采用拉链法结合红黑树（链表长度超过一定阈值时，将链表转换为红黑树）。
-- **并发度**：JDK 1.7 并发更新主要受 `Segment` 数量限制，默认是 16。JDK 1.8 不再使用固定数量的 `Segment`，不同桶上的更新通常可以并行执行。

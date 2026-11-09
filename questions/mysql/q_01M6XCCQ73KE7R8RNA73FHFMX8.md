@@ -1,0 +1,97 @@
+---
+id: q_01M6XCCQ73KE7R8RNA73FHFMX8
+title: MySQL 中怎么实现乐观锁和悲观锁？
+type: concept
+difficulty: medium
+importance: 2
+category: mysql
+tags: [optimistic-pessimistic-lock, lock-modes]
+source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "MySQL 8.4 手册：Locking Reads", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html" }
+  - { title: "MySQL 8.4 手册：Locks Set by Different SQL Statements in InnoDB", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-locks-set.html" }
+estimatedMinutes: 3
+---
+
+## 一句话
+悲观锁用 `SELECT ... FOR UPDATE` 先把行锁住再改；乐观锁不加锁，靠版本号在 UPDATE 时检查有没有被别人改过。
+
+## 要点
+- [kp1|3] 悲观锁：事务里 SELECT ... FOR UPDATE，先锁住再修改
+- [kp2|3] 乐观锁：加 version 列，UPDATE 带上版本条件
+- [kp3|2] 乐观锁更新后看影响行数，为 0 说明已被别人改过
+- [kp4] 悲观锁要在事务里用，并且条件要走索引
+- [kp5] 冲突少用乐观锁，冲突多用悲观锁
+
+## 详解
+### 先搞懂：改同一份数据，怎么防止互相覆盖
+比如扣库存：库存还剩 1 件，两个人同时下单。都先读到「剩 1 件」，再各自扣一件，库存就变成了 -1。
+
+类比：共享文档里同时有两个人在改同一段话。
+
+- **悲观**的做法：先「锁」，我改的时候你等着；
+- **乐观**的做法：不锁，各改各的，提交时检查「我读的版本还是最新的吗」，不是就重来。
+
+后文会用到这几个词：
+
+- **悲观锁**：假设一定会冲突，先加锁。
+- **乐观锁**：假设很少冲突，不加锁，提交时检查。
+- **版本号**：每次修改就加一的数字，用来判断数据有没有被改过。
+
+### 悲观锁：SELECT ... FOR UPDATE
+做法：
+
+1. 开启事务；
+2. 用 `SELECT ... FOR UPDATE` 读取并锁住这一行（加排他锁）；
+3. 在锁的保护下修改；
+4. 提交事务，锁自动释放。
+
+别的事务想改这一行，要等到你提交。这种方式简单可靠，但会让并发的请求排队，锁住的时间越长，拖慢越多。
+
+注意：
+- 必须在事务里（关闭自动提交，或手动开启事务）才有意义；
+- 查询条件要走索引，否则可能锁住很多行。
+
+### 乐观锁：版本号
+做法：
+
+1. 表里加一列 `version`；
+2. 读取数据时一起读出 `version`；
+3. 更新时带上条件：`WHERE id = ? AND version = ?`，同时 `version = version + 1`；
+4. 看影响行数：为 1 表示成功；为 0 表示这期间被别人改了，需要重试或报错。
+
+整个过程没有长时间持有锁，读的时候也不会阻塞别人。冲突少的场景，吞吐更好。
+
+### 方案对比：悲观锁和乐观锁
+| 方案 | 怎么做 | 优点 | 缺点 | 适合 |
+|---|---|---|---|---|
+| 悲观锁 | `FOR UPDATE` 先锁 | 不会丢更新，逻辑简单 | 要排队，占用锁，可能死锁 | 冲突多、重试成本高 |
+| 乐观锁 | 版本号 CAS 更新 | 不占锁，并发高 | 冲突多时大量重试 | 冲突少、读多写少 |
+
+结论：冲突不多时优先用乐观锁；冲突频繁、失败重试代价高时，用悲观锁。
+
+## 示例
+```sql
+-- 悲观锁
+START TRANSACTION;
+SELECT stock FROM goods WHERE id = 1 FOR UPDATE;
+UPDATE goods SET stock = stock - 1 WHERE id = 1;
+COMMIT;
+
+-- 乐观锁：影响行数为 0 就说明版本已变化
+UPDATE goods SET stock = stock - 1, version = version + 1
+WHERE id = 1 AND version = 5;
+```
+
+## 易错点
+- 在自动提交模式下用 FOR UPDATE，语句结束锁就释放了，起不到保护作用
+- FOR UPDATE 的条件没有索引，锁住很多行
+- 乐观锁更新后不检查影响行数，丢更新照样发生
+- 乐观锁没有写重试逻辑，用户看到的就是大量失败
+
+## 追问
+### [f1] 扣库存可以不用版本号吗？
+可以。直接写 `UPDATE goods SET stock = stock - 1 WHERE id = 1 AND stock > 0`，InnoDB 会对这一行加锁，并且条件在更新时判断，影响行数为 0 就是库存不足。
+
+### [f2] 乐观锁一定比悲观锁快吗？
+不一定。冲突少时快；冲突多时大量更新失败重试，反而更浪费资源。

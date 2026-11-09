@@ -1,0 +1,68 @@
+---
+id: q_01M6XCD1G8RRHAHVTGDZ01FYBP
+title: AOF 的写入流程是怎样的？
+type: concept
+difficulty: medium
+importance: 2
+category: redis
+tags: [rdb-aof, flush-to-disk]
+prerequisites: [q_01M6XCD0Q3ZE619GDN2DV7NSX8]
+references:
+  - { title: "Redis 文档：Redis persistence（RDB / AOF / Log rewriting / How durable is the append only file）", url: "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/" }
+  - { title: "redis.conf（7.2）：appendfsync 与 aof-use-rdb-preamble 注释", url: "https://raw.githubusercontent.com/redis/redis/7.2/redis.conf" }
+source: { name: FaceE, license: CC-BY-4.0 }
+estimatedMinutes: 3
+---
+
+## 一句话
+AOF 写入分三步：命令先追加到内存缓冲区，再按同步策略写入文件并 fsync 落盘，文件变大后通过重写压缩。
+
+## 要点
+- [kp1|3] 写命令执行后先追加到 AOF 缓冲区，不是直接写磁盘
+- [kp2|3] 缓冲区按同步策略写入文件，再用 fsync 让数据真正落盘
+- [kp3|2] 同步策略有 always、everysec（默认）、no 三种
+- [kp4] 文件变大后触发 AOF 重写，缩小体积
+
+## 详解
+### 先搞懂：先记草稿，再誊到正式本子
+店员接到订单，先随手记在便签上（缓冲区），攒一会儿再誊到正式账本（文件），最后盖章确认（fsync）。便签快但容易丢，账本盖章才可靠。Redis 的 AOF 就是这样，三步各有目的。
+
+后文用到的词：
+- **AOF 缓冲区**：Redis 内存里临时存放写命令的一块区域。
+- **write**：把数据交给操作系统，通常只进了系统缓存。
+- **fsync**：要求操作系统把缓存里的数据真正写到磁盘。
+
+### 命令追加：先写缓冲区
+Redis 执行完一条写命令，会把它按协议格式追加到 AOF 缓冲区。这一步在内存里，很快。放缓冲区而不是直接写文件，是为了把多次小写入合成一次，减少磁盘操作。
+
+### 文件写入与同步：由策略决定
+缓冲区的内容什么时候写文件、什么时候 fsync，由 `appendfsync` 决定：
+
+| 策略 | 做法 | 数据安全 |
+|---|---|---|
+| `always` | 每条命令都写文件并 fsync | 最安全，最慢 |
+| `everysec` | 每秒 fsync 一次（默认） | 宕机最多丢约 1 秒 |
+| `no` | Redis 只负责写，什么时候落盘交给操作系统 | 丢多少由系统决定 |
+
+### 文件重写：控制体积
+AOF 一直追加，文件会越来越大。达到配置的条件后，Redis 会触发重写，生成精简的新文件，替换旧文件。重写的具体流程在另一道题里讲。
+
+### 为什么要分这几步
+- 缓冲区把小写入攒成大写入，提高速度；
+- fsync 开销很大，所以让用户在“安全”和“速度”之间选；
+- 重写让文件不会无限膨胀。
+
+## 示例
+```conf
+appendonly yes
+appendfsync everysec
+```
+
+## 易错点
+- 以为命令执行后就已经在磁盘上；可能还在缓冲区或系统缓存里
+- 以为 everysec 一点数据都不丢；宕机可能丢最近约 1 秒的写入
+- 以为 `no` 策略不会写文件；它会写，只是不主动 fsync
+
+## 追问
+### [f1] 为什么先执行命令，再记 AOF？
+这样记进 AOF 的都是已经执行成功的命令，不会因为错误命令污染日志。缺点是命令执行完、记录之前宕机，这条命令就丢了。

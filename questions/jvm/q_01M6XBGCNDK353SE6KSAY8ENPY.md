@@ -1,0 +1,59 @@
+---
+id: q_01M6XBGCNDK353SE6KSAY8ENPY
+title: 并行垃圾收集器是什么？
+type: concept
+difficulty: easy
+importance: 1
+category: jvm
+tags: [gc-collector]
+prerequisites: [q_01M6XBGBVTQS9VEYNPH4VSS82C]
+appliesTo: ["Java 8 默认收集器；Java 9 起默认改为 G1"]
+source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：The Parallel Collector", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/parallel.html" }
+  - { title: "Java SE 8 java 命令参考：-XX:ParallelGCThreads、-XX:MaxGCPauseMillis", url: "https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html" }
+estimatedMinutes: 2
+---
+
+## 一句话
+并行收集器是串行收集器的多线程版本：回收时同样暂停业务线程，但用多个 GC 线程一起干，更看重整体吞吐量。
+
+## 要点
+- [kp1|3] 回收期间仍然 STW，只是改用多个 GC 线程并行回收
+- [kp2|3] 新生代用标记-复制，老年代用标记-整理，和串行一致
+- [kp3|2] 以吞吐量优先，适合后台计算、批处理这类不太在意单次停顿的任务
+- [kp4] 用 `-XX:+UseParallelGC` 开启，Java 8 默认就是它
+
+## 详解
+### 先搞懂：一个人变成一支清洁队
+串行收集器像一个人打扫整个房间，并行收集器则是叫来一队人同时打扫：全家人仍然要先停下，但整体打扫的时间大大缩短。
+
+这里要分清两个词：
+- **并行**：多个 GC 线程同时回收，此时业务线程是停着的。
+- **并发**：GC 线程和业务线程同时在跑。并行收集器是并行，不是并发。
+- **吞吐量**：CPU 总时间里，用在业务代码上的比例；GC 占得越少，吞吐量越高。
+
+### 并行收集器：多线程 STW
+回收新生代用标记-复制，回收老年代用标记-整理，算法和串行相同。区别在于回收时多个线程分摊工作，在多核机器上，一次回收通常比串行更快。
+
+因为回收时仍要停掉所有业务线程，所以它不是低延迟收集器。
+
+### 它追求什么：吞吐量
+并行收集器的目标是让业务代码占用的 CPU 时间比例尽量高。可以通过参数告诉它目标：
+- `-XX:MaxGCPauseMillis`：希望单次停顿不超过多少毫秒；
+- `-XX:GCTimeRatio`：希望 GC 时间占总时间的比例。
+
+适合不关心单次停顿、希望整体跑得快的场景，如离线数据处理。
+
+## 示例
+```bash
+java -XX:+UseParallelGC -XX:ParallelGCThreads=4 -jar app.jar
+```
+
+## 易错点
+- 把"并行"和"并发"混为一谈；并行时业务线程仍然是暂停的
+- 以为并行收集器一定比串行停顿短；单核或堆很小时，多线程协调反而没有优势
+
+## 追问
+### [f1] 并行收集器适合什么场景？
+适合追求吞吐量、能接受偶尔较长停顿的场景，比如批处理、离线计算；对响应时间敏感的在线服务，一般选 G1 或 ZGC。

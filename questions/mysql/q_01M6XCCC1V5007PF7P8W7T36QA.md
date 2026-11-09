@@ -1,0 +1,73 @@
+---
+id: q_01M6XCCC1V5007PF7P8W7T36QA
+title: 什么情况下查询会用不上索引？
+type: concept
+difficulty: medium
+importance: 3
+category: mysql
+tags: [index-design]
+prerequisites: [q_01M6XCC9S7WEGHV1FGC9A85DK4]
+appliesTo: ["函数索引部分：MySQL >= 8.0.13"]
+references:
+  - { title: "MySQL 8.4 手册：How MySQL Uses Indexes（不同类型比较）", url: "https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html" }
+  - { title: "MySQL 8.4 手册：Type Conversion in Expression Evaluation", url: "https://dev.mysql.com/doc/refman/8.4/en/type-conversion.html" }
+  - { title: "MySQL 8.0.13 发行说明：functional index key parts", url: "https://dev.mysql.com/doc/relnotes/mysql/8.0/en/news-8-0-13.html" }
+source: { name: FaceE, license: CC-BY-4.0 }
+estimatedMinutes: 3
+---
+
+## 一句话
+最常见的是对索引列做了函数、计算或类型转换，或者 LIKE 以通配符开头，这时 MySQL 没法利用索引的有序性，只能逐行扫描。
+
+## 要点
+- [kp1|3] 对索引列用函数或表达式，索引的有序性就用不上了
+- [kp2|3] `LIKE '%abc'` 以通配符开头不能走索引，`LIKE 'abc%'` 可以
+- [kp3|2] 列和值类型不一致发生隐式转换，会相当于对列用了函数
+- [kp4] `!=`、`NOT` 通常用不好索引，但不是绝对，最终由优化器判断
+
+## 详解
+### 先搞懂：目录是按原样排好的
+字典的目录是按拼音排序的。你想找「拼音以 b 开头的字」，可以直接翻到 b 那一段。但如果问「拼音长度是 3 的字」，目录帮不上忙，只能一个个看。索引也一样：它按列的原始值排序，只有查询条件能利用这个排序，索引才有用。
+
+几个术语：
+
+- **索引有序性**：索引里的值按顺序排好，所以能快速定位、范围扫描。
+- **隐式转换**：两边类型不一致时，MySQL 自动把一边转换成另一边的类型。
+- **全表扫描**：一行一行读完整张表。
+
+### 对索引列用函数或表达式
+索引里存的是原始值，不是函数算出来的值。看下面两条：
+
+```sql
+-- 用不上 date_col 上的索引：每行都要先算 YEAR(...)
+SELECT * FROM t WHERE YEAR(date_col) = 2021;
+-- 改成范围条件，可以用上索引
+SELECT * FROM t WHERE date_col >= '2021-01-01' AND date_col < '2022-01-01';
+```
+
+同理，`WHERE id + 1 = 100` 用不上 `id` 的索引，改成 `WHERE id = 99` 就可以。办法是把计算挪到等号另一边。
+
+### LIKE 以通配符开头
+- `LIKE 'abc%'`：知道开头，可以在有序索引里定位到 abc 开头的那一段，能用索引；
+- `LIKE '%abc'` 或 `LIKE '%abc%'`：不知道开头，没法定位，只能扫描。
+
+### 隐式类型转换
+如果手机号列 `phone` 是字符串类型，却写 `WHERE phone = 13800000000`（数字），MySQL 会把列的值逐行转成数字再比较，相当于对列用了函数，索引就用不上。反过来，整数列拿字符串比较，一般没有这个问题。
+
+### 其他常见情况
+1. **`!=`、`NOT`、`NOT IN`**：通常要扫描的范围很大，优化器常放弃索引，但不是一定失效。
+2. **OR 连接的条件**：只要有一边没有索引，整体往往用不上索引。
+3. **联合索引没遵守最左前缀**：跳过了最左边的列。
+4. **优化器认为全表扫描更便宜**：条件命中的行占比很大时，直接扫全表比来回回表更快。
+
+### 进阶：函数索引（基础薄弱可先跳过）
+MySQL 8.0.13 起支持函数索引，可以直接对表达式建索引，这样 `WHERE` 里写相同的表达式就能用上。判断到底有没有用上索引，最可靠的方法是看 `EXPLAIN`。
+
+## 易错点
+- 以为 `!=` 一定让索引失效；实际由优化器按成本判断，不是绝对规则
+- 以为 `LIKE` 一律用不上索引；只有通配符放在开头才用不上
+- 忽略字符串列被数字比较的隐式转换，线上最容易踩这个坑
+
+## 追问
+### [f1] 怎么判断一条 SQL 到底用没用上索引？
+在语句前加 `EXPLAIN`，看 `key` 列显示的索引名和 `type` 列的访问方式；`type` 为 `ALL` 表示全表扫描。

@@ -1,0 +1,70 @@
+---
+id: q_01M6XBP5FENZSD25CAWMC97NA4
+title: 偏向锁是怎么获得的，什么时候会被撤销？
+type: concept
+difficulty: medium
+importance: 1
+category: java-concurrency
+tags: [synchronized]
+prerequisites: [q_01M6XBGYZ9H53CEJS5DEE28RX7]
+appliesTo: ["JDK 15 之前默认启用"]
+source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "JEP 374：Deprecate and Disable Biased Locking", url: "https://openjdk.org/jeps/374" }
+  - { title: "OpenJDK jdk-14-ga 源码：biasedLocking.hpp / biasedLocking.cpp", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/biasedLocking.cpp" }
+  - { title: "OpenJDK jdk-14-ga 源码：synchronizer.cpp（FastHashCode、wait、notify）", url: "https://raw.githubusercontent.com/openjdk/jdk/jdk-14-ga/src/hotspot/share/runtime/synchronizer.cpp" }
+estimatedMinutes: 3
+---
+
+## 一句话
+偏向锁是第一个来的线程把自己的线程 ID 记在对象头里，之后同一个线程再进同步块几乎不用同步；别的线程来竞争时，偏向被撤销。
+
+## 要点
+- [kp1|3] 首个线程用 CAS 把自己的线程 ID 写入对象头 Mark Word
+- [kp2|3] 同一线程再次进入，只比较线程 ID，不再做 CAS
+- [kp3|2] 其他线程竞争时撤销偏向：持有者仍在同步块内则升级为轻量级锁
+- [kp4] 调用对象的 identity hashCode 或 wait 等操作也会撤销偏向
+- [kp5] JDK 15 起偏向锁默认禁用
+
+## 详解
+### 先搞懂：只有一个人用的会议室，不用登记
+设想一间会议室，绝大多数时间都是同一个同事在用。第一次他在门上贴张「张三专用」的贴纸，之后他进出，门卫只看一眼贴纸就放行，不用再做任何手续。如果某天李四也想用，就得把贴纸撕掉，走正式流程。
+
+偏向锁就是这张贴纸：对象一直被同一个线程加锁时，没必要每次都做 CAS 这类原子操作，直接认人就行。
+
+后文用到的术语：
+
+- **对象头 / Mark Word**：对象内存开头存锁状态的字段，偏向锁的线程 ID 就写在这里。
+- **CAS**：比较并交换，一条原子操作，要么改成功要么失败。
+- **撤销**：把对象头里的偏向信息清掉，锁不再偏向任何线程。
+- **安全点**：JVM 暂停所有 Java 线程、做一些全局操作的时刻。
+
+### 获得：第一次用 CAS 写线程 ID
+1. 对象刚创建时没有被任何线程占用，处于「可偏向」状态，偏向标志已经打开，但线程 ID 是空的。
+2. 第一个线程加锁时，用 CAS 把自己的线程 ID 写进 Mark Word。成功，就偏向了这个线程。
+3. 之后这个线程再次进入同步块（包括重入），只检查对象头里的线程 ID 是不是自己，是就直接进，没有 CAS。
+
+只有一个线程用锁的场景，偏向锁把加锁的成本降到了最低。
+
+### 撤销：什么时候会被收回
+- **其他线程来竞争**：检查偏向的线程是否还在同步块里。如果已经退出，对象可以回到无锁状态，或重新偏向给新线程；如果还在里面，就升级为轻量级锁，由持有者继续拿着。
+- **调用 identity hashCode**：偏向状态下，对象头里不保存 identity hash。所以对偏向状态的对象第一次调用 `System.identityHashCode()`（或未重写的 `hashCode()`），偏向会被撤销。
+- **调用 `wait()` / `notify()`**：这些操作依赖监视器，也会让偏向被撤销。
+
+撤销偏向的代价不小：往往要让线程暂停（安全点或握手）才能确认持有者的状态，竞争多的程序里反复撤销，偏向锁反而成了负担。HotSpot 还有按类批量重偏向、批量撤销的机制，来减轻这种代价。
+
+### 进阶：为什么现在默认关了（基础薄弱可先跳过）
+JDK 15 通过 JEP 374 弃用并默认禁用了偏向锁。现代 JDK 中无竞争加锁本来就便宜，偏向锁带来的好处变小，而它让 JVM 实现更复杂、撤销又有代价。所以面试里讲原理没问题，但要主动说明它在新版本里默认不启用。
+
+## 易错点
+- 以为偏向锁是「偏向某个线程的锁，别人完全拿不到」；其实别的线程仍然可以拿，只是要先撤销偏向
+- 以为偏向锁在所有 JDK 版本都存在；JDK 15 起默认禁用
+- 以为偏向锁撤销一定升级到轻量级锁；持有者已离开同步块时，可以回到无锁或重新偏向
+- 忽略 hashCode 的影响：对偏向状态的对象调用 identity hashCode，会让偏向被撤销
+
+## 追问
+### [f1] 偏向锁适合什么场景，不适合什么场景？
+适合始终只有一个线程反复加锁的场景。线程竞争频繁时，偏向被不停撤销，反而增加开销。
+
+### [f2] 为什么调用 hashCode 会撤销偏向锁？
+对象头空间有限，偏向状态下用来放线程 ID，存不下哈希码，只能先撤销偏向再记录哈希码。

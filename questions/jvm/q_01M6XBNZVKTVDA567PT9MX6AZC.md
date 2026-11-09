@@ -1,0 +1,58 @@
+---
+id: q_01M6XBNZVKTVDA567PT9MX6AZC
+title: Java 堆分成哪些区域？
+type: concept
+difficulty: easy
+importance: 2
+category: jvm
+tags: [memory-area, gc-algorithm]
+source: { name: FaceE, license: CC-BY-4.0 }
+references:
+  - { title: "Java SE 8 HotSpot GC 调优指南：Sizing the Generations", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/sizing.html" }
+  - { title: "JDK 21 GC 调优指南：Garbage-First 收集器", url: "https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" }
+estimatedMinutes: 2
+---
+
+## 一句话
+Java 堆分成新生代和老年代；新生代又分一个 Eden 区和两个 Survivor 区，新对象先进入 Eden 区。
+
+## 要点
+- [kp1|3] 堆分为新生代和老年代两大部分
+- [kp2|3] 新生代包括一个 Eden 区和两个 Survivor 区
+- [kp3|2] 新对象先分配在 Eden 区
+- [kp4|2] 在新生代里熬过多次回收的对象，晋升到老年代
+- [kp5] 任一时刻两个 Survivor 区只有一个有对象
+
+## 详解
+### 先搞懂：新兵营和老兵营
+想象一个军营：新兵先住进「新兵营」，经过几次考核（垃圾回收）还留得下，就升到「老兵营」。新兵营里又分一个大的接待区（Eden）和两个小的休息区（Survivor），接待区先收新人，通过一次考核的人转去休息区观察。
+
+后文用到的术语：
+
+- **新生代**：存放新创建对象的区域。
+- **老年代**：存放活得久的对象的区域。
+- **Survivor 区**：存放熬过回收的对象的区域，分 from 和 to 两个。
+
+### 各区域的作用
+- **Eden 区**：大多数新对象在这里诞生。
+- **Survivor 区（from 和 to）**：Eden 区回收时，存活的对象被复制到其中一个 Survivor 区。两个 Survivor 区轮流充当「当前使用」和「空着备用」，保证总有一块是空的，用来接收下一次复制。
+- **老年代**：对象在新生代里熬过足够多次回收，年龄达到阈值，就被晋升到这里；特别大的对象也可能直接分配在老年代。
+
+### 对象在各区之间怎么移动
+1. 新对象放进 Eden。
+2. Eden 满了触发 Minor GC，存活对象复制到 Survivor 区，年龄加一。
+3. 之后每次 Minor GC，存活对象在两个 Survivor 区之间复制，年龄继续增加。
+4. 年龄达到阈值，晋升到老年代。
+
+### 比例
+新生代内部 Eden 与两个 Survivor 的比例，默认是 8:1:1（`-XX:SurvivorRatio=8`）。新生代与老年代的默认比例是 1:2（`-XX:NewRatio=2`）。
+这些默认值针对 Serial、Parallel 这类分代收集器，G1 等收集器会动态调整各区大小。具体数值依收集器和参数而异，需要时用 JVM 参数调整，不要死记。
+
+## 易错点
+- 以为两个 Survivor 区同时存放对象；同一时刻只有一个在用，另一个是空的
+- 以为新生代和老年代是固定的物理分区；在 G1 里，它们是由许多区域组成的逻辑概念
+- 以为所有对象都从 Eden 开始；很大的对象可能直接进老年代
+
+## 追问
+### [f1] 为什么要两个 Survivor 区？
+复制算法需要一块空闲空间来接收存活对象。两个 Survivor 轮流充当空闲区，同时避免了碎片。

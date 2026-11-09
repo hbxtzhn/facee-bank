@@ -1,0 +1,2230 @@
+# FaceE 面试题库（规范 v2 编写格式）
+# 规范：https://github.com/HBxtzhn/facee/blob/main/docs/题库规范-v2-草案.md
+schemaVersion: 2
+bank:
+  id: github.com/hbxtzhn/facee-bank
+  name: FaceE 面试题库
+  version: 2.0.0
+  description: 全栈与 Agent 工程面试题库
+  locale: zh-CN
+  license: CC-BY-4.0
+  homepage: https://github.com/HBxtzhn/facee-bank
+  feedbackUrl: https://github.com/HBxtzhn/facee-bank/issues/new?template=content.yml&question={questionId}
+  update:
+    manifest: https://github.com/HBxtzhn/facee-bank/releases/latest/download/latest.json
+
+# 分类草案（14 个），细分交给标签
+categories:
+  - { id: java, name: Java 基础与集合, order: 10 }
+  - { id: java-concurrency, name: Java 并发, order: 20 }
+  - { id: jvm, name: JVM, order: 30 }
+  - { id: spring, name: Spring 生态, order: 40 }
+  - { id: python, name: Python, order: 50 }
+  - { id: frontend, name: 前端, order: 60 }
+  - { id: mysql, name: MySQL, order: 70 }
+  - { id: redis, name: Redis, order: 80 }
+  - { id: network, name: 网络与 HTTP, order: 90 }
+  - { id: os, name: 操作系统, order: 100 }
+  - { id: distributed, name: 分布式与微服务, order: 110 }
+  - { id: system-design, name: 系统设计, order: 120 }
+  - { id: ai-engineering, name: AI 应用工程, order: 130 }
+  - { id: project, name: 项目深挖, order: 140 }
+
+tags:
+  - id: language-runtime
+    name: 语言与运行时
+    parent: null
+    description: 包括面向对象、语言类型、对象方法、异常、反射、字节码执行与类加载；不包括内存与 GC（见 memory-management）、并发（见 concurrency）
+    aliases:
+      - 语言基础
+      - 编程语言
+      - 运行时
+  - id: oop
+    name: 面向对象
+    parent: language-runtime
+    description: 包括类与对象、封装、继承、多态、方法重载与重写、抽象类与接口、构造方法、this、static；不包括对象拷贝与 equals/hashCode（见 object-methods）
+    aliases:
+      - 封装
+      - 继承
+      - 多态
+      - 重载
+      - 重写
+      - Overload
+      - Override
+      - 抽象类
+      - 接口
+      - static
+      - this
+  - id: type-system
+    name: 语言数据类型
+    parent: language-runtime
+    description: 包括编程语言内置类型：Java 基本/引用/包装类型、自动装箱、泛型、String 不可变与 StringBuilder/StringBuffer；不包括 Redis 的数据类型（见 redis-data-types）
+    aliases:
+      - 基本数据类型
+      - 引用类型
+      - 包装类
+      - 自动装箱
+      - 拆箱
+      - 泛型
+      - Java String
+      - StringBuilder
+      - StringBuffer
+  - id: object-methods
+    name: 对象拷贝与相等
+    parent: language-runtime
+    description: 包括 Object 的 clone（浅拷贝/深拷贝）、equals 与 hashCode 及其重写约定；不包括哈希表结构（见 hash-table）
+    aliases:
+      - 深拷贝
+      - 浅拷贝
+      - clone
+      - Cloneable
+      - equals
+      - hashCode
+  - id: exception
+    name: 异常处理
+    parent: language-runtime
+    description: 包括异常分类（Error/受检/运行时）、throw/throws、try-catch，以及异常对事务回滚的影响；不包括事务失效的其他原因（见 transaction-management）
+    aliases:
+      - 异常
+      - Error
+      - 受检异常
+      - RuntimeException
+      - try-catch
+      - throws
+  - id: reflection
+    name: 反射
+    parent: language-runtime
+    description: 包括反射的用法与原理（Class 对象、Method.invoke），以及框架用反射创建对象、映射属性；不包括动态代理（见 dynamic-proxy）
+    aliases:
+      - Class 对象
+      - Method.invoke
+  - id: bytecode-execution
+    name: 字节码与执行引擎
+    parent: language-runtime
+    description: 包括平台无关性、JDK/JRE/JVM 关系、字节码、解释执行与 JIT 编译；不包括类加载过程（见 class-loading）
+    aliases:
+      - 字节码
+      - JIT
+      - 即时编译
+      - 解释执行
+      - 跨平台
+      - JDK
+      - JRE
+  - id: class-loading
+    name: 类加载
+    parent: language-runtime
+    description: 包括类加载的阶段、类加载器、双亲委派及打破方式；不包括对象创建与内存分配（见 memory-area）
+    aliases:
+      - 类加载器
+      - 双亲委派
+      - ClassLoader
+      - 加载链接初始化
+  - id: memory-management
+    name: 内存管理
+    parent: null
+    description: 包括运行时内存区域与对象分配、垃圾回收、OOM 与性能排查、操作系统虚拟内存；不包括缓存淘汰与页面置换算法（见 replacement-policy）
+    aliases:
+      - 内存
+  - id: memory-area
+    name: 内存区域与对象分配
+    parent: memory-management
+    description: 包括堆、栈、程序计数器、方法区、常量池、直接内存及版本变化，以及 new 对象过程、Eden/Survivor 分配、晋升老年代、逃逸分析；不包括回收算法（见 gc-algorithm）
+    aliases:
+      - 运行时数据区
+      - 堆
+      - 栈
+      - 方法区
+      - 元空间
+      - 程序计数器
+      - 直接内存
+      - 对象创建
+      - 晋升
+      - 逃逸分析
+      - TLAB
+  - id: gc-algorithm
+    name: 垃圾回收基础
+    parent: memory-management
+    description: 包括垃圾判定（可达性、GC Roots）、回收算法、分代回收、Minor/Full GC 触发、四种引用；不包括具体收集器（见 gc-collector）
+    aliases:
+      - GC
+      - 垃圾回收
+      - GC Roots
+      - 可达性分析
+      - 标记清除
+      - 复制算法
+      - 标记整理
+      - 分代回收
+      - Minor GC
+      - Full GC
+      - 强软弱虚引用
+  - id: gc-collector
+    name: 垃圾收集器
+    parent: memory-management
+    description: 包括 Serial、Parallel、CMS、G1 等收集器的流程、STW、Mixed GC 与选型；不包括通用回收算法（见 gc-algorithm）
+    aliases:
+      - CMS
+      - G1
+      - ZGC
+      - Serial
+      - Parallel
+      - STW
+      - Stop-The-World
+      - Mixed GC
+  - id: performance-diagnosis
+    name: OOM 与性能排查
+    parent: memory-management
+    description: 包括 OOM 类型、内存泄漏成因与排查、JVM 调优参数、诊断工具、Heap Dump、频繁 GC 与 CPU 飙高排查；不包括慢 SQL（见 sql-optimization）、热 key/大 key（见 hot-big-key）
+    aliases:
+      - OOM
+      - OutOfMemoryError
+      - 内存溢出
+      - 内存泄漏
+      - JVM 调优
+      - jstack
+      - jmap
+      - Arthas
+      - Heap Dump
+      - CPU 飙高
+  - id: virtual-memory
+    name: 虚拟内存与分页
+    parent: memory-management
+    description: 包括虚拟/物理地址、分段与分页、页表与多级页表、TLB、swap、缺页中断、写时复制；不包括页面置换算法（见 replacement-policy）
+    aliases:
+      - 虚拟内存
+      - 虚拟地址
+      - 内存分页
+      - 分段
+      - 页表
+      - 多级页表
+      - TLB
+      - 快表
+      - swap
+      - 缺页中断
+      - 写时复制
+      - COW
+  - id: concurrency
+    name: 并发控制
+    parent: null
+    description: 包括线程使用、线程安全与同步原语、内存可见性、各类锁与原子操作、死锁及分布式锁；不包括事务隔离（见 transaction）
+    aliases:
+      - 并发
+      - 多线程
+  - id: thread-basics
+    name: 线程基础与协作
+    parent: concurrency
+    description: 包括线程创建方式与对比、sleep/yield/join、中断、wait/notify、Condition、管道流等线程间协作；不包括进程间通信（见 ipc）、OS 线程实现（见 thread-model）
+    aliases:
+      - 线程创建
+      - Thread
+      - Runnable
+      - Callable
+      - sleep
+      - Thread.join
+      - interrupt
+      - wait
+      - notify
+      - Condition
+      - 线程通信
+  - id: thread-pool
+    name: 线程池
+    parent: concurrency
+    description: 包括线程池作用、核心参数、任务提交流程、阻塞队列、拒绝策略、状态与关闭；不包括线程本身的创建（见 thread-basics）
+    aliases:
+      - ThreadPoolExecutor
+      - 线程池参数
+      - 核心线程数
+      - 拒绝策略
+      - 阻塞队列
+  - id: thread-safety
+    name: 线程安全与同步原语
+    parent: concurrency
+    description: 包括共享数据为何出错、线程安全的含义与单例 Bean 等场景，以及临界区、互斥锁、自旋锁、信号量、PV 操作等通用同步原语；不包括 Java 具体锁实现（见 synchronized、aqs）
+    aliases:
+      - 线程安全
+      - 竞态条件
+      - 临界区
+      - 互斥锁
+      - Mutex
+      - 信号量
+      - Semaphore
+      - PV 操作
+      - 自旋锁
+  - id: thread-local
+    name: ThreadLocal
+    parent: concurrency
+    description: 包括 ThreadLocal 用法、ThreadLocalMap 结构、弱引用与内存泄漏、父子线程传递；不包括一般内存泄漏（见 performance-diagnosis）
+    aliases:
+      - ThreadLocalMap
+      - InheritableThreadLocal
+      - 线程本地变量
+  - id: memory-model
+    name: 内存模型与 volatile
+    parent: concurrency
+    description: 包括 JMM、原子性/可见性/有序性、指令重排序、happens-before、volatile 及内存屏障；不包括锁的实现（见 synchronized）
+    aliases:
+      - JMM
+      - Java 内存模型
+      - 可见性
+      - 有序性
+      - 指令重排
+      - happens-before
+      - volatile
+      - 内存屏障
+  - id: synchronized
+    name: synchronized
+    parent: concurrency
+    description: 包括 synchronized 用法、monitor、锁升级（偏向/轻量/重量级）及与 ReentrantLock 对比；不包括 AQS 系列锁（见 aqs）
+    aliases:
+      - monitor
+      - 锁升级
+      - 偏向锁
+      - 轻量级锁
+      - 重量级锁
+      - Mark Word
+  - id: aqs
+    name: AQS 与显式锁
+    parent: concurrency
+    description: 包括 AQS 原理、ReentrantLock、可重入、公平/非公平锁；不包括 synchronized（见 synchronized）、CAS（见 atomic-operation）
+    aliases:
+      - ReentrantLock
+      - 可重入锁
+      - 公平锁
+      - 非公平锁
+      - Lock
+  - id: atomic-operation
+    name: 原子操作与 CAS
+    parent: concurrency
+    description: 包括 CAS 原理、ABA、自旋开销、原子类，以及 Redis INCR、Lua 脚本、MULTI/EXEC 等把多步操作做成不可打断的手段；不包括乐观/悲观锁的选型（见 optimistic-pessimistic-lock）
+    aliases:
+      - CAS
+      - Compare And Swap
+      - ABA
+      - AtomicInteger
+      - 原子类
+      - 原子递增
+      - INCR
+      - Lua 脚本
+      - 操作原子性
+  - id: optimistic-pessimistic-lock
+    name: 乐观锁与悲观锁
+    parent: concurrency
+    description: 包括乐观锁与悲观锁的思想、实现（版本号、CAS、SELECT … FOR UPDATE）与场景选择；不包括 CAS 细节（见 atomic-operation）
+    aliases:
+      - 乐观锁
+      - 悲观锁
+      - 版本号
+      - FOR UPDATE
+  - id: lock-modes
+    name: 锁模式与锁粒度
+    parent: concurrency
+    description: 包括共享锁/排他锁、读写锁（含 Redisson 读写锁）、意向锁、表锁与行锁、记录锁、间隙锁、临键锁、插入意向锁；不包括死锁（见 deadlock）
+    aliases:
+      - 共享锁
+      - 排他锁
+      - 读写锁
+      - 意向锁
+      - 表锁
+      - 行锁
+      - 记录锁
+      - 间隙锁
+      - Next-Key Lock
+      - 插入意向锁
+  - id: deadlock
+    name: 死锁
+    parent: concurrency
+    description: 包括死锁概念、四个必要条件、避免与排查（线程与数据库），以及饥饿、活锁；不包括一般锁的实现（见 aqs、lock-modes）
+    aliases:
+      - 活锁
+      - 饥饿
+      - 死锁排查
+  - id: distributed-lock
+    name: 分布式锁
+    parent: concurrency
+    description: 包括分布式锁需求、SET NX、续期与看门狗、Redisson 实现、主从切换问题、RedLock、ZooKeeper 锁；不包括单机锁（见 aqs、synchronized）
+    aliases:
+      - SET NX
+      - Redisson
+      - 看门狗
+      - watch dog
+      - RedLock
+      - 红锁
+  - id: transaction
+    name: 事务
+    parent: null
+    description: 包括事务特性、隔离与 MVCC、框架中的事务管理、分布式事务；不包括锁的实现（见 concurrency）
+  - id: transaction-basics
+    name: 事务基础
+    parent: transaction
+    description: 包括 ACID 含义与保障方式、存储引擎对事务的支持、Redis 事务（MULTI/EXEC）的语义；不包括隔离级别（见 isolation-mvcc）
+    aliases:
+      - ACID
+      - 事务原子性
+      - 一致性
+      - 持久性
+      - MULTI
+      - EXEC
+  - id: isolation-mvcc
+    name: 隔离级别与 MVCC
+    parent: transaction
+    description: 包括四种隔离级别、脏读/不可重复读/幻读、隔离实现、MVCC 版本链、ReadView 与可见性判断；不包括间隙锁等锁（见 lock-modes）
+    aliases:
+      - 隔离级别
+      - 脏读
+      - 不可重复读
+      - 幻读
+      - 读已提交
+      - 可重复读
+      - MVCC
+      - ReadView
+      - 版本链
+      - 快照读
+  - id: transaction-management
+    name: 事务管理与失效
+    parent: transaction
+    description: 包括声明式/编程式事务、@Transactional、传播行为、代理创建时机、事务管理器、MyBatis 提交，以及异常被吞、自调用等失效场景；不包括数据库隔离实现（见 isolation-mvcc）
+    aliases:
+      - "@Transactional"
+      - 声明式事务
+      - 编程式事务
+      - 事务传播
+      - REQUIRED
+      - REQUIRES_NEW
+      - 事务失效
+      - 事务不回滚
+  - id: distributed-transaction
+    name: 分布式事务
+    parent: transaction
+    description: 包括 2PC、TCC、事务消息、Exactly Once，以及 redo log 与 binlog 的两阶段提交思路；不包括消息幂等（见 idempotency）
+    aliases:
+      - 2PC
+      - 两阶段提交
+      - TCC
+      - 事务消息
+      - Seata
+      - 最终一致
+  - id: persistence
+    name: 持久化与日志
+    parent: null
+    description: 包括内存数据落盘、数据库日志与崩溃恢复、消息落盘；不包括主从复制（见 replication）
+    aliases:
+      - 持久化
+      - 落盘
+      - 日志
+  - id: rdb-aof
+    name: RDB 与 AOF
+    parent: persistence
+    description: 包括 RDB 快照与 bgsave、AOF 记录/重写/同步策略、两者对比与重启恢复；不包括通用刷盘原理（见 flush-to-disk）
+    aliases:
+      - RDB
+      - AOF
+      - 快照
+      - bgsave
+      - bgrewriteaof
+      - appendfsync
+  - id: database-log
+    name: 数据库日志
+    parent: persistence
+    description: 包括 redo log、undo log、binlog 的作用与区别，UPDATE 执行中的写日志过程；不包括刷盘时机细节（见 flush-to-disk）、主从复制流程（见 replication）
+    aliases:
+      - redo log
+      - undo log
+      - binlog
+      - WAL
+      - 重做日志
+      - 回滚日志
+      - 二进制日志
+  - id: flush-to-disk
+    name: 刷盘策略
+    parent: persistence
+    description: 包括页缓存与 fsync、何时真正落盘，以及 redo log、AOF、MQ Broker 的刷盘策略与顺序写；不包括各日志本身（见 database-log、rdb-aof）
+    aliases:
+      - 刷盘
+      - fsync
+      - Page Cache
+      - 同步刷盘
+      - 异步刷盘
+      - 顺序写
+  - id: index
+    name: 索引
+    parent: null
+    description: 包括索引结构、聚簇与二级索引、索引设计与失效；不包括执行计划与慢查询（见 sql-optimization）
+  - id: index-structure
+    name: 索引结构与类型
+    parent: index
+    description: 包括索引原理、索引类型、哈希索引、B+ 树及与 B 树的对比、建删索引；不包括聚簇/二级索引存储（见 clustered-index）
+    aliases:
+      - 索引类型
+      - B+ 树
+      - B 树
+      - 哈希索引
+      - 主键索引
+      - 唯一索引
+      - 页分裂
+  - id: clustered-index
+    name: 聚簇索引与回表
+    parent: index
+    description: 包括聚簇/二级索引的存储、回表、覆盖索引；不包括联合索引规则（见 index-design）
+    aliases:
+      - 聚簇索引
+      - 非聚簇索引
+      - 二级索引
+      - 回表
+      - 覆盖索引
+  - id: index-design
+    name: 索引设计与失效
+    parent: index
+    description: 包括选列、索引数量、主键选择、前缀索引、联合索引与最左前缀、索引下推、索引失效场景；不包括索引结构（见 index-structure）
+    aliases:
+      - 建索引原则
+      - 前缀索引
+      - 联合索引
+      - 最左前缀
+      - 索引下推
+      - ICP
+      - 索引失效
+  - id: sql-query
+    name: SQL 与查询优化
+    parent: null
+    description: 包括 SQL 语法、存储引擎与执行流程、慢查询与写法优化、分页；不包括索引本身（见 index）
+    aliases:
+      - SQL
+      - 查询优化
+  - id: sql-basics
+    name: SQL 基础语法
+    parent: sql-query
+    description: 包括建库建表、JOIN、子查询、UNION 等基本写法；不包括性能优化（见 sql-optimization）
+    aliases:
+      - DDL
+      - DML
+      - SQL JOIN
+      - 子查询
+      - UNION
+      - 建表
+  - id: query-execution
+    name: 存储引擎与执行流程
+    parent: sql-query
+    description: 包括存储引擎及 InnoDB/MyISAM 对比、Server 层与引擎层、SELECT/UPDATE 执行流程、ORDER BY 排序过程；不包括执行计划分析（见 sql-optimization）
+    aliases:
+      - 存储引擎
+      - InnoDB
+      - MyISAM
+      - 执行流程
+      - 优化器
+      - 执行器
+      - filesort
+  - id: sql-optimization
+    name: 慢查询与 SQL 优化
+    parent: sql-query
+    description: 包括 EXPLAIN、慢查询定位与监控、SELECT *、子查询与 JOIN 优化、小表驱动大表、N+1 等 SQL 写法问题；不包括分页（见 pagination）
+    aliases:
+      - EXPLAIN
+      - 执行计划
+      - 慢查询
+      - 慢 SQL
+      - SQL 优化
+      - 小表驱动大表
+      - JOIN 优化
+  - id: pagination
+    name: 分页查询
+    parent: sql-query
+    description: 包括 LIMIT/OFFSET、深分页优化（延迟关联、书签）、内存分页与物理分页、PageHelper；不包括一般 SQL 优化（见 sql-optimization）
+    aliases:
+      - LIMIT
+      - OFFSET
+      - 深分页
+      - PageHelper
+      - RowBounds
+  - id: data-access
+    name: 数据访问与 ORM
+    parent: null
+    description: 包括 JDBC、连接池、ORM 框架的使用与原理；不包括 IoC/AOP 等通用框架机制（见 framework）
+    aliases:
+      - 持久层
+      - 数据访问
+  - id: orm
+    name: ORM 与 JDBC
+    parent: data-access
+    description: 包括 ORM 概念、JDBC、连接池、MyBatis 半自动特点、与 Hibernate 对比、MyBatis-Plus；不包括 MyBatis 内部执行（见 mybatis-internals）
+    aliases:
+      - JDBC
+      - 连接池
+      - MyBatis
+      - Hibernate
+      - MyBatis-Plus
+      - JPA
+  - id: mybatis-internals
+    name: MyBatis 执行原理
+    parent: data-access
+    description: 包括 SqlSessionFactory/SqlSession 生命周期与构建、Mapper 接口与映射文件、MapperProxy 调用链、Executor 与批处理、四大 Handler、Spring 整合；不包括参数/结果映射规则（见 sql-mapping）
+    aliases:
+      - SqlSession
+      - SqlSessionFactory
+      - SqlSessionTemplate
+      - Mapper
+      - MapperProxy
+      - MapperMethod
+      - MyBatis Executor
+      - BatchExecutor
+      - StatementHandler
+  - id: sql-mapping
+    name: 参数与结果映射
+    parent: data-access
+    description: 包括多参数与 @Param、#{} 与 ${}（SQL 注入）、LIKE 写法、主键回填、resultMap、驼峰映射、TypeHandler、鉴别器；不包括关联映射（见 association-mapping）
+    aliases:
+      - "#{}"
+      - ${}
+      - "@Param"
+      - SQL 注入
+      - resultMap
+      - TypeHandler
+      - 驼峰映射
+      - useGeneratedKeys
+  - id: dynamic-sql
+    name: 动态 SQL
+    parent: data-access
+    description: 包括 if/choose/trim/where/set/foreach、sql 片段复用、OGNL 取值；不包括参数传递（见 sql-mapping）
+    aliases:
+      - foreach
+      - where
+      - trim
+      - choose
+      - OGNL
+      - include
+  - id: association-mapping
+    name: 关联映射与延迟加载
+    parent: data-access
+    description: 包括一对一/一对多/多对多映射、嵌套查询与嵌套结果、N+1、延迟加载及其代理实现与配置；不包括普通结果映射（见 sql-mapping）
+    aliases:
+      - association
+      - collection
+      - 嵌套查询
+      - 嵌套结果
+      - N+1
+      - 延迟加载
+      - 懒加载
+      - fetchType
+  - id: framework
+    name: 框架机制
+    parent: null
+    description: 包括 IoC、Bean、AOP、动态代理、MVC、配置、插件拦截、设计模式；不包括数据访问细节（见 data-access）
+    aliases:
+      - 框架原理
+      - 框架核心
+  - id: ioc-di
+    name: IoC 与依赖注入
+    parent: framework
+    description: 包括控制反转、注入方式、ApplicationContext、组件注册与 @Autowired、Mapper 等对象注入容器；不包括 Bean 生命周期（见 bean-lifecycle）
+    aliases:
+      - IoC
+      - DI
+      - 控制反转
+      - 依赖注入
+      - ApplicationContext
+      - "@Autowired"
+      - "@Component"
+  - id: bean-lifecycle
+    name: Bean 生命周期与循环依赖
+    parent: framework
+    description: 包括 Bean 生命周期、作用域、代理创建时机、循环依赖与三级缓存；不包括注入方式（见 ioc-di）
+    aliases:
+      - Bean 生命周期
+      - 作用域
+      - scope
+      - BeanPostProcessor
+      - 循环依赖
+      - 三级缓存
+  - id: aop
+    name: AOP
+    parent: framework
+    description: 包括切面、连接点、切点、通知、织入、@Aspect 写法及 AOP 实现事务和日志；不包括代理实现（见 dynamic-proxy）
+    aliases:
+      - 面向切面
+      - 切面
+      - 切点
+      - 通知
+      - 织入
+      - "@Aspect"
+      - "@Around"
+  - id: dynamic-proxy
+    name: 动态代理
+    parent: framework
+    description: 包括 JDK 动态代理与 CGLIB 原理与区别，以及代理导致的自调用失效、Mapper 代理、延迟加载代理等应用；不包括 AOP 概念（见 aop）
+    aliases:
+      - JDK 动态代理
+      - CGLIB
+      - InvocationHandler
+  - id: mvc
+    name: MVC 请求处理
+    parent: framework
+    description: 包括 DispatcherServlet、请求处理流程、HandlerMapping/HandlerAdapter、请求映射与参数接收；不包括 HTTP 协议本身（见 http）
+    aliases:
+      - Spring MVC
+      - DispatcherServlet
+      - HandlerMapping
+      - "@RequestMapping"
+      - "@RestController"
+      - "@RequestBody"
+  - id: configuration
+    name: 配置与自动配置
+    parent: framework
+    description: 包括配置文件与 @Value、配置中心与动态刷新、Spring Boot Starter 与自动配置、MyBatis 全局配置与日志；不包括 Bean 生命周期（见 bean-lifecycle）
+    aliases:
+      - 配置文件
+      - application.yml
+      - "@Value"
+      - 配置中心
+      - "@RefreshScope"
+      - 自动配置
+      - Starter
+      - "@SpringBootApplication"
+      - mybatis-config
+  - id: interceptor
+    name: 插件与拦截器
+    parent: framework
+    description: 包括 MyBatis 插件拦截四大对象、调用链、编写插件及慢 SQL/数据权限/审计等应用；不包括动态代理原理（见 dynamic-proxy）
+    aliases:
+      - 插件
+      - 拦截器
+      - Plugin
+      - "@Intercepts"
+  - id: design-pattern
+    name: 设计模式
+    parent: framework
+    description: 包括单例、代理、命令、建造者、适配器、责任链等模式及其在框架中的应用；不包括代理的技术实现（见 dynamic-proxy）
+    aliases:
+      - 单例模式
+      - 代理模式
+      - 命令模式
+      - 建造者模式
+      - 适配器模式
+      - 责任链
+  - id: cache
+    name: 缓存
+    parent: null
+    description: 包括缓存使用模式、缓存异常、一致性、过期、容量满时的淘汰、热 key 与大 key、ORM 缓存；不包括持久化（见 persistence）
+  - id: cache-pattern
+    name: 缓存读写模式
+    parent: cache
+    description: 包括为何用缓存、查库回写（Cache Aside）、缓存预热、多级缓存；不包括一致性保障（见 cache-consistency）
+    aliases:
+      - Cache Aside
+      - 旁路缓存
+      - 缓存预热
+      - 多级缓存
+      - 本地缓存
+  - id: cache-failure
+    name: 缓存穿透、击穿与雪崩
+    parent: cache
+    description: 包括穿透（缓存空值、布隆过滤器）、击穿（互斥锁、逻辑过期）、雪崩（随机过期、集群、降级、多级缓存）；不包括布隆过滤器原理（见 bloom-filter）
+    aliases:
+      - 缓存穿透
+      - 缓存击穿
+      - 缓存雪崩
+      - 缓存空值
+      - 逻辑过期
+      - 互斥锁重建
+  - id: cache-consistency
+    name: 缓存一致性
+    parent: cache
+    description: 包括缓存与数据库不一致的原因、延迟双删、读写锁、MQ/canal 异步更新、更新清缓存；不包括基本读写流程（见 cache-pattern）
+    aliases:
+      - 双写一致
+      - 延迟双删
+      - canal
+  - id: expiration
+    name: 过期删除
+    parent: cache
+    description: 包括设置过期时间、惰性删除、定期删除（SLOW/FAST）；不包括内存满时的淘汰（见 replacement-policy）
+    aliases:
+      - 过期时间
+      - TTL
+      - EXPIRE
+      - 惰性删除
+      - 定期删除
+  - id: replacement-policy
+    name: 淘汰与置换算法
+    parent: cache
+    description: 容量有限时选谁移出去：包括 Redis 内存淘汰策略、缓存 eviction，以及操作系统页面置换（OPT/FIFO/LRU，内存页可视为磁盘的缓存），两者共享 LRU/LFU/FIFO 等算法；不包括按过期时间删除（见 expiration）、分页机制（见 virtual-memory）
+    aliases:
+      - 淘汰策略
+      - 置换算法
+      - 页面置换
+      - LRU
+      - LFU
+      - FIFO
+      - OPT
+      - maxmemory-policy
+      - eviction
+  - id: hot-big-key
+    name: 热 key 与大 key
+    parent: cache
+    description: 包括热 key、大 key 的危害、发现与处理；不包括热点 key 失效引发的击穿（见 cache-failure）
+    aliases:
+      - 热 key
+      - 大 key
+      - Hot Key
+      - Big Key
+  - id: mybatis-cache
+    name: MyBatis 一二级缓存
+    parent: cache
+    description: 包括一级缓存与清空时机、二级缓存开启与配置、第三方存储、cache-ref、适用场景；不包括分布式缓存一致性（见 cache-consistency）
+    aliases:
+      - 一级缓存
+      - 二级缓存
+      - localCache
+      - cache-ref
+      - Ehcache
+  - id: data-structure
+    name: 数据结构
+    parent: null
+    description: 包括哈希表、集合框架、布隆过滤器、Redis 数据类型及其底层结构；不包括 B+ 树（见 index-structure）
+    aliases:
+      - Data Structure
+  - id: hash-table
+    name: 哈希表
+    parent: data-structure
+    description: 包括哈希函数、桶、冲突处理、HashMap，以及哈希索引、哈希路由与哈希槽背后的哈希原理；不包括 equals/hashCode 约定（见 object-methods）
+    aliases:
+      - HashMap
+      - 哈希冲突
+      - 开放寻址
+      - 拉链法
+      - 哈希取模
+  - id: collections
+    name: 集合框架
+    parent: data-structure
+    description: 包括 Java 集合常用接口与实现、阻塞队列等并发容器的选择、Stream 操作集合；不包括哈希表原理（见 hash-table）
+    aliases:
+      - 集合
+      - Java Collection
+      - Java List
+      - Java Set
+      - Map
+      - Queue
+      - Stream
+  - id: bloom-filter
+    name: 布隆过滤器
+    parent: data-structure
+    description: 包括布隆过滤器原理、误判原因及用途；不包括缓存穿透的其他方案（见 cache-failure）
+    aliases:
+      - Bloom Filter
+      - 位数组
+  - id: redis-data-types
+    name: Redis 数据类型
+    parent: data-structure
+    description: 包括 String/Hash/List/Set/ZSet 等 Redis 数据类型的用途与底层结构（如 ZSet 的跳表），计数器、排行榜等用法；不包括 Java 语言类型（见 type-system）
+    aliases:
+      - Redis 数据结构
+      - Redis String
+      - Hash
+      - Redis List
+      - Redis Set
+      - ZSet
+      - 有序集合
+      - 跳表
+      - SkipList
+  - id: io
+    name: I/O
+    parent: null
+    description: 包括 I/O 流、I/O 模型与多路复用、Socket 与文件描述符、序列化、文件系统；不包括网络协议本身（见 network-protocol）
+    aliases:
+      - 输入输出
+  - id: io-stream
+    name: I/O 流
+    parent: io
+    description: 包括输入/输出流、字节流与字符流、节点流与处理流、管道流；不包括 I/O 模型（见 io-multiplexing）
+    aliases:
+      - IO 流
+      - InputStream
+      - OutputStream
+      - Reader
+      - Writer
+      - 字节流
+      - 字符流
+  - id: io-multiplexing
+    name: I/O 模型与多路复用
+    parent: io
+    description: 包括阻塞/非阻塞 I/O、BIO/NIO/AIO、select/poll/epoll、NIO Selector；不包括单线程事件循环等线程组织方式（见 thread-model）
+    aliases:
+      - BIO
+      - NIO
+      - AIO
+      - 阻塞 IO
+      - 非阻塞 IO
+      - 多路复用
+      - epoll
+      - select
+      - poll
+      - Selector
+  - id: socket
+    name: Socket 与文件描述符
+    parent: io
+    description: 包括 Socket 概念、文件描述符；不包括 TCP 连接管理（见 tcp-connection）
+    aliases:
+      - 套接字
+      - 文件描述符
+      - fd
+  - id: serialization
+    name: 序列化
+    parent: io
+    description: 包括序列化与反序列化、Java 原生序列化、JSON 序列化、RPC 序列化方式；不包括对象拷贝（见 object-methods）
+    aliases:
+      - 反序列化
+      - Serializable
+      - JSON
+      - Jackson
+      - Protobuf
+  - id: file-storage
+    name: 文件系统与存储
+    parent: io
+    description: 包括 inode、硬链接与软链接、存储层次、SSD 与机械硬盘、页缓存；不包括刷盘策略（见 flush-to-disk）
+    aliases:
+      - inode
+      - 硬链接
+      - 软链接
+      - 存储层次
+      - SSD
+      - 机械硬盘
+      - 文件系统
+  - id: network-protocol
+    name: 网络协议
+    parent: null
+    description: 包括分层模型、IP、DNS、TCP/UDP、HTTP/HTTPS 与会话；不包括 I/O 模型（见 io）
+    aliases:
+      - 网络
+      - 计算机网络
+      - 协议
+  - id: network-layering
+    name: 网络分层
+    parent: network-protocol
+    description: 包括分层的意义、封装、OSI 七层、TCP/IP 四层、五层模型；不包括各层具体协议细节
+    aliases:
+      - OSI
+      - 七层模型
+      - TCP/IP 四层
+      - 五层模型
+      - 报文封装
+  - id: ip-addressing
+    name: IP 与寻址
+    parent: network-protocol
+    description: 包括 IP 地址、端口、MAC、NAT、路由器、IP 分片、ARP；不包括域名解析（见 dns）
+    aliases:
+      - IP
+      - 端口
+      - MAC
+      - NAT
+      - ARP
+      - 路由
+      - IP 分片
+  - id: dns
+    name: DNS 与访问流程
+    parent: network-protocol
+    description: 包括 URL 组成、DNS 解析过程、输入 URL 到页面显示的全过程；不包括 HTTP 报文（见 http）
+    aliases:
+      - 域名解析
+      - URL
+      - 输入 URL 到页面
+  - id: tcp-connection
+    name: TCP 连接管理
+    parent: network-protocol
+    description: 包括标志位、三次握手、四次挥手、2MSL/TIME_WAIT、全双工、状态机；不包括可靠传输（见 reliable-transmission）
+    aliases:
+      - 三次握手
+      - 四次挥手
+      - TIME_WAIT
+      - 2MSL
+      - SYN
+      - FIN
+      - TCP 状态机
+  - id: reliable-transmission
+    name: 可靠传输与重传
+    parent: network-protocol
+    description: 包括丢包乱序原因、序列号与确认号、校验和、MSS、超时重传与 RTO、快速重传、SACK/DSACK、TCP 与 UDP 对比、UDP 上的可靠传输；不包括窗口控制（见 flow-control、congestion-control）
+    aliases:
+      - 可靠传输
+      - 序列号
+      - 确认号
+      - 校验和
+      - MSS
+      - 超时重传
+      - 快速重传
+      - RTO
+      - RTT
+      - SACK
+      - UDP
+  - id: flow-control
+    name: 流量控制
+    parent: network-protocol
+    description: 包括 TCP 接收窗口、滑动窗口、发送窗口，以及 MQ 消费者限速等按接收方能力控制速率的做法；不包括网络拥塞（见 congestion-control）
+    aliases:
+      - 滑动窗口
+      - 接收窗口
+      - rwnd
+      - 消费速率
+  - id: congestion-control
+    name: 拥塞控制
+    parent: network-protocol
+    description: 包括拥塞窗口、慢启动、拥塞避免、丢包后调整、快速恢复；不包括接收方流量控制（见 flow-control）
+    aliases:
+      - cwnd
+      - 慢启动
+      - 拥塞避免
+      - 快速恢复
+      - ssthresh
+  - id: http
+    name: HTTP 与会话
+    parent: network-protocol
+    description: 包括 HTTP 与 TCP 关系、报文、GET/POST、状态码、重定向、无状态与 Cookie/Session；不包括加密（见 https-tls）
+    aliases:
+      - GET
+      - POST
+      - 状态码
+      - "301"
+      - "302"
+      - Cookie
+      - Session
+  - id: https-tls
+    name: HTTPS 与加密
+    parent: network-protocol
+    description: 包括 HTTPS、对称/非对称加密、数字证书、TLS 握手；不包括 HTTP 报文（见 http）
+    aliases:
+      - HTTPS
+      - TLS
+      - SSL
+      - 对称加密
+      - 非对称加密
+      - 数字证书
+      - CA
+  - id: process-management
+    name: 进程与调度
+    parent: null
+    description: 包括进程、进程间通信、调度与上下文切换、线程模型、内核态与系统调用；不包括 Java 线程 API（见 concurrency）
+    aliases:
+      - 进程管理
+      - 操作系统
+  - id: process
+    name: 进程基础
+    parent: process-management
+    description: 包括进程概念与状态、并发与并行、fork、僵尸进程与孤儿进程；不包括进程间通信（见 ipc）
+    aliases:
+      - 进程
+      - 进程状态
+      - fork
+      - 僵尸进程
+      - 孤儿进程
+      - 并行
+  - id: ipc
+    name: 进程间通信
+    parent: process-management
+    description: 包括管道、信号、消息队列、共享内存、套接字等 IPC 方式；不包括线程协作（见 thread-basics）、消息中间件（见 messaging）
+    aliases:
+      - 管道
+      - 信号
+      - 共享内存
+      - pipe
+  - id: scheduling
+    name: 调度与上下文切换
+    parent: process-management
+    description: 包括调度算法（FCFS、短作业优先、优先级）与饥饿、CPU 寄存器、上下文切换步骤与代价；不包括用户态/内核态（见 kernel-mode）
+    aliases:
+      - 调度算法
+      - FCFS
+      - SJF
+      - 优先级调度
+      - 上下文切换
+      - 寄存器
+  - id: thread-model
+    name: 线程模型
+    parent: process-management
+    description: 包括线程与进程的区别、内核线程与用户线程、混合模型、Java 线程与 OS 线程的映射，以及 Redis 单线程 + 事件循环为何高效；不包括 I/O 多路复用本身（见 io-multiplexing）
+    aliases:
+      - 内核线程
+      - 用户线程
+      - 单线程模型
+      - 事件循环
+      - Reactor
+      - 进程与线程区别
+  - id: kernel-mode
+    name: 内核与系统调用
+    parent: process-management
+    description: 包括操作系统作用、内核、用户态与内核态、系统调用及切换代价；不包括进程调度（见 scheduling）
+    aliases:
+      - 内核
+      - 用户态
+      - 内核态
+      - 系统调用
+      - syscall
+  - id: distributed-architecture
+    name: 分布式架构
+    parent: null
+    description: 包括 CAP 与共识、复制、故障转移、分片与路由、微服务、限流降级；不包括分布式锁（见 distributed-lock）、分布式事务（见 distributed-transaction）
+    aliases:
+      - 分布式
+      - 高可用
+      - 可扩展
+  - id: consensus
+    name: CAP 与共识
+    parent: distributed-architecture
+    description: 包括 CAP 与 AP/CP 取舍、Raft 选主、Gossip、集群投票、KRaft；不包括哨兵故障转移流程（见 failover）
+    aliases:
+      - CAP
+      - AP
+      - CP
+      - BASE
+      - Raft
+      - Gossip
+      - 选主
+      - 共识算法
+      - KRaft
+      - Paxos
+  - id: replication
+    name: 主从复制
+    parent: distributed-architecture
+    description: 包括主从复制作用与原理、全量与增量同步；不包括故障切换（见 failover）
+    aliases:
+      - 主从同步
+      - 全量同步
+      - 增量同步
+      - 读写分离
+  - id: failover
+    name: 故障转移
+    parent: distributed-architecture
+    description: 包括哨兵监控、主观/客观下线、自动故障转移与选新主、集群故障检测与恢复、脑裂；不包括数据同步（见 replication）
+    aliases:
+      - 哨兵
+      - Sentinel
+      - 主观下线
+      - 客观下线
+      - 脑裂
+  - id: sharding
+    name: 分片与路由
+    parent: distributed-architecture
+    description: 包括分库分表、垂直/水平拆分、分片键、范围/Hash/配置路由、哈希槽与槽分配、分片集群组成；不包括主从复制（见 replication）
+    aliases:
+      - 分库分表
+      - 分片
+      - 分片键
+      - 分片路由
+      - 哈希槽
+      - 一致性哈希
+      - 分片集群
+  - id: microservice
+    name: 微服务
+    parent: distributed-architecture
+    description: 包括微服务架构、与单体对比、服务注册与发现、API 网关、Spring Cloud 组件；不包括配置读取（见 configuration）
+    aliases:
+      - 注册中心
+      - 服务发现
+      - API 网关
+      - Spring Cloud
+      - Nacos
+      - Eureka
+  - id: degradation
+    name: 限流与降级
+    parent: distributed-architecture
+    description: 包括限流、熔断降级、削峰保护下游与依赖故障时的兜底；不包括 TCP 流量控制（见 flow-control）
+    aliases:
+      - 限流
+      - 降级
+      - 熔断
+  - id: messaging
+    name: 消息通信
+    parent: null
+    description: 包括消息队列作用、模型、选型、可靠性、幂等、顺序与积压，以及 RPC；不包括进程间消息队列（见 ipc）
+    aliases:
+      - 消息队列
+      - MQ
+      - 消息中间件
+  - id: async-messaging
+    name: 异步与解耦
+    parent: messaging
+    description: 包括消息队列是什么、在架构中的位置、异步、解耦、削峰、日志收集及引入的新问题；不包括消息模型（见 message-model）
+    aliases:
+      - 异步
+      - 解耦
+      - 削峰填谷
+      - 消息队列作用
+  - id: message-model
+    name: 消息模型与推拉
+    parent: messaging
+    description: 包括点对点、发布订阅、Topic 与分区、JMS、AMQP、Exchange 路由、推/拉模式与长轮询；不包括产品选型（见 mq-selection）
+    aliases:
+      - 点对点
+      - 发布订阅
+      - Topic
+      - Partition
+      - JMS
+      - AMQP
+      - Exchange
+      - 推模式
+      - 拉模式
+      - 长轮询
+  - id: mq-selection
+    name: 消息队列选型
+    parent: messaging
+    description: 包括 Kafka、RocketMQ、RabbitMQ、Pulsar、ActiveMQ、MQTT 的特点与适用场景；不包括可靠性方案（见 message-reliability）
+    aliases:
+      - Kafka
+      - RocketMQ
+      - RabbitMQ
+      - Pulsar
+      - ActiveMQ
+      - MQTT
+  - id: message-reliability
+    name: 消息可靠性
+    parent: messaging
+    description: 包括生产端确认、Broker 持久化、ACK、死信队列、消费失败兜底、投递语义、MQ 故障时的可用性；不包括重复消费（见 idempotency）
+    aliases:
+      - 消息丢失
+      - ACK
+      - 死信队列
+      - 至少一次
+      - 恰好一次
+  - id: idempotency
+    name: 幂等
+    parent: messaging
+    description: 包括幂等概念、重复消费原因与方案、TCC 与 HTTP 方法的幂等；不包括可靠投递（见 message-reliability）
+    aliases:
+      - 重复消费
+      - 去重
+      - Idempotent
+  - id: message-ordering
+    name: 顺序与延时消息
+    parent: messaging
+    description: 包括消息顺序性、严格顺序保证、延时消息及投递原理；不包括事务消息（见 distributed-transaction）
+    aliases:
+      - 顺序消息
+      - 延时消息
+      - 延迟队列
+  - id: message-backlog
+    name: 消息积压
+    parent: messaging
+    description: 包括积压原因与处理；不包括消费速率控制的一般原理（见 flow-control）
+    aliases:
+      - 消费延迟
+      - Lag
+  - id: rpc
+    name: RPC
+    parent: messaging
+    description: 包括 RPC 概念、常见框架、RPC 与 MQ 的区别与选择；不包括序列化细节（见 serialization）
+    aliases:
+      - 远程调用
+      - Dubbo
+      - gRPC
+      - Feign
+  - id: llm-fundamentals
+    name: 大模型原理
+    parent: null
+    description: 包括 Token 与生成、Transformer、训练与推理优化、幻觉；不包括 Agent 与 RAG 应用（见 ai-application）
+    aliases:
+      - LLM
+      - 大模型
+      - 大语言模型
+  - id: token-generation
+    name: Token 与生成采样
+    parent: llm-fundamentals
+    description: 包括 Token 与分词、上下文窗口、自回归生成、Temperature、Top-k/Top-p、重复惩罚、约束解码；不包括上下文工程（见 context-engineering）
+    aliases:
+      - Token
+      - 分词
+      - BPE
+      - 上下文窗口
+      - 自回归
+      - Temperature
+      - Top-k
+      - Top-p
+      - 采样
+      - 解码
+  - id: transformer
+    name: Transformer 与模型架构
+    parent: llm-fundamentals
+    description: 包括 Transformer、自注意力、多头注意力、位置编码、FFN、层归一化、多模态模型；不包括训练方法（见 model-training）
+    aliases:
+      - Attention
+      - 自注意力
+      - 多头注意力
+      - 位置编码
+      - 多模态
+  - id: model-training
+    name: 训练、对齐与推理优化
+    parent: llm-fundamentals
+    description: 包括预训练、微调、强化学习、SFT、RLHF、DPO/PPO，以及量化、蒸馏、推理加速；不包括模型结构（见 transformer）
+    aliases:
+      - 预训练
+      - 微调
+      - SFT
+      - RLHF
+      - DPO
+      - PPO
+      - 对齐
+      - 量化
+      - 蒸馏
+      - 推理加速
+  - id: hallucination
+    name: 幻觉
+    parent: llm-fundamentals
+    description: 包括幻觉的含义与缓解方法、答案忠实度；不包括检索评估整体（见 retrieval-evaluation）
+    aliases:
+      - 忠实度
+  - id: ai-application
+    name: 大模型应用
+    parent: null
+    description: 包括提示与结构化输出、工具调用与 MCP、Agent、上下文工程、RAG 与检索；不包括模型原理（见 llm-fundamentals）
+    aliases:
+      - AI 应用
+      - LLM 应用
+  - id: prompt-engineering
+    name: 提示与结构化输出
+    parent: ai-application
+    description: 包括 Prompt 要素、思维链、Skill、JSON 输出、JSON Mode/Schema、Structured Outputs；不包括上下文工程（见 context-engineering）
+    aliases:
+      - Prompt
+      - 提示词
+      - 思维链
+      - CoT
+      - Skill
+      - 结构化输出
+      - JSON Mode
+      - JSON Schema
+  - id: tool-calling
+    name: 工具调用与 MCP
+    parent: ai-application
+    description: 包括 Function Calling 链路、工具描述与返回质量、出错处理、MCP 协议与 Server、各层分工；不包括 Agent 循环（见 agent-loop）
+    aliases:
+      - Function Calling
+      - 工具调用
+      - Tool Use
+      - MCP
+      - Model Context Protocol
+      - MCP Server
+  - id: agent-loop
+    name: Agent 与工作流
+    parent: ai-application
+    description: 包括 Agent 概念、观察、推理-行动-观察循环、ReAct、计划与执行、AI 工作流、停止条件与人工接管；不包括记忆（见 agent-memory）
+    aliases:
+      - Agent
+      - 智能体
+      - ReAct
+      - Plan-and-Execute
+      - 工作流
+      - Workflow
+  - id: agent-memory
+    name: Agent 记忆
+    parent: ai-application
+    description: 包括事实/经验记忆、工作/长期记忆、运行状态持久化；不包括 RAG 检索（见 rag-pipeline）
+    aliases:
+      - 记忆
+      - Agent Memory
+      - 长期记忆
+      - 工作记忆
+      - 状态持久化
+  - id: context-engineering
+    name: 上下文与执行工程
+    parent: ai-application
+    description: 包括上下文工程、Harness Engineering、提示/上下文/执行工程分工、纠偏观测与恢复；不包括 Prompt 写法（见 prompt-engineering）
+    aliases:
+      - 上下文工程
+      - Context Engineering
+      - Harness Engineering
+      - 执行工程
+  - id: rag-pipeline
+    name: RAG 流程与切分
+    parent: ai-application
+    description: 包括 RAG 概念、完整问答步骤、文档清洗、文本切分策略与块大小；不包括向量检索（见 vector-search）
+    aliases:
+      - RAG
+      - 检索增强生成
+      - Chunking
+      - 文本切分
+      - 分块
+  - id: vector-search
+    name: 向量检索
+    parent: ai-application
+    description: 包括 Embedding、余弦相似度、向量检索、HNSW/IVF、向量数据库能力；不包括关键词与混合检索（见 retrieval-strategy）
+    aliases:
+      - Embedding
+      - 向量
+      - 余弦相似度
+      - HNSW
+      - IVF
+      - 向量数据库
+      - ANN
+  - id: retrieval-strategy
+    name: 检索策略与重排
+    parent: ai-application
+    description: 包括关键词检索、混合检索、RRF、知识图谱与 GraphRAG、查询改写、Rerank 与 Cross-Encoder；不包括向量索引（见 vector-search）
+    aliases:
+      - 关键词检索
+      - BM25
+      - 混合检索
+      - RRF
+      - GraphRAG
+      - 知识图谱
+      - 查询改写
+      - Rerank
+      - Cross-Encoder
+  - id: retrieval-evaluation
+    name: 检索与 RAG 评估
+    parent: ai-application
+    description: 包括召回率、命中率、MRR、忠实度、答案相关性及端到端/组件级评估；不包括幻觉成因（见 hallucination）
+    aliases:
+      - 召回率
+      - Recall
+      - Hit Rate
+      - MRR
+      - Faithfulness
+      - Answer Relevancy
+      - RAG 评估
+
+collections:
+  - id: java-basics
+    name: Java 基础路线
+    description: 按思维导图顺序，完整过一遍Java 基础
+    questions:
+      - q_01M6XBFXC3474DTDBN4086JVDN
+      - q_01M6XBGMXBMW5JTC2EV84DQ5FD
+      - q_01M6ZYJAAS30NGD76E0EK1JMKZ
+      - q_01M6WWFMMAVFDAFR8718MYN95W
+      - q_01M6WWFMXS0BXCPFS7A2NS8XDV
+      - q_01M6WWFN6JAGSWQB6CWANG7GRF
+      - q_01M6WWFNEQ9KKP9SZSHTK84THM
+      - q_01M6WWFNPMDWSYBT2PMB5QVSKT
+      - q_01M6WWFNYG12B6AZW6RKQP347X
+      - q_01M6ZYJ2EYQH3AQMDQH8A8EPG1
+      - q_01M6ZYJ2SD0QN2N4W8XB1TVY0Y
+      - q_01M6WWFPGSBAEEXYJG2HV848TE
+      - q_01M6WWFPRQKH1D80GGF3825A2M
+      - q_01M6WWFQ0MG7G3WH2MBSST69SW
+      - q_01M6WWFQGCW213KFGECZSSDZ72
+      - q_01M6WWFR19J8V8HXD8C4DPNED4
+      - q_01M6WWFRKE43EXW2YKWNAZ4598
+      - q_01M6XBFY0RAR93FD8W7WEH9RQC
+      - q_01M6WWFS81JATQ8XN7SADVDMQR
+      - q_01M6WWFSNX7B3320340RSAHY1W
+      - q_01M6WWFT5C4A6Q7MZAR55Y62T3
+      - q_01M6WWFTNM0RB10EMRDBVV9F4M
+      - q_01M6XBFY9M3D7DGAV9KPZSNV2P
+      - q_01M6XBFYHZ765RFXYWFKENG92J
+      - q_01M6XBFYT5YCECW2685R8WYMPM
+      - q_01M6XBFZ29QQ8BNA8XKNS3FKDF
+      - q_01M6XBFZADH0AVDGPZ3532ZNPE
+      - q_01M6XBFZJMZD7VG6THZ137E4WW
+      - q_01M6XBFZTSPMHVQE5AN77AZK14
+      - q_01M6XBG031X04AZ97PHH12RMHE
+      - q_01M6ZYJ32ZRHASWVX5Z89KBFGD
+      - q_01M6XBG0GJSYRZYJMNWKXA3NZH
+      - q_01M6XBNWPCY2YAMPPACF1XC28Y
+      - q_01M6ZYJ3C3Y1WZXJ6BB8CNC0TE
+      - q_01M6XBG13Y0P4WSVSCJ1ZJSBBM
+      - q_01M6XBG1C6SCJ8PXXNWCWKRXH5
+      - q_01M6XBG1MD93DNBDVEYTH9JTNY
+      - q_01M6XBG1WFMPX5X29M3QVF1HA9
+      - q_01M6XBG24JZRF2Z43H3A77YVTZ
+      - q_01M6XBG2D2278751ZPNC7HJ204
+      - q_01M6ZYJ3NBBMZCG4P25Y13SD6D
+      - q_01M6XBGR9FEFQXRDE8S1BPHM6T
+      - q_01M6XCFWPGHQWTXE0J8FY9ZRNP
+      - q_01M6XBG2TF3PCTTV6QN12CTWG1
+      - q_01M6XBNX8K6WRFG7G1N6KN6V7T
+      - q_01M6XBG38ASD32CQ6RZ0TGMJXW
+      - q_01M6XBNXGSEB1GY352GJHDQCVF
+      - q_01M6XBG3PBESZKM3ETC6WQBZGH
+      - q_01M6ZYJ3Y11V6SFPEYHF98FM9B
+      - q_01M6ZYJ47X0RJR8B95G9B5AQM6
+      - q_01M6XBG49186RD6CSF88AV1WET
+      - q_01M6XBNY2WYZRP10MDHTSKR4N8
+      - q_01M6XBG4Q4JJYD3PBW65J91TAC
+      - q_01M6XBG4ZGJRN21YTMGE6MKFTW
+      - q_01M6XBG57MVD0QXZ0RNVZJT719
+      - q_01M6ZYJ4H3WKVHBAJZS21RYRAV
+      - q_01M6ZYJ4SQDDZBAX1ZARG4B765
+      - q_01M6XBG5T1J0Z82256KJA4GC1T
+      - q_01M6ZYJ5C0FSMD30KVY64VC6A9
+      - q_01M6ZYJ5X1T6WDBX4D8SZYGBHS
+      - q_01M6XBG6DCKPVQD2WM230JJR9X
+      - q_01M6XBG6NSJS9AHNQQT7WZVYMD
+      - q_01M6ZYJ6F7VQ938VHAT7XNF05W
+  - id: jvm-basics
+    name: JVM 基础路线
+    description: 按思维导图顺序，完整过一遍JVM 基础
+    questions:
+      - q_01M6XBG73XA3XKKHT2865XQC8N
+      - q_01M6XBG7C8KPSDAX0XYG3M9X25
+      - q_01M6XBG7MKX07C9R6K3TADHGQK
+      - q_01M6XBG7X1TEAHATS5SRTKW1D7
+      - q_01M6XBG85GNNSSQW838B0S6VH0
+      - q_01M6XBNZ46SX3YYQ66CCRE6CMF
+      - q_01M6XBG8KPCG2V9K1SXQ2F3KPH
+      - q_01M6XBG8W4EE0FFGMQW84380R3
+      - q_01M6XBG945J00KRDD6XQX1PSVP
+      - q_01M6XBG9CJ1NN7Z7NZ5BX0CP90
+      - q_01M6XBNZBR9TM491TYBNY0SGT7
+      - q_01M6XBNZKS6SPX0QH0HMMC3V0K
+      - q_01M6XBG9Z9ZRKW34DQCV4FE3HP
+      - q_01M6XBGA7QNF1M4DC6EA3FWMB0
+      - q_01M6XBGAG143X2TSXQQHPKK5PX
+      - q_01M6XBGAR8B59ECRETG0VAT787
+      - q_01M6XBNZVKTVDA567PT9MX6AZC
+      - q_01M6XBGB5YTVCAD276P54A925Z
+      - q_01M6XBP03CBD1W3GZJERH5Q7X7
+      - q_01M6XBGBKQMQRANWGF1H8CN4K3
+      - q_01M6XBGBVTQS9VEYNPH4VSS82C
+      - q_01M6XBGC3YTS5TRR2AWMWBQWQ6
+      - q_01M6XBGCD2A5VH3G4PQV1BNDZW
+      - q_01M6XBGCNDK353SE6KSAY8ENPY
+      - q_01M6XBGCXTKHYC3MCAYZAK052H
+      - q_01M6XBGD643VQTH1N2G6ZAJVV1
+      - q_01M6XBP0B77FDRHWPXZAX6A7Q5
+      - q_01M6XBGDM0NK5X3THNHWB9GKDR
+      - q_01M6XBGDWFFA8CBHD1T08VB0RM
+      - q_01M6XBGE4SKJEYKC6WNR16389X
+      - q_01M6XBGEDG1D442TEBT506XS3M
+      - q_01M6XBP0JYGFHBAF39B4X0MDKZ
+      - q_01M6XBGETV46EJNC6JY9R5X884
+      - q_01M6XBGF2Y6HGND311WS0JZ5KM
+      - q_01M6XBGFBB74ZEK3GCFZ6H88QD
+      - q_01M6XBGFKRNVJX1180XX4DZNDH
+      - q_01M6ZYJ70SP4RG2TAB4V2E0MZM
+      - q_01M6XBGG2H83PMFGGE303GNTB3
+      - q_01M6XBP0ZWGWBKKVG1GTXG45DG
+      - q_01M6XBGGGEJ7230WN07ESPBDX7
+      - q_01M6XBGGS35P0MM6X0YARGNB9S
+      - q_01M6XBGH1DDNS5GNXGCGPGGWJ0
+      - q_01M6ZYJ7HH8HVKMT9W4H158GWE
+      - q_01M6XBGHF49W2ZMQZ1F9YSXVGB
+      - q_01M6ZYJ83JG9BYDR82GMEP9M3Y
+      - q_01M6ZYJ8MV50PPMW04F3XGV0YQ
+      - q_01M6ZYJ96W0S427XBKWD2JPTYN
+      - q_01M6XBGJ7GR1Y8N82N1SBW0YNR
+      - q_01M6XBGJH7GT4JNQYFH4X6MHMY
+      - q_01M6ZYJ9SHXMBQ6N1VKR00T474
+      - q_01M6XBP202CWSPAPYM5DVTYYMA
+      - q_01M6XBGK443ZQ8V7BAAY6AGGDG
+      - q_01M6XBGKCAKJ13T2AW1YVGFSC3
+      - q_01M6XBGKMFKPYR0RM1Z0HP4VVX
+      - q_01M6XBGKWRRAYD9J9MQV7MEDPS
+      - q_01M6XBGM4ZJEJJTTXEW0B4HA2C
+      - q_01M6XBGMD1W9STM3VTGFBTJEY4
+      - q_01M6XBGMN9GSXT6V6E5MYK7XNG
+  - id: juc-basics
+    name: Java 并发基础路线
+    description: 按思维导图顺序，完整过一遍Java 并发基础
+    questions:
+      - q_01M6XBGMXBMW5JTC2EV84DQ5FD
+      - q_01M6ZYK55ES9GXB8K9VNBJ5F71
+      - q_01M6ZYJAAS30NGD76E0EK1JMKZ
+      - q_01M6XBGNB27WYSX5DKS7D6CWC3
+      - q_01M6ZYJAWQWJ650G2314KQJDCV
+      - q_01M6XBGNRM8ZXT4BFXMFFB3T5V
+      - q_01M6XBGP15G7XSYWR0QQCQN6P7
+      - q_01M6XBGP9EBY9TXR9PAZH7WJ3G
+      - q_01M6ZYJBE8ZJXDD462GAZGBAP8
+      - q_01M6XBGPPRP8WC9E0RWX33992E
+      - q_01M6XBGPZ6S2AEN2NK99A0V1S7
+      - q_01M6ZYJBYWHKJBZNEY2QQ461ZA
+      - q_01M6ZYJCFV59XKPADBT1X4Y8N9
+      - q_01M6XBGQKEDGQ0JDPW9RZHXVT2
+      - q_01M6ZYJD225G3XCV57DBNCGCQJ
+      - q_01M6XBGR1668KBRBFCV0KD4CKT
+      - q_01M6XBGR9FEFQXRDE8S1BPHM6T
+      - q_01M6XBGRHJ8ECKK81MKP49J2N1
+      - q_01M6XBGRT4YN1FJSGZCZKGM6WB
+      - q_01M6ZYJDK449M15DQ675MXAN4D
+      - q_01M6XBP39M3ZKGHE87ZQHE9Y0M
+      - q_01M6XBGSDBZ7JF45BZN1YDEKQN
+      - q_01M6XBP3HD2B1K80Z0JGQYTYXV
+      - q_01M6ZYJE4XN4JYJRCWTMAREZAW
+      - q_01M6XBGT0NVE9CGQS5B8H06FHB
+      - q_01M6XBGT9NTXTF43E192VTYNYW
+      - q_01M6XBGTHXQVY25A268XSYY0R6
+      - q_01M6XBP3YCHWXFTD68SVRHWNHN
+      - q_01M6XBGTZGQFK0YR3W1G79JE9T
+      - q_01M6XBP465ZKS0667DEARP3957
+      - q_01M6XBGVDZZKERW8XBSJ8XV563
+      - q_01M6XBGVPJRP2SGYKS8NZ4YZBN
+      - q_01M6XBGVZ04NZFKTDXHPF7BAWF
+      - q_01M6XBGW7FSH05AE6VZK2TATK0
+      - q_01M6XBGWFYFSSKKT16KCGDPNZ3
+      - q_01M6XBGWRM2BC8EG87VMJQZ9PV
+      - q_01M6XBGX1MD0HRTZMCXDBB3PXV
+      - q_01M6XBGXA2TFD1GDK9DN0HYTRH
+      - q_01M6XBGXJP5YP1E50JVBZ9FWG3
+      - q_01M6XBP4DSH91FR1T528ECCSW8
+      - q_01M6XBP4NN4GG2BD6WF4TC6KDV
+      - q_01M6XBP4XS1188KQ5RJBMDKZDR
+      - q_01M6ZYJENP71X58GK0EYY6D619
+      - q_01M6ZYJF7SFNVYZGPH7TGW7F92
+      - q_01M6XBGYPJXM20MV9Q8KEXDR5P
+      - q_01M6XBGYZ9H53CEJS5DEE28RX7
+      - q_01M6XBP5FENZSD25CAWMC97NA4
+      - q_01M6XBGZD6J65XK58PP2AYEBVR
+      - q_01M6XBP5QQ719CQRSMDFYYC52K
+      - q_01M6XBP5ZRD84AR6DSC6JSCMHG
+      - q_01M6XBP681X4R1TBEQWJJSCV15
+      - q_01M6XBH064Z4Y43N2VZPGNV4VB
+      - q_01M6XBH0EQV49S2ZN6SM7EGN4X
+      - q_01M6XBH0QCCPA9D1NRH4QB148G
+      - q_01M6XBH0ZSAA659DGMH7CVFMM5
+      - q_01M6XBP6FSYTK92781E4MFHJJW
+      - q_01M6XBH1DZ07KPHHQBJG686NVV
+      - q_01M6XBP6R1FTDJKQBM5SBM89EA
+      - q_01M6XBH1VZS4EPE5PMDGH2JPK1
+      - q_01M6XBH24PS1VMJ25KY5CA4GP1
+      - q_01M6XBH2D9CTBFCNYK6QJVV6BE
+      - q_01M6XBP703BWJ9PRSQ3F2155S7
+      - q_01M6XBP78485ERF0V2RSRCMGV1
+      - q_01M6XBH30ENEMEQ84SNRXHQ3M0
+      - q_01M6XBH38F1VMGD9XFXYVX20T8
+      - q_01M6XBH3HB0QG5STYSSHM353CF
+      - q_01M6XBH3T5CA7PAS445KJ6V3K5
+      - q_01M6XBH42PXHESEGB4W301ZK90
+      - q_01M6XCESCNQTE2QT095H2D4RQ9
+      - q_01M6XBP7G6932CMG5P4JAQ1CB4
+      - q_01M6XBP7R8ESH4N9Z29RM4W1WJ
+      - q_01M6XBP809BPV6ZBBAT2ZCSNQV
+      - q_01M6XBP88353V6Z69JB4JJRCEH
+  - id: spring-basics
+    name: Spring 基础路线
+    description: 按思维导图顺序，完整过一遍Spring 基础
+    questions:
+      - q_01M6XBH51ARHWJV4MY6ECCXRB4
+      - q_01M6XBH59XNJ9FCTA43MEZGTFR
+      - q_01M6XBP8FXX5QCW38DR3A5M45A
+      - q_01M6XBH5R4PF3S781XSRZRP188
+      - q_01M6XBH60K0V06AWV06MB4C00T
+      - q_01M6XBH69B62C0G3H54M5E4X7D
+      - q_01M6XBH6HXW7SNAMD7FB870PBC
+      - q_01M6XBH6THZ2XDH676RFKJVH0E
+      - q_01M6XBH72YSA5M02K7F6PAWSE2
+      - q_01M6XBH7BA65HAH617D2F70AZW
+      - q_01M6XBH7KJJCH34YCJTAS4MCP2
+      - q_01M6XBP8QTFKD48SGPZ0P2PB13
+      - q_01M6XBP8ZW6MRCPDSCEACSBRFE
+      - q_01M6XBH86GH1KK78ZH866Y0TVW
+      - q_01M6XBH8EVVJ781F6BQC0TEHFV
+      - q_01M6XBP98KY9K9AZK8HKB9VM2N
+      - q_01M6XBP9GHBVH2TW03SHSSF6CV
+      - q_01M6XBH92BND8EYH9T6RE07YES
+      - q_01M6XBH9ANRF17HRQG1CR2B9DE
+      - q_01M6XBH9JS1CJS54GKKBX42MZ1
+      - q_01M6XBH9V0BJG8R6ZEYSF2T2R4
+      - q_01M6XBHA3FF9YZJNRNV9HMC4K2
+      - q_01M6XBP9R8204Y4QPXNWSBAWQ5
+      - q_01M6XBP9ZWJJVYTDKK8GKBAAVQ
+      - q_01M6XBPA8CNXGJ0GZ43PWFCB3A
+      - q_01M6XBPAGES2AXHTZABY0T2HTK
+      - q_01M6XBPARR7S9CQ3HQYQN4F75A
+      - q_01M6XBPB0NBQ01A9JZ6QWXJPF5
+      - q_01M6XBPB8QF1PEP6H2M9RHY0V7
+      - q_01M6ZYJFSEHF4YSEXPRNPCQ620
+      - q_01M6XCBDYHVKX7K2ZWXY300V8H
+      - q_01M6XCBE7NH8ZT4ZYW1197PTR2
+      - q_01M6XBHABRAHKWVM804H2CPYRR
+      - q_01M6XBHAKYTM47DX67NMKJ89WJ
+      - q_01M6XBHAW7ZZ2NTEKXYAKRC022
+      - q_01M6XBHB4N8GDBBP57X52RYJ5S
+      - q_01M6XBPBGP3MDZM5R1301Z138C
+      - q_01M6XBPBRE612H1WB3KT1M89G5
+      - q_01M6XBHBQTNJSWH01D1FKGKW9S
+      - q_01M6XBHC0N0ZMVSBHY7T1YXXQ5
+      - q_01M6XBHC92C8WJJA32XPB5WG17
+      - q_01M6XBHCHZB4RESSHNP8PMA393
+      - q_01M6ZYJGASPZ0P0AAZKNWXGRHF
+      - q_01M6ZYJGXPXHHMB4G3H4ANDJ6F
+      - q_01M6XBHD5MJC4VZFMFPVN4VMKC
+      - q_01M6XBHDDYFZVVHVVHZJPZY89Q
+      - q_01M6XBPC9HH4DNDNTVR5XSEA1V
+      - q_01M6XCCSHSV6BBK72JGGX9R1NB
+      - q_01M6XCCT8E7EYYHFMN310PDB3W
+      - q_01M6XBPCHDVPZ4HJFBP6PX6QC6
+      - q_01M6XBHE0KYTEY69J81EKNB030
+      - q_01M6XBPCSGMCQJAZDQMYEAHTEV
+      - q_01M6XBPD1K4DD4GVY53R1EZAA3
+      - q_01M6XBPD9MKWKCQMHJZQ3JMVHC
+      - q_01M6XBPDHPPBTGBSTVACC74YY1
+      - q_01M6XBPDSXNCW68HXAN8KRD74B
+      - q_01M6ZYJJWW5KA7FXS4KCA9PTEE
+      - q_01M6XCC5X3JCG5VMYD8EYMYD8A
+      - q_01M6XCC656D3DVNWQFDAHFQ5M4
+      - q_01M6XCC6DPABMYNAKR0E1ANEVQ
+  - id: mybatis-basics
+    name: MyBatis 基础路线
+    description: 按思维导图顺序，完整过一遍MyBatis 基础
+    questions:
+      - q_01M6XBPE22165T2XWWCENFW4KD
+      - q_01M6XBPEA6QHBDGDRECQDKTTDV
+      - q_01M6XBPEJH32BYW7EG8X225TQ5
+      - q_01M6XBPETDGTTSB2BYB4NTDT71
+      - q_01M6XBPF2E5TGXNQCDTC7NPP97
+      - q_01M6XCBEWTXT97DJVTJA1PAT5G
+      - q_01M6XCBF5R5MGFW3R1NRVVSPJS
+      - q_01M6XCBFE6S6PDPTMXFYEAEP1H
+      - q_01M6XCBFP831Q7THTW1H6P8VTQ
+      - q_01M6XCBFYKZNJ6PR9XJJERMB6Y
+      - q_01M6XCBG744WD1N15WB9HK6H6D
+      - q_01M6XCBGG2THFPCV9HY7RH11DQ
+      - q_01M6XCBGRWDPSDMVC1HYFX55X8
+      - q_01M6XCBH1SQJDAYRZXZ0T62KGE
+      - q_01M6XCBH9V2HGVY0DB4Y56NSXP
+      - q_01M6XCBHHTBYH87M8J4T0GKPCD
+      - q_01M6XCBHSPR8QTEPTFSNWX8QQT
+      - q_01M6XCBJ1YNEQMS9SQBE4YZFD7
+      - q_01M6XBPFACYGCDRM70JPK6FW19
+      - q_01M6XBPFJK8E99H45V6RDQ9XZV
+      - q_01M6XCBJA5TVNNAD59S6JAA449
+      - q_01M6XCBJJ45RFE357Y8QPM2VJ3
+      - q_01M6XCBJTBNNSR25Y1ABPDPBEH
+      - q_01M6XCBK2B3MZCHD8CR72SGV1H
+      - q_01M6XCBKAMPJ3CFDE9EMK82DZN
+      - q_01M6XCBKJMHMEXZN2AGWZ2WB7T
+      - q_01M6XCBKTSPK3D1K36XH3JKZPV
+      - q_01M6XCBM2N3DCJM5FXCN0582EB
+      - q_01M6XCBMAMXWMAAYNQGSR8QVTH
+      - q_01M6XCBMJG7AYNSVCRE5AM6X2K
+      - q_01M6XCBMTP5J3M5G2A2VQVKQ1T
+      - q_01M6XCBN2T0CJ7P58KFVTQGDS3
+      - q_01M6XCBNB0AHTKQ1YXGQ7WRCPW
+      - q_01M6XCBNK1F0XM77F4682VE0WA
+      - q_01M6XCBNV2691AKHFGEY5DZKR8
+      - q_01M6XCBP37JZHV5JB5XDH4G73H
+      - q_01M6XCBPBRE47SYX4RW5FHNJGQ
+      - q_01M6XCBPKV18JXHFK19SN5YV8M
+      - q_01M6XCBPVTD1W07TKKJXNCSG0G
+      - q_01M6XCBQ46R9NFPEB69ZYS5SKG
+      - q_01M6XCBQCHYQCSJGM5XAPRSM41
+      - q_01M6XCBQMYDBPC21HJ1B0Z8D6Y
+      - q_01M6XCBQWWQPY8ASY7VYDWPJ9R
+      - q_01M6XCBR4SQHPMRC81K3PE9YQH
+      - q_01M6XCBRD3VDDHNCDFM4XXSQ3F
+      - q_01M6XCBRN0N32SHJMNVYYM7BA7
+      - q_01M6XCBRX7RYJSD9WPST7A0YPC
+      - q_01M6XCBS592QRJZ7Y4ZXRG0ZHA
+      - q_01M6XCBSDJMX69N18GN808F9M2
+      - q_01M6XCBSNWRWKD6XSZ1X4ZS2CS
+      - q_01M6XCBSXX78M3WZPPJ1YG0VCW
+      - q_01M6ZYJHFSEVJTTTXTPFBZCR1V
+      - q_01M6XCBTAZXEBK2S8JSVVGBDNY
+      - q_01M6XCBTK2APNPN5C9W4AC8SYB
+      - q_01M6XCBTV3EDK6QS2YJ6Z8QW10
+      - q_01M6XCBV31HGNY87H3VSGYPSHW
+      - q_01M6XCBVB5SDT0FSR73NXHWE9G
+      - q_01M6XCBVK1TTZ2C03552AC2VC8
+      - q_01M6XCBVV81R8AQS2VMXFM4JS6
+      - q_01M6XCBW3A9N28E8ETCK06DET8
+      - q_01M6XCBWBMTAM9SF3P1SYRTVEG
+      - q_01M6XCBWKP388DB5RYW46R31D1
+      - q_01M6XCBWVY9XDQX8N6W5QHY9AZ
+      - q_01M6XCBX3YKAYWANS5105QMYPZ
+      - q_01M6XCBXCBRGX36RJVRGVR98ES
+      - q_01M6XCBXM8G6CDY3ZE1DDJ9DG6
+      - q_01M6XCBXW82VF2V05X5NZWE6S0
+      - q_01M6XCBY4FWEVTADX7BS6Y3X7Z
+      - q_01M6XCBYCHTP5M7ADWW9BKSDAA
+      - q_01M6XCBYMN7AJFH9904AHT0TG6
+      - q_01M6XCBYWPFEHKWFN3C9GAQVAE
+      - q_01M6XCBZ4XBG732PVGSXYJ72Y6
+      - q_01M6XCBZD8BGDXTP29DNHY21W5
+      - q_01M6XCBZNKF9M4P158QRMZBAVT
+      - q_01M6XCBZY1WK6GVWPKRHFZH7S3
+      - q_01M6ZYJJ299X4ZTJJX9BTT03W3
+      - q_01M6XCC0BXADG5EMXNRXF2RPE9
+      - q_01M6XCC0KZ4GRXJ6RCFR9ETDZY
+      - q_01M6XCC0W5DCXH3780S1M7T5SD
+      - q_01M6XCC14TNT6AWQ62G209NXRC
+      - q_01M6XCC1D7NXNJ48ST5PCMY9RT
+      - q_01M6XCC1NHCTA8NJECY44RQ744
+      - q_01M6XCC1XGNDD6MEWFJGMVG4GB
+      - q_01M6XCC25YT1149WJN4PRWJZZR
+      - q_01M6XCC2EBJ61Z1XNRJ8F3DTN7
+      - q_01M6XCC2PJW5M4W1TYNDVYVR7W
+      - q_01M6XCC2YVJTT354C8HHPZCNPW
+      - q_01M6XCC373WPD05WD9JHJ9PT93
+      - q_01M6XCC3F6EAQBBFMGVT9J2Z5T
+      - q_01M6XCC3Q78Q9SQDPHPV7H2AS9
+      - q_01M6XCC3ZBHRPMB36376E599AC
+      - q_01M6XCC47K6HJNFC0XXWP9MCRK
+      - q_01M6XCC4FRGNQTHCEWVTTR5MRT
+      - q_01M6XCC4QX0J6CS8RW73Y2NHJN
+      - q_01M6XCC4ZV8RY3CN5TA5PF52RV
+      - q_01M6XCC5803060MG58YDYQW03Z
+      - q_01M6XCC5FZ8C8RAM22B3HHH0SZ
+  - id: mysql-basics
+    name: MySQL 基础路线
+    description: 按思维导图顺序，完整过一遍MySQL 基础
+    questions:
+      - q_01M6XCC6NXE9P1VD9K3MPPGN3H
+      - q_01M6XCC6Y1AD89A325P3QZZFP7
+      - q_01M6XCC75ZFAENX4G76CYPG536
+      - q_01M6XCC7E14K9WXXGVWT9T24GD
+      - q_01M6XCC7P6QV0TA40R0EDBM03G
+      - q_01M6XCC7YRQRTXH3K68SSA5VMA
+      - q_01M6XCC86NH3XC896A6W9QDAP7
+      - q_01M6XCC8EV6YCRMCP3358H90ST
+      - q_01M6XCC8PQVZ7ZQJ1Z1WDT0Y0S
+      - q_01M6ZYJKEHVRZX1GW646T1F4FK
+      - q_01M6XCC93T4N5CTE2H94HEDERZ
+      - q_01M6XCC9C3ZNX81PD178JMN9JH
+      - q_01M6ZYJM0EC7H97EWCA4CVPE3X
+      - q_01M6XCC9S7WEGHV1FGC9A85DK4
+      - q_01M6XCCA15EH4N41RZG222R1R5
+      - q_01M6XCCA9767XWRF7WFHET2FS0
+      - q_01M6XCCAH66CYJT3A7ZCYKVC90
+      - q_01M6XCCAS9HXP87X9TZ76ZQZG9
+      - q_01M6XCCB1DEA2XV3GYDK3HKTHC
+      - q_01M6XCCB9DWT1CMJKQHDGKQGQ0
+      - q_01M6XCCBHHJPQ9B0HNVCH60PV8
+      - q_01M6XCCBSP9N3F4THJYPC5GEYY
+      - q_01M6XCCC1V5007PF7P8W7T36QA
+      - q_01M6XCCCB0NY8E951ZVA1WDRK9
+      - q_01M6XCCCKC9H5VH8PM52KFG7VA
+      - q_01M6XCCCVP1M8KCAG1B9VWRMJT
+      - q_01M6XCCD3W2QA60ENVXHPRAT7R
+      - q_01M6XCCDC8TZABJCSZJPPQXR3B
+      - q_01M6XCCDMCBWPR2CJKH38F68RB
+      - q_01M6XCCDWTB1H19821JBVA0GXF
+      - q_01M6XCCE500N9MFKFFDR1RWFY8
+      - q_01M6XCCED63KYW4RKV3MYAZYCH
+      - q_01M6XCCENDG8KT8GWB26FRF5V9
+      - q_01M6XCCEXNHM3RFGC6YQMG0CE4
+      - q_01M6ZYJMKEGJQ1P6FAH0G9DWVZ
+      - q_01M6XCCFAZWQNWYD2FCFT9YF81
+      - q_01M6XCCFKBZPVZJMD805VWMJX3
+      - q_01M6XCCFVK1A4H94PPDG4K37QF
+      - q_01M6XCCG3QEPTJKBQKC9WE2XE1
+      - q_01M6XCCGBVASDMRDFBJEQ9P8CC
+      - q_01M6XCCGMD1HE5C756ZCV2XSD7
+      - q_01M6XCCGWTND00QGGWRYGKSD7V
+      - q_01M6XCCH64M0MSBJHQYKHYVS1A
+      - q_01M6XCCHFKKGE37P4QRW118Q1Y
+      - q_01M6XCCHRJYYXKZNHJRNT73QFV
+      - q_01M6XCCJ15G8WM3BW5083E4D2X
+      - q_01M6XCCJ9EJRQFSC0V08MV688Y
+      - q_01M6XCCJJ41465P76NW43GGVBV
+      - q_01M6XCCJTKRXGGVT26J5X9FK4J
+      - q_01M6ZYJN53PMTS520TP7NJARW8
+      - q_01M6XCCK7WD6RKSBP8NZY9YBMP
+      - q_01M6XCCKG7WEDN67NTVMTXTPNG
+      - q_01M6XCCKRMP9VM8MGG2AM5Y5M4
+      - q_01M6XCCM0V5JNFQQ2XX6PK3SFR
+      - q_01M6ZYJNPC7ZE4W4RTV7SM2DHB
+      - q_01M6XCCMEG0EFAYYT7CJA55CKP
+      - q_01M6ZYJP9P4D447V10JAY488CJ
+      - q_01M6XCCMVY1625V6XA9B698G0G
+      - q_01M6XCCN4A432V4QW4AQZKX09B
+      - q_01M6XCCNCRK9W6YHABSGCAWGCM
+      - q_01M6XCCNN56CMPW0WPWNNZGSEW
+      - q_01M6XCCNX9BH77D1RW79RKB06T
+      - q_01M6XCCP5FEBGXX2VT1NDF5ZV2
+      - q_01M6XCCPDWQ8STZQZMZKPZR38V
+      - q_01M6XCCPPA1XZG4NRRPPZNJZ6T
+      - q_01M6XCCPYKTRM16GFCJCWH4PJ2
+      - q_01M6XCCQ73KE7R8RNA73FHFMX8
+      - q_01M6XCCQFC1Y5W7TWX6YCNHXRE
+      - q_01M6XCCQQM544GVT51N0JPTWQM
+      - q_01M6XCCR045TE6Z7AB40ZYFS9H
+      - q_01M6XCCR8JD3HA6KEE1JAJJ572
+      - q_01M6XCCRGY7P9F9DYTGHH6V69C
+      - q_01M6XCCRS8QPHPP7VQ3ZZEAZTE
+      - q_01M6XCCS1G6X0HHKE230XEBNE0
+      - q_01M6XCCS9NMPCZ190HWJ3E05FA
+      - q_01M6XCCSHSV6BBK72JGGX9R1NB
+      - q_01M6XCCSTBAF4NGTHX1EVDREWG
+      - q_01M6ZYJPTTWG9PG8V364C3YH60
+      - q_01M6XCCT8E7EYYHFMN310PDB3W
+      - q_01M6XCCTH2BH1ZF4K2Z7HK8S9M
+      - q_01M6XCCTSC9ARK9CDS8R7TQEAV
+      - q_01M6XCCV1JZHEPW18YP6YB2ETH
+      - q_01M6XCCVA50JGXX9MQB4TZYCSJ
+      - q_01M6XCCVJDRAHP2DG75VKJGXDD
+      - q_01M6XCCVTVRT0R8Z56R8VVY947
+      - q_01M6XCCW3NACF2AJ5WGSF2GZS6
+      - q_01M6XCCWCCW8JTV4FVVZXY5JF5
+      - q_01M6XCCWMQAWNJT16DEF68GG3R
+      - q_01M6XCCWWXC4MAWKFQAZT8QQWE
+  - id: redis-basics
+    name: Redis 基础路线
+    description: 按思维导图顺序，完整过一遍Redis 基础
+    questions:
+      - q_01M6XCCX58KP54RRD12SZBW15X
+      - q_01M6XCCXDXVA4A2VRD8CJ612S4
+      - q_01M6XCCXPNV59QJ9Q218QDSJ16
+      - q_01M6XCCXYYZYAGXZTVQ1XNYSHB
+      - q_01M6XCCY743N5ZB5A0BCRV65SX
+      - q_01M6XCCYFJRW90EH10C2QQQTXM
+      - q_01M6XCCYS06A008H4CN7G41YY5
+      - q_01M6XCCZ26PAZKATYHSTEFBW34
+      - q_01M6ZYK55ES9GXB8K9VNBJ5F71
+      - q_01M6ZYJQDP9DPT4VP4MP2CEP42
+      - q_01M6XCFXPA6AC97Z0DF0S2GE8W
+      - q_01M6XCFWPGHQWTXE0J8FY9ZRNP
+      - q_01M6XCFX5GC2E61Z4W1WKTKBSN
+      - q_01M6XCESYVWH0P86JE13EW9SYJ
+      - q_01M6XCETKC4NJ4Q8KY57HBRBF7
+      - q_01M6XCCZGCKXXDHDXDG74RXCVD
+      - q_01M6XCCZS9XZ69NDV5RERDGZYH
+      - q_01M6ZYJQZP25XSHJ9113H7W05Q
+      - q_01M6XCD06PXVN6G61A8MKC147E
+      - q_01M6XCD0ETSY4GPFK259V5JCJJ
+      - q_01M6XCD0Q3ZE619GDN2DV7NSX8
+      - q_01M6XCD0ZB37G4R8HAKH506V14
+      - q_01M6XCD17XHEJG8HTX5SX4VRSY
+      - q_01M6XCD1G8RRHAHVTGDZ01FYBP
+      - q_01M6ZYJRH9251PJD5G9GMN6P4P
+      - q_01M6XCD1XT65RZKZK06W1W01YF
+      - q_01M6XCD26EDGP44A9M2JJ30759
+      - q_01M6XCD2F6PKVYDCZ7CMD9JVW3
+      - q_01M6XCD2RHGMY3FK9G0RWC0P8K
+      - q_01M6XCD31Z940F5RC2ZHSPA2YS
+      - q_01M6ZYJS2QKRBBZ4Q5VQ4MTVDY
+      - q_01M6ZYJSKXRV9SGFRDKPFR32HH
+      - q_01M6XCD3N784487T74QYENVW8Z
+      - q_01M6XCD3XFRZHY4YEE5VSN04R3
+      - q_01M6XCD4636S7JTM3PX6T1KA58
+      - q_01M6XCD4EFFZZDZTTD4EWVW134
+      - q_01M6XCD4PGM85X12ZTQJ3PPHQY
+      - q_01M6ZYJT5XDG6W4H1V2JWSJZ6Z
+      - q_01M6XCD53N70NA6HJ8FD2CESDX
+      - q_01M6XCD5BW4S65GAVTR5BMBQGP
+      - q_01M6XCD5M5H4V002SQVWKT66T4
+      - q_01M6ZYJTQVAQ7HWT9GS31BX2VC
+      - q_01M6XCD61PETF0BDT80ESRH1ZB
+      - q_01M6XCD6A4P0SM4BGRPARRYPPK
+      - q_01M6XCD6JGZDC6AFB7KK4PV9G2
+      - q_01M6XCD6TPR9H63ZZ94FDM0PMV
+      - q_01M6XCD72XCPW6SQ6F0SRM267T
+      - q_01M6XCD7BH4CJYAQVTCYHERZ6E
+      - q_01M6XCD7M0V1VRPJCFSB1451Z1
+      - q_01M6XCDAQAJH13PEPZ5K2FSAHV
+      - q_01M6XCD7WHTRN4BP6KBK8QFR6R
+      - q_01M6XCD84N7XPV062H8SJB8GF5
+      - q_01M6XCD8CZ9YA8Z14BFYR8JGNJ
+      - q_01M6XCD8N85RQN1G1EFP6Y7HY3
+      - q_01M6XCD8XEF1EJBJBCHN2Q8JZ6
+      - q_01M6XCD95HSNA2F7G55KC25FB0
+      - q_01M6XCD9EAPB8RSQJ2V5RGAEXV
+      - q_01M6XCD9P7D02G1AY3EN02KM0Q
+      - q_01M6XCD9YAMXER8EVW93NHJ3HD
+      - q_01M6XCDA6E6SZZYEX17MNG1XHC
+      - q_01M6XCDAEWG6DQWBZVGS2FKRW1
+      - q_01M6XCDAZHCEY793C5R7CMPEYW
+      - q_01M6XCDB7P7WNV48GAGRK0NQ12
+      - q_01M6XCDBFXBMNV09GY7PYKAQ0Z
+      - q_01M6XCDBR762JY3V7HH246D4JH
+      - q_01M6XCDC077CA31DA4Z79M7GBM
+      - q_01M6XCDC87WKVGFB3WZKX85SXK
+      - q_01M6XCDCG9AW23C24PJXEJNM4M
+      - q_01M6XCDCRKTPJZNA5CYW1036AF
+      - q_01M6XCDD0V5Y8TS2BRXMSSYM64
+      - q_01M6XCDD8YV7QCDV341QCSS9GS
+      - q_01M6XCDDH24DSE8BCW3ERT9VJW
+      - q_01M6XCDDS29S4VTVZV2Q1G6CS6
+      - q_01M6XCDE179Y8RZW0SV37D14XA
+      - q_01M6XCDE98DSJ8D9NG8GR83DKC
+      - q_01M6XCDEHJ08YAQ25K5T37V0GY
+      - q_01M6XCDESJ0KFX8CB1H2SQ69BG
+      - q_01M6XCDF1HQQJVZZGWFJ5E3ZAM
+      - q_01M6XCDF9HC7C3V6ZETW96XBY3
+      - q_01M6ZYJV9DSFGKHTGJ4J6B3ZH6
+      - q_01M6XCDFPMXDBXYQ13X4WZ6761
+      - q_01M6XCDFYVY7QQ8SQQS44STN4F
+      - q_01M6XCDG72E131Y0NX0QST1WYM
+      - q_01M6XCDGF47TBZW0TBWTFVQG9P
+      - q_01M6XCDMKKW1B7WA3GA6TGBFT4
+      - q_01M6XCDGQBR5BKBG88774E6R8V
+      - q_01M6XCDGZHMPW9E5YFY7Z5910T
+      - q_01M6XCDH7MXX8SJB21JXVYGA01
+      - q_01M6XCDHFNCPA1S4EAK7RG9E01
+      - q_01M6ZYJVVPX9NZPR5X2ZZ74NER
+      - q_01M6XCDHX1KG7RXVKJG4BM6791
+      - q_01M6XCDJ5PGR9Q3RC9143ZYRRT
+      - q_01M6ZYJWED0S8SMH39B9E6JD2S
+      - q_01M6XCDJNNC9K5R4CRWBWDNJQB
+      - q_01M6XCDJYKBAEPZKJ9RGXH8599
+      - q_01M6ZYJX0375CC2JW1VEMSFRKQ
+      - q_01M6XCDKCQJCTDMRE9FM63EQ26
+      - q_01M6XCDKMR69798ZVZ290QG064
+      - q_01M6ZYJXHENEKJCWJE0ER0860W
+      - q_01M6XCDM2HWB031A8837N5GR9D
+      - q_01M6XCDMB31BWTYC6660HYY8WD
+  - id: mq-basics
+    name: 消息队列与分布式基础路线
+    description: 按思维导图顺序，完整过一遍消息队列与分布式基础
+    questions:
+      - q_01M6XCDMW216515M2SREB28GC0
+      - q_01M6XCDN45S1WBS81QHPM4MATN
+      - q_01M6XCDNC8VQPC8F8CJGP9677Z
+      - q_01M6XCDNMA495B9VXWH9TXS040
+      - q_01M6XCDNWZCZBRPMK37PYZ5GPK
+      - q_01M6XCDP4Y9WA6AT1ZDZPFJ76N
+      - q_01M6XCDPD1CAN7DV1PCG7RVVJD
+      - q_01M6XCDPN1EB604EWKNY3S6ZT3
+      - q_01M6ZYJY3R2486PHX98ZQPC7W3
+      - q_01M6ZYJYN41R3V58ATCHQW9V5B
+      - q_01M6XCDQ8MP7NSKA3T6XR2ABYS
+      - q_01M6XCDQHPZSFEDXVWX54CGYGB
+      - q_01M6XCDQVCHQ3FYA0J7HRYVJTE
+      - q_01M6XCDR3G80N09XB9BJ8ZKXRR
+      - q_01M6XCDRBXV46XK9CMDEJVKX5C
+      - q_01M6XCDRMZ8V5W89D8ZQXWMSYS
+      - q_01M6XCDRXFWD20QE7S5AR21G9G
+      - q_01M6XCDS5J87QGYZ7G1MATA4B2
+      - q_01M6XCDSDY9G7764Q5E74HCHMK
+      - q_01M6XCDSNTMRSCVNMW2SVPXVEG
+      - q_01M6ZYJZ6XBT6A646KZ4SZND2V
+      - q_01M6XCDT33PA2H5MMQZVK5NMB5
+      - q_01M6XCDTB8VQD31SD6DND9M7MA
+      - q_01M6XCDTM5HQPRF27R9PJ3QSB9
+      - q_01M6XCDTX25JEK7BDF0VTXFM5W
+      - q_01M6ZYJZT026XCDP7D0XW2SPX3
+      - q_01M6XCDVBDTGEEAPCKCESGNYHW
+      - q_01M6XCDVKH66PVB0K6QK2EYG54
+      - q_01M6ZYK0BW09AZ3GKG7W6GGM35
+      - q_01M6ZYK0WQHVM0E3BHQ1FTE5YK
+      - q_01M6XCDW5Q201A1Y2AF9P9ZHWX
+      - q_01M6XCDWE9P09A3G68XT0GFD52
+      - q_01M6XCDWPH6JENR9S19BWXB9JC
+      - q_01M6XCDWYZ9QFJXZY1076FHS62
+      - q_01M6XCDX73W1MN7D8Q40T6V4BJ
+      - q_01M6XCDXF49NDXRB0D6XQCZPRG
+      - q_01M6ZYK1GA4ZA7RJ7RR8RAK5NF
+      - q_01M6XCDXW8C9G87JV2K75XF9N5
+      - q_01M6XCDY45PCHDDXBB2280JM1B
+      - q_01M6XCDYC7R83Y9W3FQ44C6FC3
+      - q_01M6XCDYM29ZKTNGZNDNP7RHSY
+      - q_01M6XCDYW68T5CM2NY2ACJ4FD4
+      - q_01M6XCDZ424WKK34QNVS12W10N
+      - q_01M6XCDZC4SE4EMESBBXTJ7G76
+      - q_01M6XCDZMASKDWZ05QABMJTKQW
+      - q_01M6XCDZW8RD7WK1NRTHF666X4
+      - q_01M6XCE045YBZ0K31PG01N9XXD
+      - q_01M6XCE0C699Q9XV5HA08M66TR
+      - q_01M6XCE0MK5DRFWPTM8649CZD1
+      - q_01M6XCE0WRB5EWAK0557Z9S35T
+      - q_01M6XCE14WST14FEBC5QMCJSVF
+      - q_01M6XCE1CW8HHZ38QQVGHATT1S
+      - q_01M6XCE1MSV7MD9K61ZKNMBT60
+      - q_01M6XCE1WXRMPRAG10MEPHNFFJ
+      - q_01M6XCE2548T52F3SFZW57JPPZ
+  - id: network-basics
+    name: 计算机网络基础路线
+    description: 按思维导图顺序，完整过一遍计算机网络基础
+    questions:
+      - q_01M6XCE2D31BQSGNGBYJP05PTQ
+      - q_01M6XCE2N5WJFWZTM6V5M9GP58
+      - q_01M6XCE2X8GXVZV4VPVZDRQ68F
+      - q_01M6XCE356XGWR545GSS6TR4PR
+      - q_01M6XCE3D3AW5KFBE3G4CN6CF6
+      - q_01M6XCE3NA7ECMMR4S9AWR213Q
+      - q_01M6XCE3XJAZFS5ES2MEXHD1TY
+      - q_01M6ZYK20QXGH68QFVYJBT6JN4
+      - q_01M6XCE4ATMV272YB329BZ5PY9
+      - q_01M6ZYK2GX3T00Y5T4FZ34XCVJ
+      - q_01M6ZYK33GX4EYER74CW9HPRP0
+      - q_01M6XCE4X6WA2379758V6AV6P7
+      - q_01M6XCE557WMCEME04QM8VW38Y
+      - q_01M6XCE5D8116WBX8EXNZZGK6Z
+      - q_01M6XCE5N74AVN2SG86BTWBWBX
+      - q_01M6XCE5XAYN4X05YHT65N6HB2
+      - q_01M6XCE659CHX97G5HF2K68P3V
+      - q_01M6XCE6DAJYDD9EG25WRGDFWA
+      - q_01M6XCE6NKBSKKENYEDATH83PZ
+      - q_01M6XCE6Y2ZK6TG0RXW4RQH5YM
+      - q_01M6XCE769C6ET4F4QDGAJYNM2
+      - q_01M6XCE7EH3N9S3MMN9B99AQ2P
+      - q_01M6XCE7PSCRQ2PS29DBJQ5DMQ
+      - q_01M6XCE7Z0RK1DKYENSRQ6CRAW
+      - q_01M6XCE87QQ4VY4HV8K7RVVAGK
+      - q_01M6XCE8GB39Q3KM9QT950KZZ6
+      - q_01M6XCE8RYDX8ZZBCFTNK8GY5C
+      - q_01M6XCE91XVT7AZAP89C6DKGM5
+      - q_01M6XCE9ASCYVZ8STJKX6PY98Q
+      - q_01M6XCE9KQ01D93G5JDKPKN4EB
+      - q_01M6XCE9WEYQAR2SGYTGZNK7QK
+      - q_01M6XCEA5DGV5CXHMYA82VCVA2
+      - q_01M6XCEADZVJ8DFQ9WC4B9VY3S
+      - q_01M6XCEAPVG8TT2223AYV2GZVW
+      - q_01M6XCEAZMT01VYX1Q6VSNN4JT
+      - q_01M6XCEB8BBBP41QYKTRABBPX2
+      - q_01M6XCEBGH87GX90ZJ2GJ7S7BV
+      - q_01M6XCEBS0J8J20X156S5YXB9W
+      - q_01M6XCEC18PD218XS2ZFXXX955
+      - q_01M6XCEC9V8K41E8CXEXSGDVVC
+      - q_01M6ZYK3NT6S0GQT6BTWV8HAKY
+      - q_01M6XCECQZYJ0D3T6EEM29KTKX
+      - q_01M6XCED0DFJFPHP7YZ07EZ26B
+      - q_01M6XCED8ZGHK40D61X2N7WAQ8
+      - q_01M6XCEDJ1B20NKPFD7YFMGS3C
+      - q_01M6XCEDTKPDKDF7B4S14YVH4G
+      - q_01M6XCEE3AZWW4HGFSVV9W8W3P
+      - q_01M6XCEECTHDY46D0V5JBTG5ZS
+      - q_01M6XCEEP04PK1JW5102SY5DAQ
+      - q_01M6XCEEYXCJJ6XR86MFYW8KZG
+      - q_01M6XCEF7XKAEBC8MMP8N11KSH
+      - q_01M6XCEFGN7DGCMYBAV1T82J8P
+      - q_01M6XCEFSV0WQNMA2WRVPSS0CR
+      - q_01M6XCEG3K1KYXQXWNKQKZBQP5
+      - q_01M6ZYK45HT0P3X6E6P0M3MH42
+      - q_01M6XCEGKFNFAJ9D20XZFQQVEX
+      - q_01M6ZYK4NC2JVK0WXNS0YK3B0T
+      - q_01M6XCEH2SNS5NGVT4T73KV5FJ
+      - q_01M6XCEHBNH966ZF0B04QKBK06
+      - q_01M6XCEHMEPG56TZJ7VRQG3PSS
+      - q_01M6XCEHXMXJ9CHK2PN6236YFJ
+  - id: os-basics
+    name: 操作系统基础路线
+    description: 按思维导图顺序，完整过一遍操作系统基础
+    questions:
+      - q_01M6XCEJ6DGSQRBFZ57T7RHYRC
+      - q_01M6XCEJF7BJEJE4VHJXRK03JG
+      - q_01M6XCEJQVN9KY1V134G182X9W
+      - q_01M6XCEK0C44WQE1BG69Z12RDN
+      - q_01M6XCEK90QQB701993TFZC7P1
+      - q_01M6XCEKHQMBH6K16MXB99ABEM
+      - q_01M6XCEKTJEDJSX3BP15SP7XCB
+      - q_01M6XCEM4ABRQAK0SKV2A74FJP
+      - q_01M6XCEMDMR90ANMA4PAE02ECJ
+      - q_01M6XCEMPB2M3B60ER80XGRCB8
+      - q_01M6XCEMYNWA7529ZCBYZM6X18
+      - q_01M6XCEN713RDDBW2CM8JKVYJJ
+      - q_01M6XCENFABWAD16GQ4PEJD74B
+      - q_01M6XCENQJ86X3RX9BC8PNHYZ9
+      - q_01M6XCEP0725KR2ECJ28KS7G7J
+      - q_01M6XCEP8G8JP6AT0V798WRXEY
+      - q_01M6XCEPGV1KNAP0SNF84EZM10
+      - q_01M6XCEPS64M9GGY243DJCYJRV
+      - q_01M6ZYK55ES9GXB8K9VNBJ5F71
+      - q_01M6XCEQ7ABJZE34W4JSKJARJ9
+      - q_01M6XCEQFQ0PYJKNDNC3ZMRZK3
+      - q_01M6XCEQR3WCATW5SYK33FEJ35
+      - q_01M6XBGNRM8ZXT4BFXMFFB3T5V
+      - q_01M6XCER0JTENJMD4XQXB1G5GZ
+      - q_01M6XCERA7HM639H5JYK3SZH09
+      - q_01M6XCERJS0XVVY9YVH1Z4AS0V
+      - q_01M6XCERVK1Y5VRZ6AVWGK475V
+      - q_01M6XCES42AC24K3ZAMYZHC4K4
+      - q_01M6XCESCNQTE2QT095H2D4RQ9
+      - q_01M6XBH42PXHESEGB4W301ZK90
+      - q_01M6XCESNXZCATFHSQBPGBH2MW
+      - q_01M6XCFT219ADEZ2SZKQBD5T8M
+      - q_01M6XCFTJTHYEPR99F9MA672JM
+      - q_01M6XCFV3B82KDPYP925XW57C3
+      - q_01M6XCFVM75RM4FG9NXF5G6PQ9
+      - q_01M6XCFW5QFB5BHBD01XNCEHBT
+      - q_01M6XCG1PRGTMWWXSABXJPVT7X
+      - q_01M6XCG26NX5WWWSE8M7WX4CBW
+      - q_01M6XCEX2N654JAKQADR07QHW9
+      - q_01M6XCFWPGHQWTXE0J8FY9ZRNP
+      - q_01M6XCFXPA6AC97Z0DF0S2GE8W
+      - q_01M6XCFX5GC2E61Z4W1WKTKBSN
+      - q_01M6XCESYVWH0P86JE13EW9SYJ
+      - q_01M6XCETA5NRDTW8WWCVNXXDN9
+      - q_01M6XCETKC4NJ4Q8KY57HBRBF7
+      - q_01M6XCETX1SVWVZCG0YYRRF7NE
+      - q_01M6XCEV65SV7NJKW7NYTD3BEV
+      - q_01M6XCEVF30QSFX7Y7AW2XJ7VK
+      - q_01M6XCEVQSMKW1EAF1TVS4W0MH
+      - q_01M6XCEW01074NGVQ739S8D954
+      - q_01M6XCEW87CTBKAXSZX4K4QT4D
+      - q_01M6XCEWH86J353RH0BQ3GHNBK
+      - q_01M6XCEWT0VD7SZX4MJPGK2G40
+      - q_01M6XCFY76PQKYTJK8N0QKFP6T
+      - q_01M6XCFYP4AWGV3RPC90MT9YZ2
+      - q_01M6XCFZ45YB39HN2266EFQVY1
+      - q_01M6XCFZN5CNEFQJZ1B0MA1DG3
+      - q_01M6XCG05T01NRA2RPTPFNM218
+      - q_01M6XCG0PHF2NV161AE98FRKWF
+      - q_01M6XCG17AZMTF4CKFJVQKHV55
+      - q_01M6XCEXBV7ENHV5PAV8QG2NC1
+  - id: ai-basics
+    name: AI 应用基础路线
+    description: 按思维导图顺序，完整过一遍AI 应用基础
+    questions:
+      - q_01M6XCEXN8WN526WK3VK49AQ9X
+      - q_01M6XCEXY57YFFKCJ8B4DDP8KK
+      - q_01M6ZYK5PT37CH08FC0M2E4JZ1
+      - q_01M6XCEYBGWA021G1NV4PQZKKB
+      - q_01M6XCEYKVCVHZ1EH58Q920CP2
+      - q_01M6XCEYVZBY7DCVXW651N8NQC
+      - q_01M6XCEZ4RHGZ22MYT6CMV5J7V
+      - q_01M6XCG2ZBQD33E7TNXJQCPPHJ
+      - q_01M6XCG3GAXJFZNVPJNC960QP0
+      - q_01M6XCG3YB7F89YDSZ47CVV5R4
+      - q_01M6XCG4CHTGGQQ80AM5MR8YHJ
+      - q_01M6XCG4XYRTXX2S9HA4HG295S
+      - q_01M6XCG5D32GZ09MCE0M5MW0ZX
+      - q_01M6XCG5W0BNHPAF1P5MK429KS
+      - q_01M6XCG6BSSJY7QYMN5DXNPY0Z
+      - q_01M6ZYK688K7ZWJS0N23GPK1BM
+      - q_01M6XCG72VNNQ2XAZ2WJGT1PR6
+      - q_01M6XCG7J22G00VQBK2ZQG4QFE
+      - q_01M6XCEZCXZE3VWMJDCGJDR5DY
+      - q_01M6XCEZN7GTMHTZVYQQQQ5ZPA
+      - q_01M6XCEZXCYMCEZRZ3SYZSRT90
+      - q_01M6ZYK6VAXQVF9FQMD7F4142X
+      - q_01M6XCG87D5MAM5M7D8FGFXTKD
+      - q_01M6XCG8J6AXZHET1ZEJ4KATKY
+      - q_01M6XCG8VJ902F2K26YVNJHT62
+      - q_01M6XCG94J9PGH0940W14YTJTD
+      - q_01M6XCG9DT73EJE92AH73TQKF9
+      - q_01M6XCG9PRC1V9DWB66ZX9KWMX
+      - q_01M6XCG9ZWN4N52KVF767GJ3SG
+      - q_01M6XCGA8ED0ENBNKGWJ12DY7B
+      - q_01M6XCGAH1MJX7314PP7X9VJTZ
+      - q_01M6XCGAST8QDH27NA63R58FHW
+      - q_01M6XCGB2N9TWKWJJFNV50AZ6T
+      - q_01M6XCGBBDX7NJRN0M59YZ1NF6
+      - q_01M6XCHG4G1Y3TTQFW3Z7YVQ1Q
+      - q_01M6XCHGP5R1Y1C7YX7VCEJ3WJ
+      - q_01M6XCHH7MH3N50KM6T0N2MQ9S
+      - q_01M6XCHHSBRZK4MCC7FMGT0AWG
+      - q_01M6XCF0B8EBJ1A9VFGRN8B7XV
+      - q_01M6XCF0KKWXY6NB9RQZ3PC8PV
+      - q_01M6XCGBMDBEP16CXMAQ9DSJYY
+      - q_01M6ZYK7EC6HQMFMATJA2FNSD9
+      - q_01M6XCGC2F907PE0SB7AT5CK7X
+      - q_01M6XCGCB26K0Y6D9TANZBDKW3
+      - q_01M6XCGCKESV62P233MADFMPW6
+      - q_01M6XCGCWC50KZJPE3D7B67J39
+      - q_01M6XCGD5AQ2C66P17C8B9RTFK
+      - q_01M6XCGDE60HV5AQ1YE7186ENP
+      - q_01M6XCGDQN5SMJH4YAW7JHEHB4
+      - q_01M6XCGE0MCGXTX84Q2EGSVHJ2
+      - q_01M6ZYK83BC1JAP5G7P1TMY81J
+      - q_01M6XCGEF9AD81VZ0TZS5E0HG7
+      - q_01M6XCGERJKJACA2R23WQ9FRHH
+      - q_01M6XCHJQ9ASX0VETZB2JK73S9
+      - q_01M6XCHK6VHECYR23A833KJHWE
+      - q_01M6XCHKP9VVKCZCX740P8P1PQ
+      - q_01M6XCHM7S9CA1EMVF4R58YRHB
+      - q_01M6XCHMQJRCKK009F2S6Y3RS2
+      - q_01M6XCF0WQ6612QKC0H0255K3V
+      - q_01M6XCGF20V1VM65E2T647MVCK
+      - q_01M6XCGFAVSE7DY9KB2RSWHR75
+      - q_01M6XCGFR8JVNCHCHXFSB7D4T7
+      - q_01M6XCGG83JX010RGYFNJZ7YN7
+      - q_01M6XCGGRKSBG2EWJVA4SWG3AQ
+      - q_01M6XCGH9FER473PHAYK4XHXNB
+      - q_01M6XCGHT109CEDQ6ETB00AEEN
+      - q_01M6XCGJB1J1A8M492XKKFFWDF
+      - q_01M6XCGJV3B0KHH4M9R4DATHBF
+      - q_01M6XCGKDFTH8DYNDMJNXHCRBR
+      - q_01M6ZYK8Q0AQ35CCDDWX82PRKZ
+      - q_01M6XCHNCSD2E0GP3CPEDRSHTV
+      - q_01M6XCHNW5V9TNXR9G1RNCDTT5
+      - q_01M6XCHPCGPNGS3HHVMCN4TTAG
+      - q_01M6XCHPXADXR8Y1QD1ERPX6HX
+      - q_01M6XCHQEQW5G3X5PSZD6TXQM3
+      - q_01M6ZYK9B70TE26W6ARWW4RKEK
+      - q_01M6ZYK9WCZFD279RQZZ2R00RW
+      - q_01M6ZYKAFTP9KK49Q3TPBANY80
+      - q_01M6XCGM402B3MHY0DMJBW71GC
+      - q_01M6XCGMKDYPH9KYE90JB3MTRN
+      - q_01M6XCGN3VR8MNH6FYZE8ZQ7C2
+      - q_01M6XCGNNN5W7V854CKTGF2K67
+
+lifecycle:
+  removed: []
+  merged: {}
+
+release:
+  changes: 题库按规范 v2 重建：基础题库第一版，784 道题、11 条学习路线，按知识点标签和难度组织，题目之间标注了前置关系。

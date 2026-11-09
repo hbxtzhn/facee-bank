@@ -1,0 +1,63 @@
+---
+id: q_01M6XBFXC3474DTDBN4086JVDN
+title: Java 为什么能做到一次编译、到处运行？
+type: concept
+difficulty: easy
+importance: 2
+category: java
+tags: [bytecode-execution]
+source: { name: FaceE, license: CC-BY-4.0 }
+estimatedMinutes: 2
+references:
+  - { title: "Java 虚拟机规范 SE 21：1.2 The Java Virtual Machine", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-1.html" }
+  - { title: "Java 虚拟机规范 SE 21：4.1 The ClassFile Structure（版本号与支持范围）", url: "https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html" }
+---
+
+## 一句话
+Java 源代码先编译成与平台无关的字节码，各个操作系统上各装一个 JVM，由它把同一份字节码翻译成本机指令执行，所以不用为每个系统重新编译。
+
+## 要点
+- [kp1|3] javac 把 .java 源文件编译成 .class 字节码，字节码不依赖具体操作系统
+- [kp2|3] 不同操作系统装各自版本的 JVM，JVM 负责把字节码翻译成本机指令
+- [kp3|2] 跨平台的是字节码，JVM 本身并不跨平台，每个系统要装对应的版本
+- [kp4] 目标机器上只要有兼容版本的 JVM，.class 或 jar 包就能直接运行
+
+## 详解
+### 先搞懂：为什么同一份程序能在不同系统上跑
+你写了一个后端服务，在 Windows 笔记本上开发，打成 jar 包，丢到 Linux 服务器上直接就能跑，不用改代码，也不用重新编译。
+
+可以用「同声传译」来类比：你写好一份中间稿（字节码）。Windows 有一位懂 Windows 的译员，Linux 有一位懂 Linux 的译员。同一份中间稿，各自译成当地的话。你只需要写一次稿子。
+
+后文会用到的几个词：
+- **字节码**：编译后的 .class 文件里的内容，一种和具体 CPU、操作系统无关的中间指令。
+- **JVM**：Java 虚拟机，一个专门读字节码并执行的程序。
+- **机器码**：CPU 真正能直接执行的指令，不同 CPU 和系统各不相同。
+
+### 一次编译：源代码变成字节码
+开发时用 `javac` 编译 .java 文件，得到 .class 文件。这一步不针对任何一个具体操作系统，编译结果就是字节码。所以「一次编译」指的是只编译这一次，产物到处通用。
+
+### 到处运行：每个系统各有一个 JVM
+运行时用 `java` 命令启动 JVM，JVM 读取字节码并执行。Windows、Linux、macOS 都有各自实现的 JVM，它们对字节码的理解完全一致，但生成的本机指令不同。
+
+执行时有两种常见方式：解释器逐条读字节码执行；对经常运行的热点代码，JIT 编译器会把它编译成本机指令，之后直接运行，速度更快。
+
+### 为什么这样设计
+把「平台差异」都收进 JVM 这一层，应用开发者面对的永远是同一套字节码规范和标准类库，系统差异由 JVM 去处理。
+
+## 示例
+```bash
+javac Hello.java   # 编译一次，得到 Hello.class（字节码）
+java Hello         # 在任何装了 JVM 的系统上都这样运行
+```
+
+## 易错点
+- 说成「Java 代码本身是跨平台的」；真正跨平台的是字节码，JVM 是各平台各一份
+- 以为 JVM 能跨平台；不同系统要安装对应版本的 JVM
+- 以为字节码版本永远通用；用高版本 JDK 编译的 class，低版本 JVM 可能无法运行
+
+## 追问
+### [f1] 字节码是解释执行还是编译执行？
+两者都有。JVM 先解释执行字节码，发现某些代码被频繁调用后，JIT 编译器会把它编译成本机指令缓存起来，后续直接运行。
+
+### [f2] C 语言能一次编译到处运行吗？
+不能。C 编译出来的是针对具体 CPU 和系统的本机指令，换个系统要重新编译。

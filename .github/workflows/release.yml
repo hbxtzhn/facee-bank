@@ -1,0 +1,91 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+env:
+  BANK_SPEC_REF: f675fb5acc2be3f1f3a81ee111afc3a19c9a73ef
+  BANK_SPEC_CLI: .bank-spec/packages/bank-spec/cli.mjs
+  # 规范 v2 的首个版本；只有这个版本允许 --first-release，其余版本必须基于上一版构建
+  FIRST_VERSION: v2.0.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout bank-spec
+        uses: actions/checkout@v4
+        with:
+          repository: HBxtzhn/facee
+          ref: ${{ env.BANK_SPEC_REF }}
+          path: .bank-spec
+          sparse-checkout: packages/bank-spec
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install bank-spec
+        run: npm install --omit=dev --prefix .bank-spec/packages/bank-spec
+
+      - name: Read bank.yaml
+        id: bank
+        run: |
+          node --input-type=module -e "
+            import fs from 'node:fs';
+            import { createRequire } from 'node:module';
+            const YAML = createRequire(process.env.BANK_SPEC_CLI)('yaml');
+            const b = YAML.parse(fs.readFileSync('bank.yaml', 'utf8'));
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'version=' + b.bank.version + '\n');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'manifest=' + b.bank.update.manifest + '\n');
+            fs.writeFileSync('release-notes.md', (b.release?.changes || '').trim() + '\n');
+          "
+
+      - name: Tag must match bank.version
+        run: |
+          if [ "v${{ steps.bank.outputs.version }}" != "$GITHUB_REF_NAME" ]; then
+            echo "tag $GITHUB_REF_NAME 与 bank.yaml 的 version ${{ steps.bank.outputs.version }} 不一致" >&2
+            exit 1
+          fi
+
+      # 首发显式使用 --first-release；其余版本必须下载上一版，下载失败直接失败，不退回首发
+      - name: Previous release
+        run: |
+          if [ "$GITHUB_REF_NAME" = "$FIRST_VERSION" ]; then
+            echo "PREVIOUS_ARGS=--first-release" >> "$GITHUB_ENV"
+          else
+            curl -fsSL -o previous.json "${{ steps.bank.outputs.manifest }}"
+            echo "PREVIOUS_ARGS=--previous previous.json" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build
+        run: |
+          node "$BANK_SPEC_CLI" build --bank . --out dist $PREVIOUS_ARGS \
+            --base-url "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}" \
+            --published-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "题库 $GITHUB_REF_NAME" \
+            --notes-file release-notes.md \
+            --latest
+
+      - name: Verify published manifest
+        run: |
+          sleep 10
+          curl -fsSL -o published.json "${{ steps.bank.outputs.manifest }}"
+          a=$(sha256sum published.json | cut -d' ' -f1)
+          b=$(sha256sum dist/latest.json | cut -d' ' -f1)
+          if [ "$a" != "$b" ]; then
+            echo "发布后的 latest.json 与构建产物不一致" >&2
+            exit 1
+          fi

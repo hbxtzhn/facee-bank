@@ -1,0 +1,32 @@
+name: 题目内容反馈
+description: 题目答案有错、讲得不清楚，或者想补充内容
+title: "[内容] "
+labels: [content]
+body:
+  - type: input
+    id: question
+    attributes:
+      label: 题目 ID
+      description: 从 App 里点「反馈」会自动填上；手动填写时可在题目详情页找到，形如 q_01M6...
+      placeholder: q_01M6WWFMMAVFDAFR8718MYN95W
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 问题类型
+      options:
+        - 事实错误
+        - 讲得不清楚
+        - 内容过时
+        - 想补充内容
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 具体说明
+      description: 哪一句有问题、正确的说法是什么；有官方文档链接更好
+    validations:
+      required: true

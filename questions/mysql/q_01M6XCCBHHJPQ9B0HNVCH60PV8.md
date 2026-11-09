@@ -1,0 +1,88 @@
+---
+id: q_01M6XCCBHHJPQ9B0HNVCH60PV8
+title: 为什么不建议用 UUID 等无序值做主键？
+type: concept
+difficulty: medium
+importance: 2
+category: mysql
+tags: [index-design, index-structure]
+prerequisites: [q_01M6XCCB1DEA2XV3GYDK3HKTHC]
+references:
+  - { title: "MySQL 8.4 手册：Physical Structure of an InnoDB Index", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-physical-structure.html" }
+  - { title: "MySQL 8.4 手册：Clustered and Secondary Indexes", url: "https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html" }
+  - { title: "MySQL 8.4 手册：Miscellaneous Functions（UUID_TO_BIN）", url: "https://dev.mysql.com/doc/refman/8.4/en/miscellaneous-functions.html" }
+source: { name: FaceE, license: CC-BY-4.0 }
+estimatedMinutes: 3
+---
+
+## 一句话
+UUID 这类无序值插入时位置随机，会让页频繁分裂、页里留下空隙，造成磁盘碎片和写入变慢；自增主键总是往末尾追加，没有这些问题。
+
+## 要点
+- [kp1|3] InnoDB 数据按主键顺序存放，主键无序则新行要插到中间
+- [kp2|3] 插到已满的页会触发页分裂，一部分数据被搬到新页
+- [kp3|2] 页分裂后两个页都不满，空间利用率下降，磁盘碎片增多
+- [kp4] UUID 字符串还比整数长，会让每个二级索引也变大
+
+## 详解
+### 先搞懂：往一排书架里插书
+假设书架上的书按编号从小到大排。新书编号总比旧书大，就直接放最右边，很省事。如果新书编号是随机的，就要塞到中间某个位置，那一格已经满了，只好把半格书搬到新书架，两个书架都只剩半满。
+
+几个术语：
+
+- **聚簇索引**：InnoDB 里以主键排序、叶子节点存整行数据的那棵 B+ 树。
+- **数据页**：InnoDB 存储数据的基本单位，一页放很多行。
+- **页分裂**：一页放满后，把它拆成两页，各放一部分行。
+- **碎片**：页里有空隙放不满，或者逻辑相邻的页在磁盘上不相邻。
+
+### 自增主键：只往末尾追加
+自增主键每次比之前的大，新行总是落在最后一个页。这个页满了就开新页，旧页保持写满的状态。结果是：
+
+- 几乎不会发生页分裂；
+- 页的空间利用率高；
+- 写入基本是顺序的，磁盘友好。
+
+### 无序主键：随机插入
+UUID 每次生成的值是随机的，新行要插到聚簇索引中间的某个页：
+
+1. 目标页要先读进内存，可能需要一次磁盘读；
+2. 目标页若已满，就页分裂，搬运数据、更新父节点；
+3. 分裂后两个页都只有部分数据，以后还要继续占着空间；
+4. 长期下来表空间变大，逻辑上相邻的页在磁盘上分散。
+
+所以写入更慢，磁盘占用更大，范围扫描时也要多读页。
+
+### 还有一个问题：UUID 太长
+UUID 通常用 36 个字符的字符串存，比一个整数长很多。主键值会被复制进每个二级索引的叶子节点，主键越长，所有二级索引越大，缓存能装下的索引项越少。
+
+### 方案对比：几种主键选择
+| 方案 | 是否有序 | 写入表现 | 长度 | 适合 |
+|---|---|---|---|---|
+| 自增整数 | 有序 | 追加写，很少页分裂 | 短 | 单库单表的大多数场景 |
+| 随机 UUID | 无序 | 随机插入，页分裂多 | 长 | 不推荐做主键 |
+| 趋势递增的分布式 ID（如雪花算法） | 基本有序 | 接近追加写 | 一个整数 | 分库分表、多节点生成 |
+
+结论：默认用自增整数；需要多节点各自生成 ID 时，用趋势递增的分布式 ID，不要用随机 UUID。
+
+### 进阶：UUID 不是不能用（基础薄弱可先跳过）
+- MySQL 8.0 提供 `UUID_TO_BIN(uuid, 1)`，可以把时间部分调到前面，让生成的值趋势递增，并且用 16 字节二进制存，比字符串省空间。
+- 业务上需要 UUID 对外展示时，可以把它放在另一个唯一索引列里，主键仍然用自增整数。
+
+## 示例
+```sql
+CREATE TABLE orders (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_no CHAR(36) NOT NULL,
+  UNIQUE KEY uk_order_no (order_no)
+);
+-- 主键保持自增，UUID 只作为普通唯一列
+```
+
+## 易错点
+- 以为 UUID 只是占空间；它更大的问题是随机插入引发页分裂
+- 以为自增主键一定没有缺点；多节点生成 ID 和暴露业务量时需要另行考虑
+- 以为身份证号这类看似唯一的值适合当主键；它同样无序且较长
+
+## 追问
+### [f1] 自增主键有什么缺点？
+分库分表后各库自增会冲突，需要用分布式 ID；对外暴露时容易被人猜出业务量；高并发下单点生成可能成为瓶颈。
