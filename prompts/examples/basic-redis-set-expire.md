@@ -57,24 +57,11 @@ Redis 常被当作缓存使用，里面的数据只是数据库的「临时副�
 - 过期时间以毫秒级 Unix 绝对时间戳保存。Redis 停机期间时间照样在走；把服务器时钟调快，key 也会提前过期。
 
 ## 示例
-小实验：验证上面几条规则（Redis 7.2 / 8.0 实测，`# →` 后是输出）：
-
 ```bash
-docker run -d --rm --name redis-lab redis:7.2
-rc() { docker exec redis-lab redis-cli "$@"; }
-
-rc SET code:1 123456 EX 300    # → OK
-rc TTL code:1                  # → 300
-rc SET code:1 654321           # → OK（整体覆盖写入）
-rc TTL code:1                  # → -1：过期时间被清掉了
-rc INCR counter                # → 1
-rc EXPIRE counter 300          # → 1
-rc INCR counter                # → 2
-rc TTL counter                 # → 300：INCR 不影响过期时间
-rc TTL nokey                   # → -2：key 不存在
-rc EXPIRE counter 0            # → 1
-rc EXISTS counter              # → 0：传 0 直接删除
-docker rm -f redis-lab
+SET code:1 123456 EX 300   # 写入验证码，300 秒后过期
+TTL code:1                 # 查看剩余秒数
+EXPIRE session:42 1800     # 给已有的会话 key 续期 30 分钟
+PERSIST session:42         # 取消过期时间
 ```
 
 ## 易错点

@@ -74,8 +74,6 @@ estimatedMinutes: 5
 - 虚拟线程：JEP 444 说明虚拟线程不应池化；要限制并发数（例如保护下游数据库），用 `Semaphore`。
 
 ## 示例
-生产环境的创建方式：
-
 ```java
 // 参数数值仅为示例，需按压测结果确定
 ThreadFactory factory = new ThreadFactory() {
@@ -104,40 +102,6 @@ if (!pool.awaitTermination(30, TimeUnit.SECONDS)) {
 }
 ```
 
-小实验：核心 2、最大 4、队列 2，连续提交 7 个不会结束的任务（JDK 21 实测，输出见末尾注释）：
-
-```java
-import java.util.concurrent.*;
-
-public class PoolOrderDemo {
-    public static void main(String[] args) {
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(
-                2, 4, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
-        CountDownLatch gate = new CountDownLatch(1); // 让任务一直占着线程
-        for (int i = 1; i <= 7; i++) {
-            try {
-                pool.execute(() -> {
-                    try { gate.await(); } catch (InterruptedException ignored) { }
-                });
-                System.out.printf("任务%d 已提交：线程数=%d，队列中=%d%n",
-                        i, pool.getPoolSize(), pool.getQueue().size());
-            } catch (RejectedExecutionException e) {
-                System.out.printf("任务%d 被拒绝：%s%n", i, e.getClass().getSimpleName());
-            }
-        }
-        gate.countDown();
-        pool.shutdown();
-    }
-}
-// 任务1 已提交：线程数=1，队列中=0    ← 新建核心线程
-// 任务2 已提交：线程数=2，队列中=0    ← 新建核心线程
-// 任务3 已提交：线程数=2，队列中=1    ← 核心满了，先排队
-// 任务4 已提交：线程数=2，队列中=2
-// 任务5 已提交：线程数=3，队列中=2    ← 队列满了，才加线程
-// 任务6 已提交：线程数=4，队列中=2
-// 任务7 被拒绝：RejectedExecutionException
-```
-
 ## 易错点
 - 以为线程数先涨到最大值再排队；实际是先排队，队列满了才继续创建线程
 - 用无界队列又设置了 maximumPoolSize，以为能扩容；实际最大线程数永远用不上
@@ -146,7 +110,7 @@ public class PoolOrderDemo {
 
 ## 追问
 ### [f1] 核心线程 2、最大线程 4、队列容量 2，同时提交 7 个长任务，第 7 个会怎样？
-第 1、2 个创建核心线程，第 3、4 个进入队列，第 5、6 个因队列满而新建线程，线程数达到 4。第 7 个时线程和队列都满了，被拒绝；默认 `AbortPolicy` 会抛出 `RejectedExecutionException`。可以运行示例中的小实验验证。
+第 1、2 个创建核心线程，第 3、4 个进入队列，第 5、6 个因队列满而新建线程，线程数达到 4。第 7 个时线程和队列都满了，被拒绝；默认 `AbortPolicy` 会抛出 `RejectedExecutionException`。
 
 ### [f2] JDK 内置了哪几种拒绝策略？
 - `AbortPolicy`：抛出 `RejectedExecutionException`，是默认策略；

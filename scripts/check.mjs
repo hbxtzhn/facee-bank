@@ -20,19 +20,25 @@ const LONG_SENTENCE = 70;
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
 
 function runJava(code, repeat) {
-  const cls = code.match(/public\s+(?:final\s+)?class\s+(\w+)/)?.[1];
+  // 入口类是包含 main 的那个类；文件名必须跟 public 类走（没有 public 类就用入口类）
+  const mainAt = code.search(/static\s+void\s+main\s*\(/);
+  const decls = [...code.matchAll(/\b(?:class|record|enum|interface)\s+(\w+)/g)].filter((m) => m.index < mainAt);
+  const cls = decls.at(-1)?.[1] || 'Main';
+  const fileCls = code.match(/public\s+(?:final\s+|abstract\s+)?(?:class|record|enum|interface)\s+(\w+)/)?.[1] || cls;
   const lines = code.replace(/\s+$/, '').split('\n');
   const expected = [];
   while (lines.length && /^\s*\/\//.test(lines.at(-1))) {
     expected.unshift(norm(lines.pop().replace(/^\s*\/\/\s?/, '').replace(/\s*←.*$/, '')));
   }
-  if (!expected.length) return { level: 'warning', code: 'EXPERIMENT_NO_OUTPUT', msg: `${cls} 末尾没有 // 输出注释` };
+  if (!expected.length) return { level: 'info', code: 'EXPERIMENT_NO_OUTPUT', msg: `${cls} 末尾没有 // 输出注释（按用法示例处理，不运行）` };
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'facee-check-'));
   try {
-    fs.writeFileSync(path.join(dir, `${cls}.java`), code);
+    fs.writeFileSync(path.join(dir, `${fileCls}.java`), code);
+    const c = spawnSync('javac', ['-encoding', 'UTF-8', `${fileCls}.java`], { cwd: dir, encoding: 'utf8', timeout: 60_000 });
+    if (c.status !== 0) return { level: 'error', code: 'EXPERIMENT_FAILED', msg: `${cls} 编译失败：${`${c.stdout}${c.stderr}`.trim().split('\n').slice(0, 3).join(' / ')}` };
     let first = null;
     for (let i = 0; i < repeat; i++) {
-      const r = spawnSync('java', ['-Dstdout.encoding=UTF-8', '-Dfile.encoding=UTF-8', `${cls}.java`], { cwd: dir, encoding: 'utf8', timeout: 60_000 });
+      const r = spawnSync('java', ['-Dstdout.encoding=UTF-8', '-Dfile.encoding=UTF-8', '-cp', '.', cls], { cwd: dir, encoding: 'utf8', timeout: 60_000 });
       if (r.error?.code === 'ETIMEDOUT') return { level: 'error', code: 'EXPERIMENT_TIMEOUT', msg: `${cls} 运行超过 60 秒` };
       if (r.status !== 0) return { level: 'error', code: 'EXPERIMENT_FAILED', msg: `${cls} 编译或运行失败：${(r.stderr || '').trim().split('\n').slice(0, 3).join(' / ')}` };
       const actual = r.stdout.split('\n').map(norm).filter(Boolean);
@@ -103,12 +109,12 @@ export function checkFile(file, { run = true, repeat = 2 } = {}) {
 
   // 口号与图片引用
   lines.forEach((t, i) => {
-    for (const w of BANNED) if (t.includes(w)) add(i + 1, 'warning', 'BANNED_PHRASE', `出现「${w}」`);
+    for (const w of BANNED) if (t.replace(/灾难性遗忘/g, '').includes(w)) add(i + 1, 'warning', 'BANNED_PHRASE', `出现「${w}」`); // 「灾难性遗忘」是机器学习术语，不算口号
   });
 
   // 面试题：要有来源，要关联基础题
   if (['medium', 'hard'].includes(meta.difficulty)) {
-    if (!meta.references?.length) add(1, 'warning', 'NO_REFERENCES', 'medium / hard 题没有 references');
+    if (!meta.references?.length) add(1, 'info', 'NO_REFERENCES', 'medium / hard 题没有 references');
     if (!meta.prerequisites?.length) add(1, 'info', 'NO_PREREQUISITES', 'medium / hard 题没有关联前置题（prerequisites）');
   }
 

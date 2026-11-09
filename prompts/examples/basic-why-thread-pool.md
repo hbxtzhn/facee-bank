@@ -57,38 +57,13 @@ Java 文档对线程池作用的概括是两点：
 结论：默认用线程池；Java 21 起，大量阻塞 IO 的任务可以考虑虚拟线程（JEP 444 明确说明虚拟线程不应池化）。
 
 ## 示例
-小实验：同样 100 个任务，看各自用了几个线程（JDK 21 实测，输出见末尾注释）：
-
 ```java
-import java.util.*;
-import java.util.concurrent.*;
-
-public class ReuseDemo {
-    public static void main(String[] args) throws Exception {
-        Set<String> names = ConcurrentHashMap.newKeySet(); // 记录用到了哪些线程
-
-        List<Thread> threads = new ArrayList<>();          // 方式一：每个任务新建线程
-        for (int i = 0; i < 100; i++) {
-            Thread t = new Thread(() -> names.add(Thread.currentThread().getName()));
-            t.start();
-            threads.add(t);
-        }
-        for (Thread t : threads) t.join();
-        System.out.println("每任务新建线程：100 个任务用了 " + names.size() + " 个线程");
-
-        names.clear();                                     // 方式二：4 个线程的线程池
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(
-                4, 4, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
-        for (int i = 0; i < 100; i++) {
-            pool.execute(() -> names.add(Thread.currentThread().getName()));
-        }
-        pool.shutdown();
-        pool.awaitTermination(10, TimeUnit.SECONDS);
-        System.out.println("线程池：100 个任务用了 " + names.size() + " 个线程");
-    }
+ThreadPoolExecutor pool = new ThreadPoolExecutor(
+        4, 4, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
+for (int i = 0; i < 100; i++) {
+    pool.execute(() -> System.out.println(Thread.currentThread().getName()));
 }
-// 每任务新建线程：100 个任务用了 100 个线程
-// 线程池：100 个任务用了 4 个线程
+pool.shutdown(); // 100 个任务由这 4 个线程轮流执行，不会新建 100 个线程
 ```
 
 ## 易错点

@@ -63,6 +63,7 @@ for (const it of allItems) {
   if (!it.title || !META.categories.has(it.category)) throw new Error(`${where}缺 title，或分类未在 bank.yaml 声明`);
   if (!DIFFS.includes(it.difficulty)) throw new Error(`${where}difficulty 必须是 easy / medium / hard`);
   if (!Array.isArray(it.tags) || it.tags.length < 1 || it.tags.length > 3) throw new Error(`${where}tags 必须是 1–3 个`);
+  if (it.importance !== undefined && ![1, 2, 3].includes(it.importance)) throw new Error(`${where}importance 必须是 1 / 2 / 3`);
   const unknown = it.tags.filter((t) => !META.tags.has(t));
   if (unknown.length) throw new Error(`${where}标签未在 bank.yaml 声明：${unknown.join(', ')}`);
 }
@@ -125,6 +126,7 @@ function promptFor(it) {
     `category: ${it.category}`,
     `tags: [${it.tags.join(', ')}]   # ${tagText}；第一个是主要考点，必须原样使用`,
     `difficulty: ${it.difficulty}   # 初值，按内容判断不合适可以改，在汇报里说明`,
+    it.importance ? `importance: ${it.importance}   # 清单统一评定，原样使用` : null,
     it.type ? `type: ${it.type}` : null,
     it.note ? `note: ${it.note}` : null,
     '',
@@ -245,6 +247,7 @@ function checkWorkdir(it, wd, base) {
     if (meta.category !== it.category) msgs.push(`分类应为 ${it.category}，实际 ${meta.category}`);
     const got = meta.tags || [];
     if (got.join(',') !== it.tags.join(',')) msgs.push(`标签应为 [${it.tags.join(', ')}]（顺序也要一致），实际 [${got.join(', ')}]`);
+    if (it.importance && meta.importance !== it.importance) msgs.push(`importance 应为 ${it.importance}（清单统一评定），实际 ${meta.importance}`);
     if (meta.difficulty !== it.difficulty) notes.push(`难度调整：${it.difficulty} → ${meta.difficulty}`);
     if (meta.title !== it.title) notes.push(`标题改动：${it.title} → ${meta.title}`);
   }
