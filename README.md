@@ -1,60 +1,56 @@
 # FaceE 题库
 
-一份**开源的程序员面试题库**，750 题，覆盖 Java 后端、Python、FastAPI、Web 前端 AI 架构与前端高频实战场景等方向，配合 [FaceE](https://github.com/HBxtzhn/facee) 离线刷题。
+一份**开源的程序员面试题库**，配合 [FaceE](https://github.com/hbxtzhn/facee) 离线刷题。
 
-当前题库版本 **1.7.0**。已有题库可在管理页点击「在线更新」；更新按题库版本判断。
+当前版本 **2.0.0**：按[题库规范 v2](https://github.com/hbxtzhn/facee/blob/main/docs/题库规范-v2-草案.md) 重建的基础题库第一版，**784 题**，覆盖 Java 后端与 AI 应用的八股基础。答案以「通俗好懂」为第一优先级，面向基础薄弱、主要做过项目的求职者。
 
 ## 怎么用
 
-在 FaceE 的「我的」页添加线上题库，填写以下发布包地址：
+在 FaceE 的「我的」页添加线上题库，填写：
 
 ```
-https://github.com/HBxtzhn/facee-bank/releases/latest/download/question-bank.zip
+https://github.com/hbxtzhn/facee-bank/releases/latest/download/latest.json
 ```
 
-也可以在 [Releases](https://github.com/HBxtzhn/facee-bank/releases/latest) 下载 `question-bank.zip` 后导入。需要跟随 main 源码时，可以使用 `https://github.com/HBxtzhn/facee-bank/archive/refs/heads/main.zip`。
+已添加的题库会按版本自动检查更新。2.0.0 与 1.x 题库格式不兼容，需要使用支持规范 v2 的 FaceE 版本。
 
 ## 包含什么
 
 | 分类 | 题数 |
 |---|---:|
-| Java 基础 | 29 |
-| Java 集合 | 30 |
-| Java 并发 | 31 |
-| JVM | 69 |
-| Spring | 30 |
-| MySQL | 32 |
-| Redis | 77 |
-| 计算机网络 | 28 |
-| 操作系统 | 28 |
-| 分布式系统 | 32 |
-| 系统设计 | 26 |
-| Spring Cloud | 53 |
-| AI 应用与 RAG | 10 |
-| Python 核心 | 15 |
-| FastAPI 与异步 Web | 15 |
-| Web 前端 AI 架构 | 77 |
-| 前端场景与实战 | 68 |
-| AgentHub · 项目面试 | 100 |
+| Java 基础与集合 | 59 |
+| Java 并发 | 71 |
+| JVM | 58 |
+| Spring 生态（含 MyBatis） | 155 |
+| MySQL | 89 |
+| Redis | 94 |
+| 网络与 HTTP | 61 |
+| 操作系统 | 59 |
+| 分布式与微服务（含消息队列） | 56 |
+| AI 应用工程 | 82 |
 
-合计 **750 题**（简单 196 / 中等 469 / 困难 85）。
+- **学习路线**：11 条，每条按思维导图顺序把一块知识完整过一遍，前置题排在前面。
+- **知识点标签**：126 个，两层树，可跨领域（如「I/O 多路复用」同时串起 Redis、操作系统和 Java NIO 的题）。
+- **前置关系**：442 道题标注了需要先懂的题，App 里可以直接跳转。
+- **难度与重要度**：easy / medium / hard；重要度 3 / 2 / 1 约占 20% / 60% / 20%。
 
-Python / FastAPI 的 30 道题已逐篇核对答案与追问，明确 Python 实现和框架版本边界；人工审核范围与修正依据见 [审核记录](docs/python-fastapi-review-v1.3.0.md)。示例运行、ZIP 校验和发布资产的实际验证结果以 Release 附件为准。
+## 每道题的结构
 
-AgentHub 项目面试分区已整体重写为 **100 题**。每题包含详细学习答案、具体场景、边界和有答案的追问；先读 [项目快速理解](docs/agenthub-study-guide.md)，阅读顺序见 [项目学习索引](docs/agenthub-interview-100.md)。题目基于项目材料整理，线上配置与个人贡献仍需按实际情况确认。
+一句话结论 → 3–5 条要点（自评用）→ 详解（「先搞懂」白话铺垫、机制讲解、方案对比表、进阶）→ 示例 → 易错点 → 追问。写作规范见 [`prompts/answer.md`](prompts/answer.md) 与 [`prompts/write.md`](prompts/write.md)。
 
-## 自己维护一份题库
+## 反馈
 
-本仓库是**纯数据**，没有构建步骤：`catalog.json` + `questions/<id>/`，改完提交即可。
-格式见 [题库规范 v1](https://github.com/HBxtzhn/facee/blob/main/docs/题库规范-v1.md)。
-不想手写可以用 FaceE 仓库里的 `packages/bank-spec`，能在本地生成并校验一份合格的题库包。
+题目有错或讲得不清楚：在 App 里点「反馈」，或直接[提 issue](https://github.com/hbxtzhn/facee-bank/issues/new?template=content.yml)。
+
+## 自己维护
+
+本仓库是**题目源文件**：`bank.yaml`（分类、标签、学习路线）+ `questions/<分类>/q_<ULID>.md`。工具在 [FaceE 仓库](https://github.com/hbxtzhn/facee) 的 `packages/bank-spec`，常用命令和维护脚本见 [`AGENTS.md`](AGENTS.md)。
+
+- 每次 PR 和推送由 CI 校验格式、内容规则、标签和学习路线顺序。
+- 推送 `v*` 标签自动构建并发布 Release（`bundle-<版本>.json` + `latest.json`）。
+- 题目清单在 `plans/`，批量生成与审校流程见 `scripts/fast.mjs`、`prompts/review.md`。
 
 ## 来源与许可
 
-- 题目与答案**改编自** [JavaGuide](https://github.com/Snailclimb/JavaGuide)（Apache-2.0）：已附带其许可证文本（`LICENSE-Apache-2.0`）并声明改动（`NOTICE`）
-- v1.2.0 新增题目（JVM / Redis / Spring Cloud / AI 应用与 RAG 等）：改编自**作者自整理面试笔记**，已做脱敏与去个性化处理
-- v1.3.0 Python / FastAPI 题目：新增原创编写与审核，参考官方文档核对事实和 API，详见 [`sources.md`](sources.md)
-- v1.4.0 / v1.5.0 Web 前端 AI 架构与前端场景实战题目（共 145 题）：全量深度适配 2026 前端最新面试知识图谱（包含 77 道前端 AI 工程化 + 68 道前端场景与底层实战），参考“面试鸭”结构化标准进行原创编写与审核，详见 [`sources.md`](sources.md)
-- v1.7.0 AgentHub 项目题：重写为 100 道原创深度学习题与追问，按项目链路组织，见 [项目学习索引](docs/agenthub-interview-100.md)
-- 结构、元数据及上述新增原创部分：**CC-BY-4.0**
-- 评估过但未采用的来源及原因：见 [`sources.md`](sources.md)
+- 2.0.0 的题目由作者整理的八股知识大纲确定范围，答案为重新编写，并按官方文档抽查核对了含具体数字和版本行为的说法。
+- 题目内容采用 **CC-BY-4.0**。1.x 版本中改编自 [JavaGuide](https://github.com/Snailclimb/JavaGuide)（Apache-2.0）的内容的许可与改动声明见 `LICENSE-Apache-2.0` 与 `NOTICE`。
