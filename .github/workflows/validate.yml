@@ -19,7 +19,7 @@ jobs:
       - name: Checkout bank-spec
         uses: actions/checkout@v4
         with:
-          repository: HBxtzhn/facee
+          repository: hbxtzhn/facee
           ref: ${{ env.BANK_SPEC_REF }}
           path: .bank-spec
           sparse-checkout: packages/bank-spec

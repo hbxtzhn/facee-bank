@@ -1,5 +1,5 @@
 # FaceE 面试题库（规范 v2 编写格式）
-# 规范：https://github.com/HBxtzhn/facee/blob/main/docs/题库规范-v2-草案.md
+# 规范：https://github.com/hbxtzhn/facee/blob/main/docs/题库规范-v2-草案.md
 schemaVersion: 2
 bank:
   id: github.com/hbxtzhn/facee-bank
@@ -8,10 +8,10 @@ bank:
   description: 全栈与 Agent 工程面试题库
   locale: zh-CN
   license: CC-BY-4.0
-  homepage: https://github.com/HBxtzhn/facee-bank
-  feedbackUrl: https://github.com/HBxtzhn/facee-bank/issues/new?template=content.yml&question={questionId}
+  homepage: https://github.com/hbxtzhn/facee-bank
+  feedbackUrl: https://github.com/hbxtzhn/facee-bank/issues/new?template=content.yml&question={questionId}
   update:
-    manifest: https://github.com/HBxtzhn/facee-bank/releases/latest/download/latest.json
+    manifest: https://github.com/hbxtzhn/facee-bank/releases/latest/download/latest.json
 
 # 分类草案（14 个），细分交给标签
 categories:
